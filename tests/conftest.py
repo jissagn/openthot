@@ -16,7 +16,7 @@ from stt.db import schemas
 from stt.db.database import DBBase, get_db
 from stt.db.rw import create_interview
 from stt.models.interview import InterviewCreate
-from stt.models.users import UserCreate
+from stt.models.users import UserCreate, UserRead
 
 BASE_URL = "http://test.api"
 V1_PREFIX = "/api/v1"
@@ -44,7 +44,7 @@ async def db_test_engine():
     yield async_test_engine
 
 
-@pytest_asyncio.fixture(scope="module")
+@pytest_asyncio.fixture(scope="function")
 async def async_test_session(db_test_engine: AsyncEngine):
     connection = await db_test_engine.connect()
 
@@ -64,15 +64,22 @@ async def async_test_session(db_test_engine: AsyncEngine):
     #     yield session
 
 
-@pytest_asyncio.fixture(scope="module")
+#
+# API global fixtures
+#
+@pytest_asyncio.fixture(scope="function")
 async def client(async_test_session: AsyncSession):
     app.dependency_overrides[get_db] = lambda: async_test_session
 
-    async with AsyncClient(app=app, base_url=BASE_URL) as tc:
+    async with AsyncClient(
+        app=app,
+        base_url=BASE_URL,
+        follow_redirects=True,
+    ) as tc:
         yield tc
 
 
-@pytest_asyncio.fixture(scope="module")
+@pytest_asyncio.fixture(scope="function")
 async def registered_user(client: AsyncClient) -> UserCreate:
     user_create_input = UserCreate(
         email=EmailStr("test@test.com"), password="pwdtest!1"
@@ -87,11 +94,10 @@ async def registered_user(client: AsyncClient) -> UserCreate:
         raise Exception("Could not register user in fixture.")
 
 
-@pytest_asyncio.fixture(scope="module")
+@pytest_asyncio.fixture(scope="function")
 async def access_token(client: AsyncClient, registered_user) -> str:
     response = await client.post(
         "/auth/jwt/login",
-        follow_redirects=True,
         data={
             "grant_type": "password",
             "username": registered_user.email,
@@ -101,14 +107,19 @@ async def access_token(client: AsyncClient, registered_user) -> str:
     return response.json()["access_token"]
 
 
+@pytest_asyncio.fixture(scope="function")
+async def logged_user(client: AsyncClient, access_token) -> UserRead:
+    headers = {"Authorization": f"Bearer {access_token}"}
+    response = await client.get(
+        "/users/me",
+        headers=headers,
+    )
+    return UserRead(**response.json())
+
+
 #
 # DB fillings
 #
-# @pytest.fixture(scope="function")
-# def db_user():
-#     return schemas.DBUserBase(id=uuid.UUID("ffffffff-ffff-ffff-ffff-ffffffffffff"))
-
-
 @pytest_asyncio.fixture(scope="function")
 async def db_interviews(async_test_session):
     user = schemas.DBUserBase(id=uuid.UUID("ffffffff-ffff-ffff-ffff-ffffffffffff"))
@@ -126,7 +137,7 @@ async def db_interviews(async_test_session):
 #
 # Files
 #
-@pytest_asyncio.fixture(scope="function")
+@pytest_asyncio.fixture(scope="session")
 async def upload_file_mp3() -> BinaryIO:
     async with aiofiles.open("./tests/bonjour.mp3", "rb") as mp3:
         return BytesIO(await mp3.read())

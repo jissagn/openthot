@@ -39,8 +39,11 @@ async def delete_interview(
     session: AsyncSession, user: DBUserBase, interview_id: InterviewId
 ):
     interview = await get_interview(session, user, interview_id)
+    if interview is None:
+        return False
     await session.delete(interview)
     await session.commit()
+    return True
 
 
 async def get_interview(
