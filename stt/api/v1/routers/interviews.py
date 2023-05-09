@@ -5,7 +5,7 @@ import structlog
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.encoders import jsonable_encoder
 
-from stt.api import auth
+from stt.api.v1 import auth
 from stt.config import get_settings
 from stt.db import rw
 from stt.db.database import DBUserBase, get_db
