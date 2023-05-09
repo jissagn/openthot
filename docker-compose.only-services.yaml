@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+
+  # db:
+  #   image: postgres:14-alpine
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - /tmp/data:/var/lib/postgresql/data/
+  #   environment:
+  #     - POSTGRES_DB=fastapi_celery
+  #     - POSTGRES_USER=fastapi_celery
+  #     - POSTGRES_PASSWORD=fastapi_celery

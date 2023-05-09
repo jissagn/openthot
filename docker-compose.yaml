@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+
+  api:
+    build: .
+    ports:
+      - 8000:8000
+    command: uvicorn stt.api.endpoints:app --host 0.0.0.0 --port 8000
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      # - POSTGRES_SERVER=db
+      # - POSTGRES_DB=fastapi_celery
+      # - POSTGRES_USER=fastapi_celery
+      # - POSTGRES_PASSWORD=fastapi_celery
+    depends_on:
+      # db:
+      #   condition: service_healthy
+      redis:
+        condition: service_healthy
+
+
+  worker:
+    build: .
+    command: celery --app stt.tasks.tasks.celery worker --loglevel=info
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      # - POSTGRES_SERVER=db
+      # - POSTGRES_DB=fastapi_celery
+      # - POSTGRES_USER=fastapi_celery
+      # - POSTGRES_PASSWORD=fastapi_celery
+    depends_on:
+      - api
+      - redis
+      # - db
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+  # db:
+  #   image: postgres:14-alpine
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   environment:
+  #     - POSTGRES_DB=fastapi_celery
+  #     - POSTGRES_USER=fastapi_celery
+  #     - POSTGRES_PASSWORD=fastapi_celery
