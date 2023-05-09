@@ -37,7 +37,7 @@ async def list_interviews(db=Depends(get_db)):
 
 
 @app.post("/interviews/", response_model=Interview)
-async def new_interview(
+async def create_interview(
     interview: InterviewCreate = Depends(),
     audio_file: UploadFile = File(description="The audio file of the interview."),
     db=Depends(get_db),
@@ -60,6 +60,12 @@ async def new_interview(
         interview_id=interview.id, audio_location=interview.audio_location
     )
     return interview
+
+
+@app.delete("/interviews/{interview_id}")
+async def delete_interview(interview_id: int, db=Depends(get_db)):
+    """Delete a specific interview."""
+    rw.delete_interview(db, interview_id)
 
 
 @app.get("/interviews/{interview_id}", response_model=Interview)

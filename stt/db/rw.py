@@ -26,6 +26,12 @@ def create_interview(
     return db_interview
 
 
+def delete_interview(db: Session, interview_id: int):
+    db.query(schemas.DBInterview).filter(
+        schemas.DBInterview.id == interview_id
+    ).delete()
+
+
 def get_interview(db: Session, interview_id: int) -> schemas.DBInterview:
     return (
         db.query(schemas.DBInterview)
