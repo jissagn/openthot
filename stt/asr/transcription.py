@@ -1,5 +1,4 @@
 import json
-import os
 import subprocess
 from datetime import datetime
 from pathlib import Path
@@ -23,7 +22,9 @@ def run_transcription(audio_file_path: FilePath) -> tuple[dict, str, float]:
         "--model",
         model_size,
         "--output_dir",
-        os.path.dirname(os.path.abspath(audio_file_path)),
+        Path(audio_file_path)
+        .resolve()
+        .parent,  # os.path.dirname(os.path.abspath(audio_file_path)),
         "--word_timestamps",
         "True",
     ]
@@ -31,14 +32,14 @@ def run_transcription(audio_file_path: FilePath) -> tuple[dict, str, float]:
         "Calling whisper", proc_call=proc_call, audio_file_path=audio_file_path
     )
     start_time = datetime.now()
-    result = subprocess.run(proc_call, capture_output=True)
+    result = subprocess.run(proc_call, capture_output=True, text=True)
     duration = (datetime.now() - start_time).total_seconds()
     logger.debug(
         f"Whisper done in {duration}s",
         proc_call=proc_call,
         audio_file_path=audio_file_path,
     )
-    transcript = result.stdout.decode("utf-8")  # .split("\n")
+    transcript = result.stdout  # .split("\n")
     json_output_file = Path(audio_file_path).with_suffix(".json")
 
     with open(json_output_file, "r") as json_file:

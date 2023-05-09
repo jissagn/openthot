@@ -7,7 +7,8 @@ from pydantic import FilePath
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from stt.db import schemas
+
+from stt.db.schemas import DBInterview, DBUserBase
 from stt.models.interview import (
     InterviewCreate,
     InterviewId,
@@ -21,11 +22,11 @@ logger = structlog.get_logger(__file__)
 
 async def create_interview(
     session: AsyncSession,
-    user: schemas.DBUserBase,
+    user: DBUserBase,
     interview: InterviewCreate,
     audio_location: FilePath,
-) -> schemas.DBInterview:
-    db_interview = schemas.DBInterview(**interview.dict())
+) -> DBInterview:
+    db_interview = DBInterview(**interview.dict())
     db_interview.creator_id = user.id
     db_interview.audio_location = str(audio_location)
     session.add(db_interview)
@@ -35,7 +36,7 @@ async def create_interview(
 
 
 async def delete_interview(
-    session: AsyncSession, user: schemas.DBUserBase, interview_id: InterviewId
+    session: AsyncSession, user: DBUserBase, interview_id: InterviewId
 ):
     interview = await get_interview(session, user, interview_id)
     await session.delete(interview)
@@ -43,28 +44,28 @@ async def delete_interview(
 
 
 async def get_interview(
-    session: AsyncSession, user: schemas.DBUserBase | UserId, interview_id: InterviewId
-) -> schemas.DBInterview | None:
-    interview = await session.get(schemas.DBInterview, interview_id)
+    session: AsyncSession, user: DBUserBase | UserId, interview_id: InterviewId
+) -> DBInterview | None:
+    interview = await session.get(DBInterview, interview_id)
     if interview:
         if isinstance(user, UserId) and interview.creator_id == user:
             return interview
-        elif isinstance(user, schemas.DBUserBase) and interview.creator_id == user.id:
+        elif isinstance(user, DBUserBase) and interview.creator_id == user.id:
             return interview
     return None
 
 
 async def get_interviews(
-    session: AsyncSession, user: schemas.DBUserBase
-) -> Iterable[schemas.DBInterview]:
-    statement = select(schemas.DBInterview).where(schemas.DBInterview.creator == user)
+    session: AsyncSession, user: DBUserBase
+) -> Iterable[DBInterview]:
+    statement = select(DBInterview).where(DBInterview.creator == user)
     interviews = (await session.scalars(statement)).all()
     return interviews or []
 
 
 async def update_interview(
     session: AsyncSession,
-    interview_db: schemas.DBInterview,
+    interview_db: DBInterview,
     interview_upd: InterviewUpdate | InterviewInDBBaseUpdate | dict,
 ):
     target_data = jsonable_encoder(interview_db)

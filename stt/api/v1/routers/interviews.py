@@ -1,15 +1,14 @@
 import os
-from pathlib import Path
-
 import structlog
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.encoders import jsonable_encoder
 
-from stt.api.v1 import auth
-from stt.config import get_settings
+from stt.api import auth
 from stt.db import rw
 from stt.db.database import DBUserBase, get_db
+from stt.exceptions import TaskLaunchException
 from stt.models.interview import Interview, InterviewCreate, InterviewUpdate
+from stt.object_storage import save_audio_file
 from stt.tasks.tasks import process_audio_task
 
 logger = structlog.get_logger(__file__)
@@ -40,15 +39,7 @@ async def create_interview(
     current_user: DBUserBase = Depends(auth.current_active_user),
 ):
     """Create a new interview to be transcripted."""
-    persistent_location = Path(get_settings().object_storage_path, audio_file.filename)
-    os.makedirs(os.path.dirname(os.path.abspath(persistent_location)), exist_ok=True)
-    await logger.adebug(
-        "Intending to write audio file",
-        persistent_location=persistent_location,
-        interview=interview,
-    )
-    with open(persistent_location, "wb") as persistent_file:
-        persistent_file.write(audio_file.file.read())
+    persistent_location = await save_audio_file(audio_file)
     await logger.adebug("Just wrote audio file.")
     new_interview = await rw.create_interview(
         db, user=current_user, interview=interview, audio_location=persistent_location
@@ -57,12 +48,15 @@ async def create_interview(
         process_audio_task.delay(
             interview_id=new_interview.id, audio_location=new_interview.audio_location
         )
-    except Exception:
+    except Exception as e:
         logger.exception("Could not launch task")
         await rw.delete_interview(
             db, user=current_user, interview_id=jsonable_encoder(new_interview)["id"]
         )
-        raise  # TODO return correct error response model
+        os.remove(persistent_location)
+        raise TaskLaunchException(
+            "Could not launch task"
+        ) from e  # TODO return correct error response model
     return new_interview
 
 
