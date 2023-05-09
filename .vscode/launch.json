@@ -10,7 +10,7 @@
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "stt.api.endpoints:app",
+                "stt.api.main:app",
                 "--port",
                 "8000",
                 "--reload"

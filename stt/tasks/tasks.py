@@ -48,7 +48,7 @@ async def process_audio_task(self, interview_id: int, audio_location: FilePath):
             interview_db=interview,
             interview_upd=InterviewInDBBaseUpdate(
                 status=InterviewStatus.transcripted,
-                transcript_duration_s=int(duration) + 1,
+                transcript_duration_s=int(duration) + 1,  # ceil
                 transcript_ts=datetime.utcnow(),
                 transcript=json.dumps(json_transcript),
                 transcript_withtimecode=transcript,

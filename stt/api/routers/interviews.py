@@ -1,86 +1,23 @@
 import os
 from pathlib import Path
-
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 import structlog
-from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
-
 from stt.config import get_settings
 from stt.db import rw
-from stt.db.database import (
-    DBUser,
-    close_clean_up_pooled_connections,
-    create_db_and_tables,
-    get_db,
-)
-from stt.db.schemas import UserCreate, UserRead, UserUpdate
-from stt.db.users import auth_backend, current_active_user, fastapi_users_subapp
+from stt.db.database import get_db
+
 from stt.models.interview import Interview, InterviewCreate, InterviewUpdate
 from stt.tasks.tasks import process_audio_task
 
 logger = structlog.get_logger(__file__)
-app = FastAPI()
-
-#
-# Auth
-#
-app.include_router(
-    fastapi_users_subapp.get_auth_router(auth_backend),
-    prefix="/auth/jwt",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users_subapp.get_register_router(UserRead, UserCreate),
-    prefix="/auth",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users_subapp.get_reset_password_router(),
-    prefix="/auth",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users_subapp.get_verify_router(UserRead),
-    prefix="/auth",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users_subapp.get_users_router(UserRead, UserUpdate),
-    prefix="/users",
-    tags=["users"],
+router = APIRouter(
+    prefix="/interviews",
+    tags=["interviews"],
 )
 
 
-@app.get("/authenticated-route")
-async def authenticated_route(user: DBUser = Depends(current_active_user)):
-    return {"message": f"Hello {user.email}!"}
-
-
-#
-# Special events
-#
-@app.on_event("startup")
-async def startup():
-    # Not needed if Alembic
-    await logger.ainfo("Starting up...")
-    await create_db_and_tables()
-
-
-@app.on_event("shutdown")
-async def shutdown():
-    await logger.ainfo("Shutting down...")
-    await close_clean_up_pooled_connections()
-
-
-#
-#  Regular routes
-#
-@app.get("/status")
-async def get_status():
-    return {"status": "OK"}
-
-
-@app.get(
-    "/interviews/",
+@router.get(
+    "/",
     response_model=list[Interview] | None,
     response_model_exclude={"transcript"},
     response_model_exclude_none=True,
@@ -90,7 +27,7 @@ async def list_interviews(db=Depends(get_db)):
     return list(await rw.get_interviews(db))
 
 
-@app.post("/interviews/", response_model=Interview)
+@router.post("/", response_model=Interview)
 async def create_interview(
     interview: InterviewCreate = Depends(),
     audio_file: UploadFile = File(description="The audio file of the interview."),
@@ -116,13 +53,13 @@ async def create_interview(
     return new_interview
 
 
-@app.delete("/interviews/{interview_id}")
+@router.delete("/{interview_id}")
 async def delete_interview(interview_id: int, db=Depends(get_db)):
     """Delete a specific interview."""
     await rw.delete_interview(db, interview_id)
 
 
-@app.get("/interviews/{interview_id}", response_model=Interview)
+@router.get("/{interview_id}", response_model=Interview)
 async def get_interview(interview_id: int, db=Depends(get_db)):
     """Get a specific interview."""
     interview = await rw.get_interview(db, interview_id)
@@ -133,7 +70,7 @@ async def get_interview(interview_id: int, db=Depends(get_db)):
     )
 
 
-@app.patch("/interviews/{interview_id}", response_model=Interview)
+@router.patch("/{interview_id}", response_model=Interview)
 async def update_interview(
     interview_id: int, interview: InterviewUpdate, db=Depends(get_db)
 ):
