@@ -52,7 +52,9 @@ async def create_interview(
     )
     try:
         process_audio_task.delay(
-            interview_id=new_interview.id, audio_location=new_interview.audio_location
+            user_id=current_user.id,
+            interview_id=new_interview.id,
+            audio_location=new_interview.audio_location,
         )
     except Exception as e:
         logger.exception("Could not launch task")

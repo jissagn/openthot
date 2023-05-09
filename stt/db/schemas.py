@@ -18,7 +18,7 @@ class DBInterview(DBBase):
         GUID, ForeignKey("user.id", ondelete="cascade"), nullable=False
     )  # creator_id = Column(uuid.UUID, ForeignKey("users.id"))
     creator: Mapped["DBUser"] = relationship("DBUser", back_populates="interviews")
-    name: Mapped[str] = mapped_column(String, nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(String, nullable=False, unique=False)
     status: Mapped[InterviewStatus] = mapped_column(
         String, nullable=False, default=InterviewStatus.uploaded
     )  # TODO : only valid interview status

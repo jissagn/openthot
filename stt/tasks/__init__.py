@@ -14,7 +14,7 @@ def async_task(app: Celery, *args: Any, **kwargs: Any):
     Thanks to : https://stackoverflow.com/a/75437648
     Another interesting approach : https://stackoverflow.com/a/66318397"""
 
-    def _decorator(func: Callable[_P, Coroutine[Any, Any, _R]]) -> Task:
+    def _decorator(func: Callable[_P, Coroutine[Any, Any, _R]]) -> Task:  # type: ignore
         sync_call = sync.AsyncToSync(func)
 
         @app.task(*args, **kwargs)

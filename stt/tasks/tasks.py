@@ -27,13 +27,21 @@ celery.conf.update(
 async def process_audio_task(
     self, user_id: UserId, interview_id: InterviewId, audio_location: FilePath
 ):
-
+    try:
+        user_id = UserId(user_id)  # type: ignore
+    except Exception as e:
+        raise Exception(
+            f"Provided user_id ({user_id}, type: {type(user_id)}) not a valid UserId."
+        ) from e
     async with async_session() as session:
         interview = await rw.get_interview(
             session=session, user=user_id, interview_id=interview_id
         )
         if interview is None:
-            logger.exception(f"No interview {interview_id}")
+            logger.exception(
+                f"No interview {interview_id} (type: {type(interview_id)}) "
+                + f"for user {user_id}(type: {type(user_id)})"
+            )
             raise Exception  # TODO : raise appropriate exception
         await rw.update_interview(
             session=session,
