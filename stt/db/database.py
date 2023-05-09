@@ -1,5 +1,12 @@
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from sqlalchemy.ext.declarative import declarative_base
+from typing import AsyncGenerator
+
+from fastapi import Depends
+from fastapi_users_db_sqlalchemy import (
+    SQLAlchemyBaseUserTableUUID,
+    SQLAlchemyUserDatabase,
+)
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.orm import DeclarativeBase
 
 from stt.config import get_settings
 
@@ -13,9 +20,21 @@ async_engine = create_async_engine(
 )
 async_session = async_sessionmaker(async_engine, expire_on_commit=False)
 
-Base = declarative_base()
+
+#
+# Base classes
+#
+class Base(DeclarativeBase):
+    pass
 
 
+class DBUser(SQLAlchemyBaseUserTableUUID, Base):
+    pass
+
+
+#
+# utils
+#
 async def create_db_and_tables():
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
@@ -25,9 +44,10 @@ async def close_clean_up_pooled_connections():
     await async_engine.dispose()
 
 
-async def get_db():
-    session = async_session()
-    try:
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session() as session:
         yield session
-    finally:
-        await session.close()
+
+
+async def get_user_db(session: AsyncSession = Depends(get_db)):
+    yield SQLAlchemyUserDatabase(session, DBUser)  # type: ignore

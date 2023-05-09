@@ -27,6 +27,8 @@ async def process_audio_task(self, interview_id: int, audio_location: FilePath):
 
     async with async_session() as session:
         interview = await rw.get_interview(session=session, interview_id=interview_id)
+        if interview is None:
+            raise Exception  # TODO : raise appropriate exception
         await rw.update_interview(
             session=session,
             interview_db=interview,

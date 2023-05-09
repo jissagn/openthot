@@ -22,6 +22,7 @@ simplejson = "^3.19.1"
 sqlalchemy = {extras = ["asyncio"], version = "^2.0.9"}
 aiosqlite = "^0.18.0"
 asgiref = "^3.6.0"
+fastapi-users = {extras = ["sqlalchemy"], version = "^10.4.1"}
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"

@@ -1,3 +1,6 @@
+import uuid
+
+import fastapi_users as fau
 from sqlalchemy import Column, DateTime, Integer, String, Text, func
 
 from stt.db.database import Base
@@ -12,7 +15,7 @@ class DBInterview(Base):
     name = Column(String, nullable=False, unique=True)
     status = Column(
         String, nullable=True, default=InterviewStatus.uploaded
-    )  # TODO : interview status
+    )  # TODO : only valid interview status
     transcript = Column(Text, nullable=True)
     transcript_duration_s = Column(Integer, nullable=True)
     transcript_ts = Column(DateTime(timezone=True), nullable=True)
@@ -26,3 +29,15 @@ class DBInterview(Base):
     upload_ts = Column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
+
+
+class UserRead(fau.schemas.BaseUser[uuid.UUID]):
+    pass
+
+
+class UserCreate(fau.schemas.BaseUserCreate):
+    pass
+
+
+class UserUpdate(fau.schemas.BaseUserUpdate):
+    pass

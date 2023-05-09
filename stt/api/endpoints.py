@@ -7,19 +7,60 @@ from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
 from stt.config import get_settings
 from stt.db import rw
 from stt.db.database import (
+    DBUser,
     close_clean_up_pooled_connections,
     create_db_and_tables,
     get_db,
 )
+from stt.db.schemas import UserCreate, UserRead, UserUpdate
+from stt.db.users import auth_backend, current_active_user, fastapi_users_subapp
 from stt.models.interview import Interview, InterviewCreate, InterviewUpdate
 from stt.tasks.tasks import process_audio_task
 
 logger = structlog.get_logger(__file__)
 app = FastAPI()
 
+#
+# Auth
+#
+app.include_router(
+    fastapi_users_subapp.get_auth_router(auth_backend),
+    prefix="/auth/jwt",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users_subapp.get_register_router(UserRead, UserCreate),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users_subapp.get_reset_password_router(),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users_subapp.get_verify_router(UserRead),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users_subapp.get_users_router(UserRead, UserUpdate),
+    prefix="/users",
+    tags=["users"],
+)
 
+
+@app.get("/authenticated-route")
+async def authenticated_route(user: DBUser = Depends(current_active_user)):
+    return {"message": f"Hello {user.email}!"}
+
+
+#
+# Special events
+#
 @app.on_event("startup")
 async def startup():
+    # Not needed if Alembic
     await logger.ainfo("Starting up...")
     await create_db_and_tables()
 
@@ -30,6 +71,9 @@ async def shutdown():
     await close_clean_up_pooled_connections()
 
 
+#
+#  Regular routes
+#
 @app.get("/status")
 async def get_status():
     return {"status": "OK"}
@@ -63,13 +107,13 @@ async def create_interview(
     with open(persistent_location, "wb") as persistent_file:
         persistent_file.write(audio_file.file.read())
     await logger.adebug("Just wrote audio file.")
-    interview = await rw.create_interview(
+    new_interview = await rw.create_interview(
         db, interview=interview, audio_location=persistent_location
     )
     process_audio_task.delay(
-        interview_id=interview.id, audio_location=interview.audio_location
+        interview_id=new_interview.id, audio_location=new_interview.audio_location
     )
-    return interview
+    return new_interview
 
 
 @app.delete("/interviews/{interview_id}")
@@ -95,7 +139,9 @@ async def update_interview(
 ):
     """Update a specific interview."""
     interview_target = await rw.get_interview(db, interview_id)
-    interview = await rw.update_interview(
+    if not interview_target:
+        raise Exception
+    new_interview = await rw.update_interview(
         db, interview_db=interview_target, interview_upd=interview
     )
-    return interview
+    return new_interview

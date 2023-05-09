@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     celery_result_backend: str
     celery_task_acks_late: bool = True
     database_url: str
+    users_token_root_secret: str
     object_storage_path: str
     whisper_model_size: str
 

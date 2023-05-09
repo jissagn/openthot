@@ -36,7 +36,7 @@ async def delete_interview(session: AsyncSession, interview_id: int):
 
 async def get_interview(
     session: AsyncSession, interview_id: int
-) -> schemas.DBInterview:
+) -> schemas.DBInterview | None:
     return await session.get(schemas.DBInterview, interview_id)
 
 
