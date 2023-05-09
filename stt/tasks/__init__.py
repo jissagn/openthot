@@ -1,19 +1,27 @@
-from celery import Task
+from functools import wraps
+from typing import Any, Callable, Coroutine, ParamSpec, TypeVar
 
-from stt.db.database import SessionLocal
+from asgiref import sync
+from celery import Celery, Task
+
+_P = ParamSpec("_P")
+_R = TypeVar("_R")
 
 
-class SqlAlchemyTask(Task):
-    """
-    Abstract base class for Celery tasks that use SqlAlchemy
-    """
+def async_task(app: Celery, *args: Any, **kwargs: Any):
+    """Decorator that allow to declare async functions as tasks,
+    hence allowing usage of async interfaces for DB.
+    Thanks to : https://stackoverflow.com/a/75437648
+    Another interesting approach : https://stackoverflow.com/a/66318397"""
 
-    db = None
+    def _decorator(func: Callable[_P, Coroutine[Any, Any, _R]]) -> Task:
+        sync_call = sync.AsyncToSync(func)
 
-    def before_start(self, task_id, args, kwargs):
-        self.db = SessionLocal()
-        return super().before_start(task_id, args, kwargs)
+        @app.task(*args, **kwargs)
+        @wraps(func)
+        def _decorated(*args: _P.args, **kwargs: _P.kwargs) -> _R:
+            return sync_call(*args, **kwargs)
 
-    def after_return(self, status, retval, task_id, args, kwargs, einfo):
-        self.db.close()  # type: ignore
-        return super().after_return(status, retval, task_id, args, kwargs, einfo)
+        return _decorated  # type: ignore
+
+    return _decorator

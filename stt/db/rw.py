@@ -1,9 +1,11 @@
 from datetime import datetime
+from typing import Iterable
 
+import structlog
 from fastapi.encoders import jsonable_encoder
 from pydantic import FilePath
-from sqlalchemy.orm import Session
-import structlog
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from stt.db import schemas
 from stt.models.interview import (
@@ -15,38 +17,37 @@ from stt.models.interview import (
 logger = structlog.get_logger(__file__)
 
 
-def create_interview(
-    db: Session, interview: InterviewCreate, audio_location: FilePath
+async def create_interview(
+    session: AsyncSession, interview: InterviewCreate, audio_location: FilePath
 ) -> schemas.DBInterview:
     db_interview = schemas.DBInterview(**interview.dict())
     db_interview.audio_location = str(audio_location)  # type: ignore
-    db.add(db_interview)
-    db.commit()
-    db.refresh(db_interview)
+    session.add(db_interview)
+    await session.commit()
+    await session.refresh(db_interview)
     return db_interview
 
 
-def delete_interview(db: Session, interview_id: int):
-    db.query(schemas.DBInterview).filter(
-        schemas.DBInterview.id == interview_id
-    ).delete()
+async def delete_interview(session: AsyncSession, interview_id: int):
+    interview = await session.get(schemas.DBInterview, interview_id)
+    await session.delete(interview)
+    await session.commit()
 
 
-def get_interview(db: Session, interview_id: int) -> schemas.DBInterview:
-    return (
-        db.query(schemas.DBInterview)
-        .filter(schemas.DBInterview.id == interview_id)
-        .first()
-    )
+async def get_interview(
+    session: AsyncSession, interview_id: int
+) -> schemas.DBInterview:
+    return await session.get(schemas.DBInterview, interview_id)
 
 
-def get_interviews(db: Session) -> list[schemas.DBInterview]:
-    interviews = db.query(schemas.DBInterview).all()
+async def get_interviews(session: AsyncSession) -> Iterable[schemas.DBInterview]:
+    statement = select(schemas.DBInterview)
+    interviews = (await session.scalars(statement)).all()
     return interviews or []
 
 
-def update_interview(
-    db: Session,
+async def update_interview(
+    session: AsyncSession,
     interview_db: schemas.DBInterview,
     interview_upd: InterviewUpdate | InterviewInDBBaseUpdate | dict,
 ):
@@ -67,7 +68,7 @@ def update_interview(
             else:
                 setattr(interview_db, field, update_data[field])
     interview_db.update_ts = datetime.utcnow()  # type: ignore
-    db.add(interview_db)
-    db.commit()
-    db.refresh(interview_db)
+    session.add(interview_db)
+    await session.commit()
+    await session.refresh(interview_db)
     return interview_db

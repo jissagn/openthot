@@ -12,7 +12,6 @@ uvicorn = {extras = ["standard"], version = "^0.20.0"}
 celery = {extras = ["pytest"], version = "^5.2.7"}
 redis = "^4.5.1"
 requests = "^2.28.2"
-sqlalchemy = "^2.0.4"
 psycopg2-binary = "^2.9.5"
 python-multipart = "^0.0.6"
 llvmlite = "0.40.0rc1"
@@ -20,6 +19,9 @@ numba = "0.57.0rc1"
 openai-whisper = "^20230314"
 structlog = "^23.1.0"
 simplejson = "^3.19.1"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.9"}
+aiosqlite = "^0.18.0"
+asgiref = "^3.6.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"

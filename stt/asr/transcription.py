@@ -4,8 +4,8 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 
-from pydantic import FilePath
 import structlog
+from pydantic import FilePath
 
 from stt.config import get_settings
 

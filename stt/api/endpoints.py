@@ -1,12 +1,16 @@
 import os
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
 import structlog
-from stt.config import get_settings
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
 
+from stt.config import get_settings
 from stt.db import rw
-from stt.db.database import create_db_and_tables, get_db
+from stt.db.database import (
+    close_clean_up_pooled_connections,
+    create_db_and_tables,
+    get_db,
+)
 from stt.models.interview import Interview, InterviewCreate, InterviewUpdate
 from stt.tasks.tasks import process_audio_task
 
@@ -18,6 +22,12 @@ app = FastAPI()
 async def startup():
     await logger.ainfo("Starting up...")
     await create_db_and_tables()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await logger.ainfo("Shutting down...")
+    await close_clean_up_pooled_connections()
 
 
 @app.get("/status")
@@ -33,7 +43,7 @@ async def get_status():
 )
 async def list_interviews(db=Depends(get_db)):
     """List all existing interviews."""
-    return list(rw.get_interviews(db))
+    return list(await rw.get_interviews(db))
 
 
 @app.post("/interviews/", response_model=Interview)
@@ -53,7 +63,7 @@ async def create_interview(
     with open(persistent_location, "wb") as persistent_file:
         persistent_file.write(audio_file.file.read())
     await logger.adebug("Just wrote audio file.")
-    interview = rw.create_interview(
+    interview = await rw.create_interview(
         db, interview=interview, audio_location=persistent_location
     )
     process_audio_task.delay(
@@ -65,13 +75,13 @@ async def create_interview(
 @app.delete("/interviews/{interview_id}")
 async def delete_interview(interview_id: int, db=Depends(get_db)):
     """Delete a specific interview."""
-    rw.delete_interview(db, interview_id)
+    await rw.delete_interview(db, interview_id)
 
 
 @app.get("/interviews/{interview_id}", response_model=Interview)
 async def get_interview(interview_id: int, db=Depends(get_db)):
     """Get a specific interview."""
-    interview = rw.get_interview(db, interview_id)
+    interview = await rw.get_interview(db, interview_id)
     if interview:
         return interview
     raise HTTPException(
@@ -84,8 +94,8 @@ async def update_interview(
     interview_id: int, interview: InterviewUpdate, db=Depends(get_db)
 ):
     """Update a specific interview."""
-    interview_target = rw.get_interview(db, interview_id)
-    interview = rw.update_interview(
+    interview_target = await rw.get_interview(db, interview_id)
+    interview = await rw.update_interview(
         db, interview_db=interview_target, interview_upd=interview
     )
     return interview
