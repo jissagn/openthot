@@ -24,11 +24,11 @@ async_session = async_sessionmaker(async_engine, expire_on_commit=False)
 #
 # Base classes
 #
-class Base(DeclarativeBase):
+class DBBase(DeclarativeBase):
     pass
 
 
-class DBUser(SQLAlchemyBaseUserTableUUID, Base):
+class DBUserBase(SQLAlchemyBaseUserTableUUID, DBBase):
     pass
 
 
@@ -37,7 +37,7 @@ class DBUser(SQLAlchemyBaseUserTableUUID, Base):
 #
 async def create_db_and_tables():
     async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(DBBase.metadata.create_all)
 
 
 async def close_clean_up_pooled_connections():
@@ -50,4 +50,4 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
 
 async def get_user_db(session: AsyncSession = Depends(get_db)):
-    yield SQLAlchemyUserDatabase(session, DBUser)  # type: ignore
+    yield SQLAlchemyUserDatabase(session, DBUserBase)  # type: ignore

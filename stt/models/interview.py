@@ -3,6 +3,10 @@ from enum import Enum
 
 from pydantic import BaseModel, FilePath
 
+from stt.models.users import UserId
+
+InterviewId = int
+
 
 class InterviewStatus(str, Enum):
     uploaded = "uploaded"
@@ -32,7 +36,8 @@ class InterviewUpdate(InterviewBase):
 # Properties shared by models stored in DB
 class InterviewInDBBase(InterviewBase):
     audio_location: FilePath
-    id: int
+    creator_id: UserId
+    id: InterviewId
     name: str
     status: str
     transcript: str | None = None
@@ -58,7 +63,8 @@ class InterviewInDB(InterviewInDBBase):
 
 class InterviewInDBBaseUpdate(InterviewBase):
     audio_location: FilePath | None = None
-    id: int | None = None
+    creator_id: UserId | None = None
+    id: InterviewId | None = None
     name: str | None = None
     status: str | None = None
     transcript: str | None = None

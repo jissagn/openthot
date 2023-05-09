@@ -4,11 +4,11 @@ from fastapi import Depends, FastAPI
 from stt.api import auth
 from stt.api.routers import interviews
 from stt.db.database import (
-    DBUser,
+    DBUserBase,
     close_clean_up_pooled_connections,
     create_db_and_tables,
 )
-from stt.db.schemas import UserCreate, UserRead, UserUpdate
+from stt.models.users import UserCreate, UserRead, UserUpdate
 
 logger = structlog.get_logger(__file__)
 app = FastAPI()
@@ -20,7 +20,7 @@ async def get_status():
 
 
 @app.get("/authenticated-route", tags=["example"])
-async def authenticated_route(user: DBUser = Depends(auth.current_active_user)):
+async def authenticated_route(user: DBUserBase = Depends(auth.current_active_user)):
     return {"message": f"Hello {user.email}!"}
 
 

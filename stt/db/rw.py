@@ -10,38 +10,54 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from stt.db import schemas
 from stt.models.interview import (
     InterviewCreate,
+    InterviewId,
     InterviewInDBBaseUpdate,
     InterviewUpdate,
 )
+from stt.models.users import UserId
 
 logger = structlog.get_logger(__file__)
 
 
 async def create_interview(
-    session: AsyncSession, interview: InterviewCreate, audio_location: FilePath
+    session: AsyncSession,
+    user: schemas.DBUserBase,
+    interview: InterviewCreate,
+    audio_location: FilePath,
 ) -> schemas.DBInterview:
     db_interview = schemas.DBInterview(**interview.dict())
-    db_interview.audio_location = str(audio_location)  # type: ignore
+    db_interview.creator_id = user.id
+    db_interview.audio_location = str(audio_location)
     session.add(db_interview)
     await session.commit()
     await session.refresh(db_interview)
     return db_interview
 
 
-async def delete_interview(session: AsyncSession, interview_id: int):
-    interview = await session.get(schemas.DBInterview, interview_id)
+async def delete_interview(
+    session: AsyncSession, user: schemas.DBUserBase, interview_id: InterviewId
+):
+    interview = await get_interview(session, user, interview_id)
     await session.delete(interview)
     await session.commit()
 
 
 async def get_interview(
-    session: AsyncSession, interview_id: int
+    session: AsyncSession, user: schemas.DBUserBase | UserId, interview_id: InterviewId
 ) -> schemas.DBInterview | None:
-    return await session.get(schemas.DBInterview, interview_id)
+    interview = await session.get(schemas.DBInterview, interview_id)
+    if interview:
+        if isinstance(user, UserId) and interview.creator_id == user:
+            return interview
+        elif isinstance(user, schemas.DBUserBase) and interview.creator_id == user.id:
+            return interview
+    return None
 
 
-async def get_interviews(session: AsyncSession) -> Iterable[schemas.DBInterview]:
-    statement = select(schemas.DBInterview)
+async def get_interviews(
+    session: AsyncSession, user: schemas.DBUserBase
+) -> Iterable[schemas.DBInterview]:
+    statement = select(schemas.DBInterview).where(schemas.DBInterview.creator == user)
     interviews = (await session.scalars(statement)).all()
     return interviews or []
 
@@ -67,7 +83,7 @@ async def update_interview(
                 )
             else:
                 setattr(interview_db, field, update_data[field])
-    interview_db.update_ts = datetime.utcnow()  # type: ignore
+    interview_db.update_ts = datetime.utcnow()
     session.add(interview_db)
     await session.commit()
     await session.refresh(interview_db)
