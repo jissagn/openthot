@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
+import structlog
 from stt.config import get_settings
 
 from stt.db import rw
@@ -9,11 +10,13 @@ from stt.db.database import create_db_and_tables, get_db
 from stt.models.interview import Interview, InterviewCreate, InterviewUpdate
 from stt.tasks.tasks import process_audio_task
 
+logger = structlog.get_logger(__file__)
 app = FastAPI()
 
 
 @app.on_event("startup")
 async def startup():
+    await logger.ainfo("Starting up...")
     await create_db_and_tables()
 
 
@@ -42,9 +45,14 @@ async def new_interview(
     """Create a new interview to be transcripted."""
     persistent_location = Path(get_settings().object_storage_path, audio_file.filename)
     os.makedirs(os.path.dirname(os.path.abspath(persistent_location)), exist_ok=True)
+    await logger.adebug(
+        "Intending to write audio file",
+        persistent_location=persistent_location,
+        interview=interview,
+    )
     with open(persistent_location, "wb") as persistent_file:
         persistent_file.write(audio_file.file.read())
-    print(f"Just wrote {persistent_location}")
+    await logger.adebug("Just wrote audio file.")
     interview = rw.create_interview(
         db, interview=interview, audio_location=persistent_location
     )
@@ -71,10 +79,6 @@ async def update_interview(
 ):
     """Update a specific interview."""
     interview_target = rw.get_interview(db, interview_id)
-    if not interview_target:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Interview does not exist."
-        )
     interview = rw.update_interview(
         db, interview_db=interview_target, interview_upd=interview
     )

@@ -19,6 +19,7 @@ llvmlite = "0.40.0rc1"
 numba = "0.57.0rc1"
 openai-whisper = "^20230314"
 structlog = "^23.1.0"
+simplejson = "^3.19.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"

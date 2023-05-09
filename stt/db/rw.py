@@ -3,6 +3,7 @@ from datetime import datetime
 from fastapi.encoders import jsonable_encoder
 from pydantic import FilePath
 from sqlalchemy.orm import Session
+import structlog
 
 from stt.db import schemas
 from stt.models.interview import (
@@ -10,6 +11,8 @@ from stt.models.interview import (
     InterviewInDBBaseUpdate,
     InterviewUpdate,
 )
+
+logger = structlog.get_logger(__file__)
 
 
 def create_interview(
@@ -50,7 +53,11 @@ def update_interview(
         if field in update_data:
             if field == interview_db.update_ts:
                 w = f"Required {field} to be set to {update_data[field]}, but will be overwritten."
-                print("WARNING. " + w)  # TODO : use logger
+                logger.warn(
+                    w,
+                    interview_db=jsonable_encoder(interview_db),
+                    interview_upd=update_data,
+                )
             else:
                 setattr(interview_db, field, update_data[field])
     interview_db.update_ts = datetime.utcnow()  # type: ignore

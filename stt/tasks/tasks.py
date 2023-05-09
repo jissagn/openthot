@@ -3,6 +3,7 @@ from datetime import datetime
 
 from celery import Celery
 from pydantic import FilePath
+import structlog
 
 from stt.asr.transcription import run_transcription
 from stt.config import get_settings
@@ -10,6 +11,8 @@ from stt.db import rw
 from stt.db.database import Base, engine
 from stt.models.interview import InterviewInDBBaseUpdate, InterviewStatus
 from stt.tasks import SqlAlchemyTask
+
+logger = structlog.get_logger(__file__)
 
 Base.metadata.create_all(bind=engine)
 
@@ -28,6 +31,11 @@ def process_audio_task(self, interview_id: int, audio_location: FilePath):
         db=self.db,
         interview_db=interview,
         interview_upd=InterviewInDBBaseUpdate(status=InterviewStatus.processing),
+    )
+    logger.info(
+        "Calling transcriptor",
+        interview_id=interview_id,
+        audio_file_path=audio_location,
     )
     json_transcript, transcript, duration = run_transcription(
         audio_file_path=audio_location
