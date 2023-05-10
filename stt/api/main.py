@@ -1,5 +1,6 @@
 import structlog
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from stt.api import auth
 
 from stt.api.v1.router import v_router as v1_router
@@ -8,6 +9,21 @@ from stt.models.users import UserCreate, UserRead, UserUpdate
 
 logger = structlog.get_logger(__file__)
 app = FastAPI()
+
+
+origins = [
+    f"{protocol}://{domain}:3000"
+    for protocol in ("http", "https")
+    for domain in ("localhost", "0.0.0.0", "127.0.0.1")
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/status")
