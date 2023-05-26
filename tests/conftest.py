@@ -18,8 +18,7 @@ from stt.db.rw import create_interview
 from stt.models.interview import InterviewCreate
 from stt.models.users import UserCreate, UserRead
 
-BASE_URL = "http://test.api"
-V1_PREFIX = "/api/v1"
+V1_PREFIX = "http://test.api/api/v1"
 
 
 @pytest.fixture(scope="session")
@@ -73,7 +72,7 @@ async def client(async_test_session: AsyncSession):
 
     async with AsyncClient(
         app=app,
-        base_url=BASE_URL,
+        base_url=V1_PREFIX,
         follow_redirects=True,
     ) as tc:
         yield tc

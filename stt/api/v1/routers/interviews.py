@@ -3,7 +3,7 @@ import structlog
 from fastapi import APIRouter, Depends, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 
-from stt.api import auth
+from stt.api.v1.routers import auth
 from stt.db import rw
 from stt.db.database import DBUserBase, get_db
 from stt.exceptions import APIInternalError, APIInterviewNotFound
