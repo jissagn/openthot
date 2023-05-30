@@ -15,7 +15,7 @@ from stt.api.main import app
 from stt.db import schemas
 from stt.db.database import DBBase, get_db
 from stt.db.rw import create_interview
-from stt.models.interview import InterviewCreate
+from stt.models.interview import APIInputInterviewCreate
 from stt.models.users import UserCreate, UserRead
 
 V1_PREFIX = "http://test.api/api/v1"
@@ -123,7 +123,7 @@ async def logged_user(client: AsyncClient, access_token) -> UserRead:
 async def db_interviews(async_test_session):
     user = schemas.DBUserBase(id=uuid.UUID("ffffffff-ffff-ffff-ffff-ffffffffffff"))
     for i in range(10):
-        interview = InterviewCreate(name=f"Test db itw {i}")
+        interview = APIInputInterviewCreate(name=f"Test db itw {i}")
         audio_location: FilePath = Path(f"/fake/path/audio_{i}.wav")
         await create_interview(
             async_test_session,

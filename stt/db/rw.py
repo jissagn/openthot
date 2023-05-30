@@ -7,12 +7,11 @@ from pydantic import FilePath
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-
 from stt.db.schemas import DBInterview, DBUserBase
 from stt.models.interview import (
-    InterviewCreate,
+    APIInputInterviewCreate,
+    APIInputInterviewUpdate,
     InterviewId,
-    InterviewInDBBaseUpdate,
     InterviewUpdate,
 )
 from stt.models.users import UserId
@@ -23,7 +22,7 @@ logger = structlog.get_logger(__file__)
 async def create_interview(
     session: AsyncSession,
     user: DBUserBase,
-    interview: InterviewCreate,
+    interview: APIInputInterviewCreate,
     audio_location: FilePath,
 ) -> DBInterview:
     db_interview = DBInterview(**interview.dict())
@@ -69,7 +68,7 @@ async def get_interviews(
 async def update_interview(
     session: AsyncSession,
     interview_db: DBInterview,
-    interview_upd: InterviewUpdate | InterviewInDBBaseUpdate | dict,
+    interview_upd: APIInputInterviewUpdate | InterviewUpdate | dict,
 ):
     target_data = jsonable_encoder(interview_db)
     if not isinstance(interview_upd, dict):

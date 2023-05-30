@@ -1,13 +1,19 @@
 import os
+
 import structlog
 from fastapi import APIRouter, Depends, File, UploadFile
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import FileResponse
 
 from stt.api.v1.routers import auth
 from stt.db import rw
 from stt.db.database import DBUserBase, get_db
 from stt.exceptions import APIInternalError, APIInterviewNotFound
-from stt.models.interview import Interview, InterviewCreate, InterviewUpdate
+from stt.models.interview import (
+    APIInputInterviewCreate,
+    APIInputInterviewUpdate,
+    APIOutputInterview,
+)
 from stt.object_storage import save_audio_file
 from stt.tasks.tasks import process_audio_task
 
@@ -20,12 +26,13 @@ router = APIRouter(
 
 @router.get(
     "/",
-    response_model=list[Interview] | None,
+    response_model=list[APIOutputInterview] | None,
     response_model_exclude={"transcript"},
     response_model_exclude_none=True,
 )
 async def list_interviews(
-    db=Depends(get_db), current_user: DBUserBase = Depends(auth.current_active_user)
+    db=Depends(get_db),
+    current_user: DBUserBase = Depends(auth.current_active_user),
 ):
     """List all existing interviews."""
     return list(await rw.get_interviews(db, current_user))
@@ -33,13 +40,13 @@ async def list_interviews(
 
 @router.post(
     "/",
-    response_model=Interview,
+    response_model=APIOutputInterview,
     responses={
         APIInternalError.status_code: {"description": APIInternalError.detail},
     },
 )
 async def create_interview(
-    interview: InterviewCreate = Depends(),
+    interview: APIInputInterviewCreate = Depends(),
     audio_file: UploadFile = File(description="The audio file of the interview."),
     db=Depends(get_db),
     current_user: DBUserBase = Depends(auth.current_active_user),
@@ -84,7 +91,7 @@ async def delete_interview(
 
 @router.get(
     "/{interview_id}",
-    response_model=Interview,
+    response_model=APIOutputInterview,
     responses={
         APIInterviewNotFound.status_code: {"description": APIInterviewNotFound.detail},
     },
@@ -101,16 +108,45 @@ async def get_interview(
     raise APIInterviewNotFound
 
 
+@router.get(
+    "/{interview_id}/audio",
+    responses={
+        APIInterviewNotFound.status_code: {"description": APIInterviewNotFound.detail},
+    },
+)
+async def get_interview_audio(
+    interview_id: int,
+    db=Depends(get_db),
+    current_user: DBUserBase = Depends(auth.current_active_user),
+):
+    """Stream audio file of a given interview."""
+    interview = await rw.get_interview(db, current_user, interview_id)
+    if interview:
+        if os.path.exists(interview.audio_location):
+            await logger.adebug(
+                "Streaming audio_file", audio_location=interview.audio_location
+            )
+            return FileResponse(interview.audio_location)
+        elif interview.audio_location.startswith(("http",)):  # "s3:", "ftp:", ...
+            raise NotImplementedError
+        else:
+            await logger.aerror(
+                "Could not provide audio_file", audio_location=interview.audio_location
+            )
+            raise Exception
+    raise APIInterviewNotFound
+
+
 @router.patch(
     "/{interview_id}",
-    response_model=Interview,
+    response_model=APIOutputInterview,
     responses={
         APIInterviewNotFound.status_code: {"description": APIInterviewNotFound.detail},
     },
 )
 async def update_interview(
     interview_id: int,
-    interview: InterviewUpdate,
+    interview: APIInputInterviewUpdate,
     db=Depends(get_db),
     current_user: DBUserBase = Depends(auth.current_active_user),
 ):

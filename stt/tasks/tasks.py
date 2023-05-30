@@ -9,7 +9,7 @@ from stt.asr.transcription import run_transcription
 from stt.config import get_settings
 from stt.db import rw
 from stt.db.database import async_session
-from stt.models.interview import InterviewId, InterviewInDBBaseUpdate, InterviewStatus
+from stt.models.interview import InterviewId, InterviewUpdate, InterviewStatus
 from stt.models.users import UserId
 from stt.tasks import async_task
 
@@ -46,7 +46,7 @@ async def process_audio_task(
         await rw.update_interview(
             session=session,
             interview_db=interview,
-            interview_upd=InterviewInDBBaseUpdate(status=InterviewStatus.processing),
+            interview_upd=InterviewUpdate(status=InterviewStatus.processing),
         )
         logger.info(
             "Calling transcriptor",
@@ -60,7 +60,7 @@ async def process_audio_task(
         await rw.update_interview(
             session=session,
             interview_db=interview,
-            interview_upd=InterviewInDBBaseUpdate(
+            interview_upd=InterviewUpdate(
                 status=InterviewStatus.transcripted,
                 transcript_duration_s=int(duration) + 1,  # ceil
                 transcript_ts=datetime.utcnow(),

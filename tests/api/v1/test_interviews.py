@@ -2,10 +2,10 @@ import pytest
 import pytest_asyncio
 
 from stt.models.interview import (
-    InterviewCreate,
-    Interview,
+    APIInputInterviewCreate,
+    APIOutputInterview,
     InterviewStatus,
-    InterviewUpdate,
+    APIInputInterviewUpdate,
 )
 from tests.conftest import V1_PREFIX
 
@@ -26,7 +26,7 @@ async def api_interviews(mocker, client, access_token, upload_file_mp3):
     file = {"audio_file": upload_file_mp3}
     interviews = []
     for i in range(3):
-        itw = InterviewCreate(name=f"Test api itw #{i}")
+        itw = APIInputInterviewCreate(name=f"Test api itw #{i}")
         response = await client.post(
             INTERVIEWS_ENDPOINT,
             headers=bearer_header(access_token),
@@ -34,7 +34,7 @@ async def api_interviews(mocker, client, access_token, upload_file_mp3):
             files=file,
         )
         assert response.status_code == 200
-        interviews.append(Interview(**response.json()))
+        interviews.append(APIOutputInterview(**response.json()))
     return interviews
 
 
@@ -88,7 +88,7 @@ async def test_create_interview_valid(
     mocker.patch("stt.tasks.tasks.process_audio_task.delay")
 
     file = {"audio_file": upload_file_mp3}
-    itw = InterviewCreate(name="Test api itw")
+    itw = APIInputInterviewCreate(name="Test api itw")
     response = await client.post(
         INTERVIEWS_ENDPOINT,
         headers=bearer_header(access_token),
@@ -96,7 +96,7 @@ async def test_create_interview_valid(
         files=file,
     )
     assert response.status_code == 200
-    returned_itw = Interview(**response.json())
+    returned_itw = APIOutputInterview(**response.json())
     assert returned_itw.id is not None
     assert returned_itw.name == itw.name
     assert returned_itw.status == InterviewStatus.uploaded
@@ -156,7 +156,7 @@ async def test_get_interview_valid(client, access_token, api_interviews):
             INTERVIEWS_ENDPOINT + f"/{itw.id}", headers=bearer_header(access_token)
         )
         assert response.status_code == 200
-        returned_itw = Interview(**response.json())
+        returned_itw = APIOutputInterview(**response.json())
         assert returned_itw.id == itw.id
         assert returned_itw.name == itw.name
         assert returned_itw.status in InterviewStatus._value2member_map_.keys()
@@ -188,13 +188,13 @@ async def test_update_interview_unauthorized(client):
 @pytest.mark.endpoint
 async def test_update_interview_valid(client, access_token, api_interviews):
     for itw in api_interviews:
-        upd_itw = InterviewUpdate(name="upd_ " + itw.name)
+        upd_itw = APIInputInterviewUpdate(name="upd_ " + itw.name)
         response = await client.patch(
             INTERVIEWS_ENDPOINT + f"/{itw.id}",
             headers=bearer_header(access_token),
             json=dict(upd_itw),
         )
         assert response.status_code == 200
-        returned_itw = Interview(**response.json())
+        returned_itw = APIOutputInterview(**response.json())
         assert returned_itw.name == upd_itw.name
         assert returned_itw.update_ts > itw.update_ts

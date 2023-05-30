@@ -14,32 +14,23 @@ class InterviewStatus(str, Enum):
     transcripted = "transcripted"
 
 
-# Shared properties
-class InterviewBase(BaseModel):
+class _APIInputInterviewBase(BaseModel):
     """
-    Class to represent an interview
+    Class to represent common properties on expected interviews
     """
 
     name: str
 
 
-# Properties to receive on Interview creation
-class InterviewCreate(InterviewBase):
-    pass
+class _InterviewInDBBase(BaseModel):
+    """
+    Shared properties in models used by DB
+    """
 
-
-# Properties to receive on Interview update
-class InterviewUpdate(InterviewBase):
-    pass
-
-
-# Properties shared by models stored in DB
-class InterviewInDBBase(InterviewBase):
-    audio_location: FilePath
     creator_id: UserId
     id: InterviewId
     name: str
-    status: str
+    status: InterviewStatus
     transcript: str | None = None
     transcript_duration_s: int | None = None
     transcript_ts: datetime | None = None
@@ -51,22 +42,43 @@ class InterviewInDBBase(InterviewBase):
         orm_mode = True
 
 
-# Properties to return to client
-class Interview(InterviewInDBBase):
+class APIInputInterviewCreate(_APIInputInterviewBase):
+    """
+    Properties to receive on Interview creation.
+    Actual binary audio file in not handled in body but in form data,
+    therefore it is not present in this class.
+    """
+
     pass
 
 
-# Properties properties stored in DB
-class InterviewInDB(InterviewInDBBase):
+class APIInputInterviewUpdate(_APIInputInterviewBase):
+    """
+    Properties to receive on Interview update
+    """
+
     pass
 
 
-class InterviewInDBBaseUpdate(InterviewBase):
+class APIOutputInterview(_InterviewInDBBase):
+    """
+    Properties to return to client.
+
+    """
+
+    pass
+
+
+class InterviewUpdate(BaseModel):
+    """
+    Basically a class where all fields are options.
+    """
+
     audio_location: FilePath | None = None
     creator_id: UserId | None = None
     id: InterviewId | None = None
     name: str | None = None
-    status: str | None = None
+    status: InterviewStatus | None = None
     transcript: str | None = None
     transcript_duration_s: int | None = None
     transcript_ts: datetime | None = None

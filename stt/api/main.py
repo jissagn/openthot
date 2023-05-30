@@ -1,6 +1,7 @@
 import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from stt.api import V1_PREFIX
 
 from stt.api.v1.router import v_router as v1_router
 from stt.db.database import close_clean_up_pooled_connections, create_db_and_tables
@@ -48,4 +49,4 @@ async def shutdown():
 #
 # API
 #
-app.include_router(v1_router, prefix="/api/v1")
+app.include_router(v1_router, prefix=V1_PREFIX)
