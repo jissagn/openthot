@@ -122,11 +122,12 @@ async def get_interview_audio(
     """Stream audio file of a given interview."""
     interview = await rw.get_interview(db, current_user, interview_id)
     if interview:
+        headers = {"Cache-Control": "private, max-age=99999999, immutable"}
         if os.path.exists(interview.audio_location):
             await logger.adebug(
                 "Streaming audio_file", audio_location=interview.audio_location
             )
-            return FileResponse(interview.audio_location)
+            return FileResponse(interview.audio_location, headers=headers)
         elif interview.audio_location.startswith(("http",)):  # "s3:", "ftp:", ...
             raise NotImplementedError
         else:
@@ -135,6 +136,19 @@ async def get_interview_audio(
             )
             raise Exception
     raise APIInterviewNotFound
+
+
+# @router.websocket("/{interview_id}/status")
+# async def websocket_endpoint(websocket: WebSocket,
+#     interview_id: int,
+#     db=Depends(get_db),
+#     current_user: DBUserBase = Depends(auth.current_active_user)):
+#     await websocket.accept()
+#     while True:
+#         _ = await websocket.receive_json()
+#         interview = await rw.get_interview(db, current_user, interview_id)
+#         if interview:
+#             await websocket.send_json(data={"status": interview.status})
 
 
 @router.patch(

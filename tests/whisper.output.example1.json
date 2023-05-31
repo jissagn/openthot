@@ -1,0 +1,1478 @@
+{
+    "text": " mettre en off et voilà j'aurai juste d'accord avec un grand pilet et du coup on pour s'envole avec le changement et qu'il faudrait que ce soit effectivement vous avez un débitrait et c'est vrai ? Oui mais le rosement oui oui on est faits c'est un peu compliqué enfin je reviens à la fin d'accord merci alors en fait on est 3 journalistes sur un papier n'enquête sur l'Etat actuelle du monde de la charcuterie suite la publication de votre avis cet été l'idée c'est de voir que il y a quand même des choses qui bougent au niveau des industriels, au niveau des charcutis on va dire plus artisanaux moi j'ai des petites problèmes de pas de comprendre mais je voudrais vraiment vérifier parce que j'ai l'impression que dans les nitrités les nitrats quand on parle de charcuterie sèche au cuite les enjeux ne sont pas les mêmes",
+    "segments": [
+        {
+            "id": 0,
+            "seek": 0,
+            "start": 0.0,
+            "end": 7.62,
+            "text": " mettre en off et voilà j'aurai juste d'accord avec un grand pilet et du coup on",
+            "tokens": [
+                50364,
+                14997,
+                465,
+                766,
+                1030,
+                14624,
+                361,
+                6,
+                3463,
+                1301,
+                13016,
+                274,
+                6,
+                19947,
+                4163,
+                517,
+                2697,
+                6429,
+                302,
+                1030,
+                1581,
+                8682,
+                322,
+                50764
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.897798220316569,
+            "compression_ratio": 1.5326633165829147,
+            "no_speech_prob": 0.2053016722202301,
+            "words": [
+                {
+                    "word": " mettre",
+                    "start": 0.0,
+                    "end": 0.38,
+                    "probability": 0.008644883520901203
+                },
+                {
+                    "word": " en",
+                    "start": 0.38,
+                    "end": 0.66,
+                    "probability": 0.8735536336898804
+                },
+                {
+                    "word": " off",
+                    "start": 0.66,
+                    "end": 0.84,
+                    "probability": 0.6556980609893799
+                },
+                {
+                    "word": " et",
+                    "start": 0.84,
+                    "end": 0.98,
+                    "probability": 0.31489044427871704
+                },
+                {
+                    "word": " voilà",
+                    "start": 0.98,
+                    "end": 1.2,
+                    "probability": 0.5820053219795227
+                },
+                {
+                    "word": " j",
+                    "start": 1.2,
+                    "end": 1.48,
+                    "probability": 0.1925976276397705
+                },
+                {
+                    "word": "'aurai",
+                    "start": 1.48,
+                    "end": 1.48,
+                    "probability": 0.5045128390192986
+                },
+                {
+                    "word": " juste",
+                    "start": 1.48,
+                    "end": 1.76,
+                    "probability": 0.42260125279426575
+                },
+                {
+                    "word": " d",
+                    "start": 1.76,
+                    "end": 2.1,
+                    "probability": 0.26484957337379456
+                },
+                {
+                    "word": "'accord",
+                    "start": 2.1,
+                    "end": 2.34,
+                    "probability": 0.9774647355079651
+                },
+                {
+                    "word": " avec",
+                    "start": 2.34,
+                    "end": 3.2,
+                    "probability": 0.3858584463596344
+                },
+                {
+                    "word": " un",
+                    "start": 3.2,
+                    "end": 4.54,
+                    "probability": 0.1355726718902588
+                },
+                {
+                    "word": " grand",
+                    "start": 4.54,
+                    "end": 4.88,
+                    "probability": 0.3760138154029846
+                },
+                {
+                    "word": " pilet",
+                    "start": 4.88,
+                    "end": 5.52,
+                    "probability": 0.2039312645792961
+                },
+                {
+                    "word": " et",
+                    "start": 5.52,
+                    "end": 6.28,
+                    "probability": 0.7914218902587891
+                },
+                {
+                    "word": " du",
+                    "start": 6.28,
+                    "end": 7.12,
+                    "probability": 0.3505682945251465
+                },
+                {
+                    "word": " coup",
+                    "start": 7.12,
+                    "end": 7.32,
+                    "probability": 0.9933239817619324
+                },
+                {
+                    "word": " on",
+                    "start": 7.32,
+                    "end": 7.62,
+                    "probability": 0.5822687745094299
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "seek": 0,
+            "start": 7.62,
+            "end": 10.86,
+            "text": " pour s'envole avec le changement et qu'il faudrait que ce soit effectivement",
+            "tokens": [
+                50764,
+                2016,
+                262,
+                6,
+                268,
+                3080,
+                306,
+                4163,
+                476,
+                1319,
+                518,
+                1030,
+                421,
+                6,
+                388,
+                38694,
+                8645,
+                631,
+                1769,
+                12703,
+                40126,
+                50964
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.897798220316569,
+            "compression_ratio": 1.5326633165829147,
+            "no_speech_prob": 0.2053016722202301,
+            "words": [
+                {
+                    "word": " pour",
+                    "start": 7.62,
+                    "end": 8.02,
+                    "probability": 0.013971706852316856
+                },
+                {
+                    "word": " s",
+                    "start": 8.02,
+                    "end": 8.38,
+                    "probability": 0.10105503350496292
+                },
+                {
+                    "word": "'envole",
+                    "start": 8.38,
+                    "end": 8.56,
+                    "probability": 0.5268989484757185
+                },
+                {
+                    "word": " avec",
+                    "start": 8.56,
+                    "end": 8.82,
+                    "probability": 0.3598126173019409
+                },
+                {
+                    "word": " le",
+                    "start": 8.82,
+                    "end": 9.0,
+                    "probability": 0.12399595230817795
+                },
+                {
+                    "word": " changement",
+                    "start": 9.0,
+                    "end": 9.28,
+                    "probability": 0.5535008460283279
+                },
+                {
+                    "word": " et",
+                    "start": 9.28,
+                    "end": 9.48,
+                    "probability": 0.21971078217029572
+                },
+                {
+                    "word": " qu",
+                    "start": 9.48,
+                    "end": 9.6,
+                    "probability": 0.14160491526126862
+                },
+                {
+                    "word": "'il",
+                    "start": 9.6,
+                    "end": 9.6,
+                    "probability": 0.9250571131706238
+                },
+                {
+                    "word": " faudrait",
+                    "start": 9.6,
+                    "end": 9.78,
+                    "probability": 0.8686928153038025
+                },
+                {
+                    "word": " que",
+                    "start": 9.78,
+                    "end": 10.02,
+                    "probability": 0.9235467910766602
+                },
+                {
+                    "word": " ce",
+                    "start": 10.02,
+                    "end": 10.08,
+                    "probability": 0.2235197275876999
+                },
+                {
+                    "word": " soit",
+                    "start": 10.08,
+                    "end": 10.18,
+                    "probability": 0.9184665679931641
+                },
+                {
+                    "word": " effectivement",
+                    "start": 10.18,
+                    "end": 10.86,
+                    "probability": 0.8179710507392883
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "seek": 0,
+            "start": 10.86,
+            "end": 16.82,
+            "text": " vous avez un débitrait et c'est vrai ? Oui mais le rosement oui oui on est faits",
+            "tokens": [
+                50964,
+                2630,
+                11766,
+                517,
+                2795,
+                5260,
+                8645,
+                1030,
+                269,
+                6,
+                377,
+                17815,
+                2506,
+                14005,
+                2420,
+                476,
+                18953,
+                1712,
+                14367,
+                14367,
+                322,
+                871,
+                3887,
+                82,
+                51164
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.897798220316569,
+            "compression_ratio": 1.5326633165829147,
+            "no_speech_prob": 0.2053016722202301,
+            "words": [
+                {
+                    "word": " vous",
+                    "start": 10.86,
+                    "end": 12.48,
+                    "probability": 0.4590347111225128
+                },
+                {
+                    "word": " avez",
+                    "start": 12.48,
+                    "end": 12.64,
+                    "probability": 0.38739141821861267
+                },
+                {
+                    "word": " un",
+                    "start": 12.64,
+                    "end": 12.82,
+                    "probability": 0.18534597754478455
+                },
+                {
+                    "word": " débitrait",
+                    "start": 12.82,
+                    "end": 13.34,
+                    "probability": 0.4254657005270322
+                },
+                {
+                    "word": " et",
+                    "start": 13.34,
+                    "end": 13.7,
+                    "probability": 0.2084384262561798
+                },
+                {
+                    "word": " c",
+                    "start": 13.7,
+                    "end": 13.76,
+                    "probability": 0.7077904939651489
+                },
+                {
+                    "word": "'est",
+                    "start": 13.76,
+                    "end": 13.76,
+                    "probability": 0.9135525524616241
+                },
+                {
+                    "word": " vrai",
+                    "start": 13.76,
+                    "end": 13.92,
+                    "probability": 0.11031229794025421
+                },
+                {
+                    "word": " ?",
+                    "start": 13.92,
+                    "end": 14.2,
+                    "probability": 0.15416976809501648
+                },
+                {
+                    "word": " Oui",
+                    "start": 14.2,
+                    "end": 14.22,
+                    "probability": 0.8171067833900452
+                },
+                {
+                    "word": " mais",
+                    "start": 14.22,
+                    "end": 14.34,
+                    "probability": 0.42606353759765625
+                },
+                {
+                    "word": " le",
+                    "start": 14.34,
+                    "end": 14.48,
+                    "probability": 0.678160548210144
+                },
+                {
+                    "word": " rosement",
+                    "start": 14.48,
+                    "end": 14.84,
+                    "probability": 0.39960619807243347
+                },
+                {
+                    "word": " oui",
+                    "start": 14.84,
+                    "end": 15.24,
+                    "probability": 0.5362984538078308
+                },
+                {
+                    "word": " oui",
+                    "start": 15.24,
+                    "end": 15.4,
+                    "probability": 0.6749833226203918
+                },
+                {
+                    "word": " on",
+                    "start": 15.4,
+                    "end": 15.52,
+                    "probability": 0.3152633607387543
+                },
+                {
+                    "word": " est",
+                    "start": 15.52,
+                    "end": 15.62,
+                    "probability": 0.568187952041626
+                },
+                {
+                    "word": " faits",
+                    "start": 15.62,
+                    "end": 16.82,
+                    "probability": 0.37748096883296967
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "seek": 0,
+            "start": 16.82,
+            "end": 18.08,
+            "text": " c'est un peu compliqué",
+            "tokens": [
+                51164,
+                269,
+                6,
+                377,
+                517,
+                5604,
+                44290,
+                51264
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.897798220316569,
+            "compression_ratio": 1.5326633165829147,
+            "no_speech_prob": 0.2053016722202301,
+            "words": [
+                {
+                    "word": " c",
+                    "start": 16.82,
+                    "end": 16.82,
+                    "probability": 0.2579221725463867
+                },
+                {
+                    "word": "'est",
+                    "start": 16.82,
+                    "end": 16.9,
+                    "probability": 0.9915822446346283
+                },
+                {
+                    "word": " un",
+                    "start": 16.9,
+                    "end": 17.14,
+                    "probability": 0.10853835195302963
+                },
+                {
+                    "word": " peu",
+                    "start": 17.14,
+                    "end": 17.52,
+                    "probability": 0.932759165763855
+                },
+                {
+                    "word": " compliqué",
+                    "start": 17.52,
+                    "end": 18.08,
+                    "probability": 0.8448692560195923
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "seek": 0,
+            "start": 18.08,
+            "end": 21.5,
+            "text": " enfin je reviens à la fin d'accord",
+            "tokens": [
+                51264,
+                25059,
+                1506,
+                3698,
+                24594,
+                1531,
+                635,
+                962,
+                274,
+                6,
+                19947,
+                51464
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.897798220316569,
+            "compression_ratio": 1.5326633165829147,
+            "no_speech_prob": 0.2053016722202301,
+            "words": [
+                {
+                    "word": " enfin",
+                    "start": 18.08,
+                    "end": 18.92,
+                    "probability": 0.018399618566036224
+                },
+                {
+                    "word": " je",
+                    "start": 18.92,
+                    "end": 19.0,
+                    "probability": 0.3148614466190338
+                },
+                {
+                    "word": " reviens",
+                    "start": 19.0,
+                    "end": 19.3,
+                    "probability": 0.6468544453382492
+                },
+                {
+                    "word": " à",
+                    "start": 19.3,
+                    "end": 19.64,
+                    "probability": 0.29763540625572205
+                },
+                {
+                    "word": " la",
+                    "start": 19.64,
+                    "end": 19.78,
+                    "probability": 0.5699124336242676
+                },
+                {
+                    "word": " fin",
+                    "start": 19.78,
+                    "end": 20.9,
+                    "probability": 0.487701952457428
+                },
+                {
+                    "word": " d",
+                    "start": 20.9,
+                    "end": 21.3,
+                    "probability": 0.8347064852714539
+                },
+                {
+                    "word": "'accord",
+                    "start": 21.3,
+                    "end": 21.5,
+                    "probability": 0.7095627039670944
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "seek": 0,
+            "start": 21.5,
+            "end": 23.3,
+            "text": " merci",
+            "tokens": [
+                51464,
+                30532,
+                51564
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.897798220316569,
+            "compression_ratio": 1.5326633165829147,
+            "no_speech_prob": 0.2053016722202301,
+            "words": [
+                {
+                    "word": " merci",
+                    "start": 21.5,
+                    "end": 23.3,
+                    "probability": 0.794657289981842
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "seek": 2330,
+            "start": 24.34,
+            "end": 30.88,
+            "text": " alors en fait on est 3 journalistes sur un papier n'enquête sur",
+            "tokens": [
+                50364,
+                11246,
+                465,
+                3887,
+                322,
+                871,
+                805,
+                17277,
+                279,
+                1022,
+                517,
+                37410,
+                297,
+                6,
+                268,
+                358,
+                12943,
+                1022,
+                50664
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.2763409805297852,
+            "compression_ratio": 1.5345622119815667,
+            "no_speech_prob": 0.2225969135761261,
+            "words": [
+                {
+                    "word": " alors",
+                    "start": 24.34,
+                    "end": 24.98,
+                    "probability": 0.005816152319312096
+                },
+                {
+                    "word": " en",
+                    "start": 24.98,
+                    "end": 25.16,
+                    "probability": 0.8003711104393005
+                },
+                {
+                    "word": " fait",
+                    "start": 25.16,
+                    "end": 25.24,
+                    "probability": 0.9927589893341064
+                },
+                {
+                    "word": " on",
+                    "start": 25.24,
+                    "end": 26.04,
+                    "probability": 0.2795049548149109
+                },
+                {
+                    "word": " est",
+                    "start": 26.04,
+                    "end": 26.16,
+                    "probability": 0.9244385957717896
+                },
+                {
+                    "word": " 3",
+                    "start": 26.16,
+                    "end": 26.46,
+                    "probability": 0.5618316531181335
+                },
+                {
+                    "word": " journalistes",
+                    "start": 26.46,
+                    "end": 27.1,
+                    "probability": 0.6960946321487427
+                },
+                {
+                    "word": " sur",
+                    "start": 27.1,
+                    "end": 28.08,
+                    "probability": 0.975207507610321
+                },
+                {
+                    "word": " un",
+                    "start": 28.08,
+                    "end": 28.14,
+                    "probability": 0.9004073143005371
+                },
+                {
+                    "word": " papier",
+                    "start": 28.14,
+                    "end": 28.54,
+                    "probability": 0.6880045533180237
+                },
+                {
+                    "word": " n",
+                    "start": 28.54,
+                    "end": 28.9,
+                    "probability": 0.1738682985305786
+                },
+                {
+                    "word": "'enquête",
+                    "start": 28.9,
+                    "end": 29.12,
+                    "probability": 0.6882504373788834
+                },
+                {
+                    "word": " sur",
+                    "start": 29.12,
+                    "end": 30.88,
+                    "probability": 0.9162374138832092
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "seek": 2330,
+            "start": 30.88,
+            "end": 34.1,
+            "text": " l'Etat actuelle du monde de la charcuterie",
+            "tokens": [
+                50664,
+                287,
+                6,
+                36,
+                27321,
+                605,
+                23635,
+                1581,
+                10431,
+                368,
+                635,
+                1290,
+                6672,
+                17487,
+                50864
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.2763409805297852,
+            "compression_ratio": 1.5345622119815667,
+            "no_speech_prob": 0.2225969135761261,
+            "words": [
+                {
+                    "word": " l",
+                    "start": 30.88,
+                    "end": 31.4,
+                    "probability": 0.47837042808532715
+                },
+                {
+                    "word": "'Etat",
+                    "start": 31.4,
+                    "end": 31.64,
+                    "probability": 0.7798357804616293
+                },
+                {
+                    "word": " actuelle",
+                    "start": 31.64,
+                    "end": 32.14,
+                    "probability": 0.6463818848133087
+                },
+                {
+                    "word": " du",
+                    "start": 32.14,
+                    "end": 32.72,
+                    "probability": 0.981386125087738
+                },
+                {
+                    "word": " monde",
+                    "start": 32.72,
+                    "end": 32.86,
+                    "probability": 0.9742854833602905
+                },
+                {
+                    "word": " de",
+                    "start": 32.86,
+                    "end": 33.02,
+                    "probability": 0.9837238788604736
+                },
+                {
+                    "word": " la",
+                    "start": 33.02,
+                    "end": 33.14,
+                    "probability": 0.9751477241516113
+                },
+                {
+                    "word": " charcuterie",
+                    "start": 33.14,
+                    "end": 34.1,
+                    "probability": 0.824968139330546
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "seek": 2330,
+            "start": 34.1,
+            "end": 37.26,
+            "text": " suite la publication de votre avis cet été",
+            "tokens": [
+                50864,
+                14205,
+                635,
+                19953,
+                368,
+                10087,
+                34588,
+                8603,
+                8862,
+                51064
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.2763409805297852,
+            "compression_ratio": 1.5345622119815667,
+            "no_speech_prob": 0.2225969135761261,
+            "words": [
+                {
+                    "word": " suite",
+                    "start": 34.1,
+                    "end": 34.76,
+                    "probability": 0.340329110622406
+                },
+                {
+                    "word": " la",
+                    "start": 34.76,
+                    "end": 35.08,
+                    "probability": 0.5924109816551208
+                },
+                {
+                    "word": " publication",
+                    "start": 35.08,
+                    "end": 35.5,
+                    "probability": 0.7596108913421631
+                },
+                {
+                    "word": " de",
+                    "start": 35.5,
+                    "end": 35.94,
+                    "probability": 0.9661595821380615
+                },
+                {
+                    "word": " votre",
+                    "start": 35.94,
+                    "end": 36.14,
+                    "probability": 0.971735417842865
+                },
+                {
+                    "word": " avis",
+                    "start": 36.14,
+                    "end": 36.36,
+                    "probability": 0.8449203968048096
+                },
+                {
+                    "word": " cet",
+                    "start": 36.36,
+                    "end": 36.56,
+                    "probability": 0.5568666458129883
+                },
+                {
+                    "word": " été",
+                    "start": 36.56,
+                    "end": 37.26,
+                    "probability": 0.9386386275291443
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "seek": 2330,
+            "start": 37.26,
+            "end": 41.38,
+            "text": " l'idée c'est de voir que il y a quand même des choses qui bougent",
+            "tokens": [
+                51064,
+                287,
+                6,
+                34281,
+                269,
+                6,
+                377,
+                368,
+                10695,
+                631,
+                1930,
+                288,
+                257,
+                6932,
+                5698,
+                730,
+                14488,
+                1956,
+                46553,
+                317,
+                51264
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.2763409805297852,
+            "compression_ratio": 1.5345622119815667,
+            "no_speech_prob": 0.2225969135761261,
+            "words": [
+                {
+                    "word": " l",
+                    "start": 37.26,
+                    "end": 37.58,
+                    "probability": 0.708238959312439
+                },
+                {
+                    "word": "'idée",
+                    "start": 37.58,
+                    "end": 37.64,
+                    "probability": 0.9915049076080322
+                },
+                {
+                    "word": " c",
+                    "start": 37.64,
+                    "end": 37.94,
+                    "probability": 0.950013279914856
+                },
+                {
+                    "word": "'est",
+                    "start": 37.94,
+                    "end": 37.94,
+                    "probability": 0.9955250918865204
+                },
+                {
+                    "word": " de",
+                    "start": 37.94,
+                    "end": 38.46,
+                    "probability": 0.9652523994445801
+                },
+                {
+                    "word": " voir",
+                    "start": 38.46,
+                    "end": 38.82,
+                    "probability": 0.96683269739151
+                },
+                {
+                    "word": " que",
+                    "start": 38.82,
+                    "end": 39.1,
+                    "probability": 0.43333911895751953
+                },
+                {
+                    "word": " il",
+                    "start": 39.1,
+                    "end": 39.22,
+                    "probability": 0.9203301668167114
+                },
+                {
+                    "word": " y",
+                    "start": 39.22,
+                    "end": 39.22,
+                    "probability": 0.9754883646965027
+                },
+                {
+                    "word": " a",
+                    "start": 39.22,
+                    "end": 39.22,
+                    "probability": 0.9699295163154602
+                },
+                {
+                    "word": " quand",
+                    "start": 39.22,
+                    "end": 39.38,
+                    "probability": 0.9882965683937073
+                },
+                {
+                    "word": " même",
+                    "start": 39.38,
+                    "end": 39.5,
+                    "probability": 0.9867045879364014
+                },
+                {
+                    "word": " des",
+                    "start": 39.5,
+                    "end": 40.28,
+                    "probability": 0.9817255139350891
+                },
+                {
+                    "word": " choses",
+                    "start": 40.28,
+                    "end": 40.5,
+                    "probability": 0.9750396013259888
+                },
+                {
+                    "word": " qui",
+                    "start": 40.5,
+                    "end": 40.92,
+                    "probability": 0.991489827632904
+                },
+                {
+                    "word": " bougent",
+                    "start": 40.92,
+                    "end": 41.38,
+                    "probability": 0.8552452921867371
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "seek": 2330,
+            "start": 41.38,
+            "end": 45.36,
+            "text": " au niveau des industriels, au niveau des charcutis on va dire",
+            "tokens": [
+                51264,
+                1609,
+                19144,
+                730,
+                49005,
+                1625,
+                11,
+                1609,
+                19144,
+                730,
+                1290,
+                6672,
+                271,
+                322,
+                2773,
+                1264,
+                51464
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.2763409805297852,
+            "compression_ratio": 1.5345622119815667,
+            "no_speech_prob": 0.2225969135761261,
+            "words": [
+                {
+                    "word": " au",
+                    "start": 41.38,
+                    "end": 41.86,
+                    "probability": 0.8473628759384155
+                },
+                {
+                    "word": " niveau",
+                    "start": 41.86,
+                    "end": 42.02,
+                    "probability": 0.9979026317596436
+                },
+                {
+                    "word": " des",
+                    "start": 42.02,
+                    "end": 42.2,
+                    "probability": 0.9121214747428894
+                },
+                {
+                    "word": " industriels,",
+                    "start": 42.2,
+                    "end": 42.76,
+                    "probability": 0.888905256986618
+                },
+                {
+                    "word": " au",
+                    "start": 42.94,
+                    "end": 43.1,
+                    "probability": 0.8396942615509033
+                },
+                {
+                    "word": " niveau",
+                    "start": 43.1,
+                    "end": 43.1,
+                    "probability": 0.9995192289352417
+                },
+                {
+                    "word": " des",
+                    "start": 43.1,
+                    "end": 43.26,
+                    "probability": 0.9737958908081055
+                },
+                {
+                    "word": " charcutis",
+                    "start": 43.26,
+                    "end": 44.08,
+                    "probability": 0.7370564242204031
+                },
+                {
+                    "word": " on",
+                    "start": 44.08,
+                    "end": 44.38,
+                    "probability": 0.6837918162345886
+                },
+                {
+                    "word": " va",
+                    "start": 44.38,
+                    "end": 44.56,
+                    "probability": 0.988893449306488
+                },
+                {
+                    "word": " dire",
+                    "start": 44.56,
+                    "end": 45.36,
+                    "probability": 0.992747962474823
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "seek": 2330,
+            "start": 45.36,
+            "end": 46.86,
+            "text": " plus artisanaux",
+            "tokens": [
+                51464,
+                1804,
+                1523,
+                14804,
+                7511,
+                51564
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.2763409805297852,
+            "compression_ratio": 1.5345622119815667,
+            "no_speech_prob": 0.2225969135761261,
+            "words": [
+                {
+                    "word": " plus",
+                    "start": 45.36,
+                    "end": 45.7,
+                    "probability": 0.542961835861206
+                },
+                {
+                    "word": " artisanaux",
+                    "start": 45.7,
+                    "end": 46.86,
+                    "probability": 0.6416536470254263
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "seek": 2330,
+            "start": 46.86,
+            "end": 50.68,
+            "text": " moi j'ai des petites problèmes de",
+            "tokens": [
+                51564,
+                7748,
+                361,
+                6,
+                1301,
+                730,
+                34063,
+                37317,
+                368,
+                51714
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.2763409805297852,
+            "compression_ratio": 1.5345622119815667,
+            "no_speech_prob": 0.2225969135761261,
+            "words": [
+                {
+                    "word": " moi",
+                    "start": 46.86,
+                    "end": 48.18,
+                    "probability": 0.5597557425498962
+                },
+                {
+                    "word": " j",
+                    "start": 48.18,
+                    "end": 48.3,
+                    "probability": 0.9227385520935059
+                },
+                {
+                    "word": "'ai",
+                    "start": 48.3,
+                    "end": 48.42,
+                    "probability": 0.9522923827171326
+                },
+                {
+                    "word": " des",
+                    "start": 48.42,
+                    "end": 48.72,
+                    "probability": 0.992919385433197
+                },
+                {
+                    "word": " petites",
+                    "start": 48.72,
+                    "end": 49.1,
+                    "probability": 0.4669145345687866
+                },
+                {
+                    "word": " problèmes",
+                    "start": 49.1,
+                    "end": 49.7,
+                    "probability": 0.992180347442627
+                },
+                {
+                    "word": " de",
+                    "start": 49.7,
+                    "end": 50.68,
+                    "probability": 0.988103449344635
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "seek": 5068,
+            "start": 50.72,
+            "end": 54.74,
+            "text": " pas de comprendre mais je voudrais vraiment vérifier parce que j'ai l'impression que dans les nitrités",
+            "tokens": [
+                50364,
+                1736,
+                368,
+                26856,
+                2420,
+                1506,
+                39520,
+                20769,
+                8322,
+                46919,
+                9902,
+                6992,
+                631,
+                361,
+                6,
+                1301,
+                287,
+                6,
+                36107,
+                631,
+                2680,
+                1512,
+                10900,
+                81,
+                16637,
+                50564
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.3478966093899911,
+            "compression_ratio": 1.410071942446043,
+            "no_speech_prob": 0.13844141364097595,
+            "words": [
+                {
+                    "word": " pas",
+                    "start": 50.72,
+                    "end": 51.16,
+                    "probability": 0.10288460552692413
+                },
+                {
+                    "word": " de",
+                    "start": 51.16,
+                    "end": 51.32,
+                    "probability": 0.9562015533447266
+                },
+                {
+                    "word": " comprendre",
+                    "start": 51.32,
+                    "end": 51.54,
+                    "probability": 0.1345648169517517
+                },
+                {
+                    "word": " mais",
+                    "start": 51.54,
+                    "end": 51.76,
+                    "probability": 0.14201635122299194
+                },
+                {
+                    "word": " je",
+                    "start": 51.76,
+                    "end": 51.86,
+                    "probability": 0.9589505791664124
+                },
+                {
+                    "word": " voudrais",
+                    "start": 51.86,
+                    "end": 52.08,
+                    "probability": 0.9366886913776398
+                },
+                {
+                    "word": " vraiment",
+                    "start": 52.08,
+                    "end": 52.42,
+                    "probability": 0.9912324547767639
+                },
+                {
+                    "word": " vérifier",
+                    "start": 52.42,
+                    "end": 52.9,
+                    "probability": 0.9798594117164612
+                },
+                {
+                    "word": " parce",
+                    "start": 52.9,
+                    "end": 53.14,
+                    "probability": 0.8595498204231262
+                },
+                {
+                    "word": " que",
+                    "start": 53.14,
+                    "end": 53.24,
+                    "probability": 0.9834195375442505
+                },
+                {
+                    "word": " j",
+                    "start": 53.24,
+                    "end": 53.36,
+                    "probability": 0.9635979533195496
+                },
+                {
+                    "word": "'ai",
+                    "start": 53.36,
+                    "end": 53.36,
+                    "probability": 0.7907216250896454
+                },
+                {
+                    "word": " l",
+                    "start": 53.36,
+                    "end": 53.46,
+                    "probability": 0.9631664752960205
+                },
+                {
+                    "word": "'impression",
+                    "start": 53.46,
+                    "end": 53.8,
+                    "probability": 0.9974711239337921
+                },
+                {
+                    "word": " que",
+                    "start": 53.8,
+                    "end": 54.14,
+                    "probability": 0.8895788788795471
+                },
+                {
+                    "word": " dans",
+                    "start": 54.14,
+                    "end": 54.24,
+                    "probability": 0.972179114818573
+                },
+                {
+                    "word": " les",
+                    "start": 54.24,
+                    "end": 54.36,
+                    "probability": 0.41798892617225647
+                },
+                {
+                    "word": " nitrités",
+                    "start": 54.36,
+                    "end": 54.74,
+                    "probability": 0.5964208940664927
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "seek": 5068,
+            "start": 54.74,
+            "end": 59.56,
+            "text": " les nitrats quand on parle de charcuterie sèche au cuite",
+            "tokens": [
+                50564,
+                1512,
+                10900,
+                81,
+                1720,
+                6932,
+                322,
+                18508,
+                368,
+                1290,
+                6672,
+                17487,
+                262,
+                1462,
+                1876,
+                1609,
+                2702,
+                642,
+                50764
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.3478966093899911,
+            "compression_ratio": 1.410071942446043,
+            "no_speech_prob": 0.13844141364097595,
+            "words": [
+                {
+                    "word": " les",
+                    "start": 54.74,
+                    "end": 54.88,
+                    "probability": 0.12474840879440308
+                },
+                {
+                    "word": " nitrats",
+                    "start": 54.88,
+                    "end": 55.8,
+                    "probability": 0.7144445280234019
+                },
+                {
+                    "word": " quand",
+                    "start": 55.8,
+                    "end": 56.02,
+                    "probability": 0.8290277719497681
+                },
+                {
+                    "word": " on",
+                    "start": 56.02,
+                    "end": 56.16,
+                    "probability": 0.9919431209564209
+                },
+                {
+                    "word": " parle",
+                    "start": 56.16,
+                    "end": 56.44,
+                    "probability": 0.9848893880844116
+                },
+                {
+                    "word": " de",
+                    "start": 56.44,
+                    "end": 56.66,
+                    "probability": 0.9014296531677246
+                },
+                {
+                    "word": " charcuterie",
+                    "start": 56.66,
+                    "end": 57.64,
+                    "probability": 0.8634982705116272
+                },
+                {
+                    "word": " sèche",
+                    "start": 57.64,
+                    "end": 58.66,
+                    "probability": 0.7249766091505686
+                },
+                {
+                    "word": " au",
+                    "start": 58.66,
+                    "end": 58.88,
+                    "probability": 0.4876963794231415
+                },
+                {
+                    "word": " cuite",
+                    "start": 58.88,
+                    "end": 59.56,
+                    "probability": 0.6587812006473541
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "seek": 5068,
+            "start": 59.56,
+            "end": 60.98,
+            "text": " les enjeux ne sont pas les mêmes",
+            "tokens": [
+                50764,
+                1512,
+                465,
+                2884,
+                2449,
+                408,
+                4900,
+                1736,
+                1512,
+                42588,
+                50864
+            ],
+            "temperature": 0.0,
+            "avg_logprob": -0.3478966093899911,
+            "compression_ratio": 1.410071942446043,
+            "no_speech_prob": 0.13844141364097595,
+            "words": [
+                {
+                    "word": " les",
+                    "start": 59.56,
+                    "end": 59.82,
+                    "probability": 0.6114387512207031
+                },
+                {
+                    "word": " enjeux",
+                    "start": 59.82,
+                    "end": 60.0,
+                    "probability": 0.4415477365255356
+                },
+                {
+                    "word": " ne",
+                    "start": 60.0,
+                    "end": 60.1,
+                    "probability": 0.4708182215690613
+                },
+                {
+                    "word": " sont",
+                    "start": 60.1,
+                    "end": 60.28,
+                    "probability": 0.9554986953735352
+                },
+                {
+                    "word": " pas",
+                    "start": 60.28,
+                    "end": 60.44,
+                    "probability": 0.9974163770675659
+                },
+                {
+                    "word": " les",
+                    "start": 60.44,
+                    "end": 60.6,
+                    "probability": 0.9076750874519348
+                },
+                {
+                    "word": " mêmes",
+                    "start": 60.6,
+                    "end": 60.98,
+                    "probability": 0.9431473612785339
+                }
+            ]
+        }
+    ],
+    "language": "fr"
+}

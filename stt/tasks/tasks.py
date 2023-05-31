@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 
 import structlog
@@ -53,7 +52,7 @@ async def process_audio_task(
             interview_id=interview_id,
             audio_file_path=audio_location,
         )
-        json_transcript, transcript, duration = run_transcription(
+        wt, timecoded_transcript, duration = run_transcription(
             audio_file_path=audio_location
         )
 
@@ -64,7 +63,7 @@ async def process_audio_task(
                 status=InterviewStatus.transcripted,
                 transcript_duration_s=int(duration) + 1,  # ceil
                 transcript_ts=datetime.utcnow(),
-                transcript=json.dumps(json_transcript),
-                transcript_withtimecode=transcript,
+                transcript=wt,
+                transcript_withtimecode=timecoded_transcript,
             ),
         )

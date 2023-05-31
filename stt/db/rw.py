@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 from typing import Iterable
 
 import structlog
@@ -77,13 +78,15 @@ async def update_interview(
         update_data = interview_upd
     for field in target_data:
         if field in update_data:
-            if field == interview_db.update_ts:
-                w = f"Required {field} to be set to {update_data[field]}, but will be overwritten."
+            if field == "update_ts":
+                w = f"Received {field} to be set to {update_data[field]}, but will be overwritten."
                 logger.warn(
                     w,
                     interview_db=jsonable_encoder(interview_db),
                     interview_upd=update_data,
                 )
+            elif field == "transcript":
+                setattr(interview_db, field, json.dumps(update_data[field]))
             else:
                 setattr(interview_db, field, update_data[field])
     interview_db.update_ts = datetime.utcnow()

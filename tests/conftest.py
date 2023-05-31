@@ -1,4 +1,5 @@
 import asyncio
+import json
 import uuid
 from io import BytesIO
 from pathlib import Path
@@ -8,7 +9,7 @@ import aiofiles
 import pytest
 import pytest_asyncio
 from httpx import AsyncClient
-from pydantic import EmailStr, FilePath
+from pydantic import EmailStr, FilePath, Json
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 
 from stt.api.main import app
@@ -140,3 +141,17 @@ async def db_interviews(async_test_session):
 async def upload_file_mp3() -> BinaryIO:
     async with aiofiles.open("./tests/bonjour.mp3", "rb") as mp3:
         return BytesIO(await mp3.read())
+
+
+@pytest_asyncio.fixture(scope="session")
+async def whisper_output_example1() -> Json:
+    async with aiofiles.open("./tests/whisper.output.example1.json", "r") as json_file:
+        j = await json_file.read()
+        return json.loads(j)
+
+
+@pytest_asyncio.fixture(scope="session")
+async def stt_simple_example1() -> Json:
+    async with aiofiles.open("./tests/stt_simple.example1.json", "r") as json_file:
+        j = await json_file.read()
+        return json.loads(j)
