@@ -1,5 +1,5 @@
+import asyncio
 import json
-import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -13,7 +13,7 @@ logger = structlog.get_logger(__file__)
 model_size = get_settings().whisper_model_size
 
 
-def run_transcription(
+async def run_transcription(
     audio_file_path: FilePath,
 ) -> tuple[WhisperTranscript, str, float]:
     audio_file_path = str(audio_file_path)  # type: ignore
@@ -31,19 +31,26 @@ def run_transcription(
         "--word_timestamps",
         "True",
     ]
-    logger.debug(
+    await logger.adebug(
         "Calling whisper",
         proc_call=" ".join([str(a) for a in proc_call]),
         audio_file_path=audio_file_path,
     )
     start_time = datetime.now()
-    result = subprocess.run(proc_call, capture_output=True, text=True)
-    if result.returncode != 0:
+    # result = subprocess.run(proc_call, capture_output=True, text=True)
+    proc = await asyncio.create_subprocess_exec(
+        *proc_call, stdout=asyncio.subprocess.PIPE
+    )
+    proc_out, proc_err = await proc.communicate()
+    # await proc.wait()
+    proc_out = str(proc_out, "utf8") if proc_out else ""
+    proc_err = str(proc_err, "utf8") if proc_err else ""
+    if proc.returncode != 0:
         logger.error(
             "Whisper failed",
             proc_call=" ".join([str(a) for a in proc_call]),
             audio_file_path=audio_file_path,
-            output=result.stderr.split("\n"),
+            output=proc_err.split("\n"),
         )
         raise Exception("Whisper failed")
 
@@ -53,7 +60,7 @@ def run_transcription(
         proc_call=" ".join([str(a) for a in proc_call]),
         audio_file_path=audio_file_path,
     )
-    transcript = result.stdout
+    transcript = proc_out
     json_output_file = Path(audio_file_path).with_suffix(".json")
 
     with open(json_output_file, "r") as json_file:

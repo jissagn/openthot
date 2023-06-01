@@ -37,7 +37,7 @@ async def process_audio_task(
             session=session, user=user_id, interview_id=interview_id
         )
         if interview is None:
-            logger.exception(
+            await logger.aexception(
                 f"No interview {interview_id} (type: {type(interview_id)}) "
                 + f"for user {user_id}(type: {type(user_id)})"
             )
@@ -47,12 +47,12 @@ async def process_audio_task(
             interview_db=interview,
             interview_upd=InterviewUpdate(status=InterviewStatus.processing),
         )
-        logger.info(
+        await logger.ainfo(
             "Calling transcriptor",
             interview_id=interview_id,
             audio_file_path=audio_location,
         )
-        wt, timecoded_transcript, duration = run_transcription(
+        wt, timecoded_transcript, duration = await run_transcription(
             audio_file_path=audio_location
         )
 
@@ -61,7 +61,7 @@ async def process_audio_task(
             interview_db=interview,
             interview_upd=InterviewUpdate(
                 status=InterviewStatus.transcripted,
-                transcript_duration_s=int(duration) + 1,  # ceil
+                transcript_duration_s=int(duration) + 1,  # ⇔ ceil
                 transcript_ts=datetime.utcnow(),
                 transcript=wt,
                 transcript_withtimecode=timecoded_transcript,
