@@ -7,7 +7,7 @@ import structlog
 from pydantic import FilePath
 
 from stt.config import get_settings
-from stt.models.transcript import WhisperTranscript
+from stt.models.transcript.whisper import WhisperTranscript
 
 logger = structlog.get_logger(__file__)
 model_size = get_settings().whisper_model_size

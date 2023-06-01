@@ -4,11 +4,9 @@ from enum import Enum
 
 from pydantic import BaseModel, FilePath, validator
 
-from stt.models.transcript import (
-    SttSimpleTranscript,
-    WhisperTranscript,
-    wt2sttimple,
-)
+from stt.models.transcript.sttsimple import SttSimpleTranscript
+from stt.models.transcript.utils import wt2sttimple
+from stt.models.transcript.whisper import WhisperTranscript
 from stt.models.users import UserId
 
 InterviewId = int
