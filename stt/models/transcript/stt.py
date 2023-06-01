@@ -3,9 +3,9 @@ from . import ProbabilityType, LanguageType
 
 
 #
-# Home-made related
+# Home-made transcript
 #
-class SttSimpleWord(BaseModel):
+class SttWord(BaseModel):
     word: str
     start: float
     probability: ProbabilityType  # type: ignore
@@ -15,14 +15,16 @@ class SttSimpleWord(BaseModel):
         validate_assignment = True
 
 
-class SttSimpleSegment(BaseModel):
+class SttSegment(BaseModel):
     id: int
     start: float
     end: float
-    words: list[SttSimpleWord]
+    words: list[SttWord]
+    speaker: str | None = None
 
 
-class SttSimpleTranscript(BaseModel):
-    language: LanguageType  # type: ignore
+class SttTranscript(BaseModel):
+    language: LanguageType | None = None  # type: ignore
     text: str
-    segments: list[SttSimpleSegment]
+    segments: list[SttSegment]
+    

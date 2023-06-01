@@ -1,16 +1,17 @@
-from stt.models.transcript.sttsimple import (
-    SttSimpleSegment,
-    SttSimpleTranscript,
-    SttSimpleWord,
-)
+from stt.models.transcript.stt import SttSegment, SttTranscript, SttWord
 from stt.models.transcript.whisper import WhisperTranscript
 
 
-def wt2sttimple(wt: WhisperTranscript) -> SttSimpleTranscript:
-    stt_simple = SttSimpleTranscript(language=wt.language, text=wt.text, segments=[])
-    for wt_segment in wt.segments:
-        st_segment = SttSimpleSegment(
-            id=wt_segment.id, start=wt_segment.start, end=wt_segment.end, words=[]
+def wt2stt(wt: WhisperTranscript) -> SttTranscript:
+    stt = SttTranscript(language=wt.language, text=wt.text, segments=[])
+    for wts in wt.segments:
+        stts = SttSegment(id=wts.id, start=wts.start, end=wts.end, words=[])
+        for wtw in wts.words:
+            sttw = SttWord(**wtw.dict())
+            stts.words.append(sttw)
+        stt.segments.append(stts)
+    return stt
+
         )
         # avg_prob = math.exp(wt_segment.avg_logprob)
         for wt_word in wt_segment.words:

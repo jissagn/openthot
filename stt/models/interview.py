@@ -4,8 +4,8 @@ from enum import Enum
 
 from pydantic import BaseModel, FilePath, validator
 
-from stt.models.transcript.sttsimple import SttSimpleTranscript
-from stt.models.transcript.utils import wt2sttimple
+from stt.models.transcript.stt import SttTranscript
+from stt.models.transcript.utils import wt2stt
 from stt.models.transcript.whisper import WhisperTranscript
 from stt.models.users import UserId
 
@@ -95,7 +95,7 @@ class APIOutputInterview(_InterviewInDBBase):
 
     """
 
-    transcript_simple: SttSimpleTranscript | None
+    transcript_simple: SttTranscript | None
     # TODO: also return original audio filename.ext
 
     @validator("transcript_simple", always=True)
