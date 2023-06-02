@@ -27,4 +27,3 @@ class SttTranscript(BaseModel):
     language: LanguageType | None = None  # type: ignore
     text: str
     segments: list[SttSegment]
-    

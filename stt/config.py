@@ -12,9 +12,10 @@ class Settings(BaseSettings):
     users_token_root_secret: str
     object_storage_path: str
     whisper_model_size: str
+    hf_token: str
 
     class Config:
-        env_file = ".env", ".env.prod"
+        env_file = ".env", ".env.prod", "secrets.env"
 
 
 @lru_cache()

@@ -14,6 +14,7 @@ class DBInterview(DBBase):
 
     id = Column(Integer, primary_key=True, index=True)
     audio_location: Mapped[str] = mapped_column(String, nullable=False)
+    audio_filename: Mapped[str] = mapped_column(String, nullable=False)
     creator_id: Mapped[uuid.UUID] = mapped_column(
         GUID, ForeignKey("user.id", ondelete="cascade"), nullable=False
     )  # creator_id = Column(uuid.UUID, ForeignKey("users.id"))
@@ -22,7 +23,8 @@ class DBInterview(DBBase):
     status: Mapped[InterviewStatus] = mapped_column(
         String, nullable=False, default=InterviewStatus.uploaded
     )  # TODO : only valid interview status
-    transcript: Mapped[str] = mapped_column(Text, nullable=True)
+    transcript_source: Mapped[str] = mapped_column(String, nullable=True)
+    transcript_raw: Mapped[str] = mapped_column(Text, nullable=True)
     transcript_duration_s: Mapped[int] = mapped_column(Integer, nullable=True)
     transcript_ts: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), nullable=True

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import structlog
 from fastapi import APIRouter, Depends, File, UploadFile
@@ -13,6 +14,9 @@ from stt.models.interview import (
     APIInputInterviewCreate,
     APIInputInterviewUpdate,
     APIOutputInterview,
+    DBInputInterviewCreate,
+    DBInputInterviewUpdate,
+    TranscriptorSource,
 )
 from stt.object_storage import save_audio_file
 from stt.tasks.tasks import process_audio_task
@@ -52,16 +56,26 @@ async def create_interview(
     current_user: DBUserBase = Depends(auth.current_active_user),
 ):
     """Create a new interview to be transcripted."""
+    audio_file_name: str = audio_file.filename or "interview"
+
     persistent_location = await save_audio_file(audio_file)
     await logger.adebug("Just wrote audio file.")
+    interview_create = DBInputInterviewCreate(
+        name=interview.name or str(Path(audio_file_name).with_suffix("")),
+        audio_filename=audio_file_name,
+        audio_location=persistent_location,
+    )
     new_interview = await rw.create_interview(
-        db, user=current_user, interview=interview, audio_location=persistent_location
+        db,
+        user=current_user,
+        interview=interview_create,
     )
     try:
         process_audio_task.delay(
             user_id=current_user.id,
             interview_id=new_interview.id,
             audio_location=new_interview.audio_location,
+            transcriptor_source=TranscriptorSource.whisper,
         )
     except Exception as e:
         logger.exception("Could not launch task")
@@ -165,10 +179,11 @@ async def update_interview(
     current_user: DBUserBase = Depends(auth.current_active_user),
 ):
     """Update a specific interview."""
-    interview_target = await rw.get_interview(db, current_user, interview_id)
-    if not interview_target:
+    interview_upd = DBInputInterviewUpdate(**interview.dict())
+    interview_db = await rw.get_interview(db, current_user, interview_id)
+    if not interview_db:
         raise APIInterviewNotFound
     new_interview = await rw.update_interview(
-        db, interview_db=interview_target, interview_upd=interview
+        db, interview_db=interview_db, interview_upd=interview_upd
     )
     return new_interview

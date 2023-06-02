@@ -4,9 +4,11 @@ from enum import Enum
 
 from pydantic import BaseModel, FilePath, validator
 
+from stt.models.transcript import TranscriptorSource
 from stt.models.transcript.stt import SttTranscript
-from stt.models.transcript.utils import wt2stt
+from stt.models.transcript.utils import wt2stt, wtx2stt
 from stt.models.transcript.whisper import WhisperTranscript
+from stt.models.transcript.whisperx import WhisperXTranscript
 from stt.models.users import UserId
 
 InterviewId = int
@@ -18,109 +20,149 @@ class InterviewStatus(str, Enum):
     transcripted = "transcripted"
 
 
-class TimecodedLine(BaseModel):
-    tc: str
-    txt: str
+# Generic input/output Pydantic models here :
+# - 'API*' are related to API data exchanges
+# - 'DB*'  are for objects interfacing the DB schema
+#
+#  Usage:
+#  APIInputCreate --> DBInputCreate --> Db schema
+#  APIInputUpdate --> DBInputUpdate --> Db schema
+#  APIOuput       <-- DBOutput      <-- Db schema
+#
+# - Why do we need a DBInputCreate ?
+#   Because the DB might require non-nullable fields that the
+#   API user is not required to provide. E.g. `audio_location`
+#
+# - Why do we need a DBInputUpdate ?
+#   Because the DB can update fields that the API user is not
+#   allowed to update itself. E.g. `transcript_raw`
+#
+# - Why do we need a DBOutput model ?
+#   - Because the DB has fields that we do not want to expose
+#     to the API user. E.g. `audio_location`.
+#   - Because the API might want to return fiels that are not
+#     in the DB. E.g. `transcript`
 
 
-class _APIInputInterviewBase(BaseModel):
-    """
-    Class to represent common properties on expected interviews
-    """
-
-    name: str
-
-
-class _InterviewInDBBase(BaseModel):
-    """
-    Shared properties in models used by DB
-    """
-
-    creator_id: UserId
-    id: InterviewId
-    name: str
-    status: InterviewStatus
-    transcript: WhisperTranscript | None = None
-    transcript_duration_s: int | None = None
-    transcript_ts: datetime | None = None
-    transcript_withtimecode: list[TimecodedLine] | None = None
-    update_ts: datetime
-    upload_ts: datetime
-
-    @validator("transcript", pre=True)
-    def load_transcript(cls, v):
-        if not v:
-            return None
-        elif isinstance(v, WhisperTranscript):
-            return v
-        elif isinstance(v, str):
-            return WhisperTranscript.parse_obj(json.loads(v))
-
-    @validator("transcript_withtimecode", pre=True)
-    def load_transcript_withtimecode(cls, v):
-        if not v:
-            return None
-        if v:
-            for s in v.split("\n"):
-                t = s.split("] ")
-                if len(t) < 2:
-                    continue
-                yield TimecodedLine(tc=t[0] + "]", txt=t[1])
-
-    class Config:
-        orm_mode = True
-
-
-class APIInputInterviewCreate(_APIInputInterviewBase):
+class APIInputInterviewCreate(BaseModel):
     """
     Properties to receive on Interview creation.
     Actual binary audio file in not handled in body but in
     form data, therefore it is not present in this class.
     """
 
-    pass
+    name: str | None = None
 
 
-class APIInputInterviewUpdate(_APIInputInterviewBase):
+class APIInputInterviewUpdate(BaseModel):
     """
     Properties to receive on Interview update
     """
 
-    pass
+    name: str | None = None
 
 
-class APIOutputInterview(_InterviewInDBBase):
+class APIOutputInterview(BaseModel):
     """
     Properties to return to client.
 
     """
 
-    transcript_simple: SttTranscript | None
-    # TODO: also return original audio filename.ext
+    audio_filename: str
+    creator_id: UserId
+    id: InterviewId
+    name: str
+    status: InterviewStatus
+    transcript: SttTranscript | None = None
+    transcript_source: TranscriptorSource | None = None
+    transcript_duration_s: int | None = None
+    transcript_ts: datetime | None = None
+    update_ts: datetime
+    upload_ts: datetime
 
-    @validator("transcript_simple", always=True)
-    def load_transcript_simple(cls, v, values):
-        if t := values.get("transcript"):
-            s = wt2sttimple(t)
-            values["transcript"] = None
-            return s
-        return None
+    @classmethod
+    def from_orm(cls, obj):  # obj is a db schema object
+        """
+        We first need to parse the db schema object through
+        a `DBOutputInterview`, then we can parse it to read
+        `transcript_raw` et set `transcript`.
+        """
+        db = DBOutputInterview.from_orm(obj)
+        r = super().from_orm(db)
+        if tr := db.transcript_raw:
+            if isinstance(tr, WhisperTranscript):
+                r.transcript = wt2stt(tr)
+            elif isinstance(tr, WhisperXTranscript):
+                r.transcript = wtx2stt(tr)
+        return r
+
+    class Config:
+        orm_mode = True
 
 
-class InterviewUpdate(BaseModel):
+class DBInputInterviewCreate(BaseModel):
+    """
+    Class to represent an input (create or update) for db.
+    Basically a list a all mandatory (ie non-null) fields.
+    """
+
+    name: str
+    audio_filename: str
+    audio_location: FilePath
+
+
+class DBInputInterviewUpdate(BaseModel):
     """
     Basically a class where all fields are options
     to their corresponding DB field.
-    `update_ts` is absent and left to be set by the db updating function
+    `update_ts` is absent and left to be set by the db itself
+
+    Here, the `None` value is set to express a field that should not be updated.
+    ***Therefore, an object property cannot be set to null***
+
     """
 
+    audio_filename: str | None = None
     audio_location: FilePath | None = None
-    creator_id: UserId | None = None
     id: InterviewId | None = None
     name: str | None = None
     status: InterviewStatus | None = None
-    transcript: WhisperTranscript | None = None
+    transcript_source: TranscriptorSource | None = None
+    transcript_raw: WhisperTranscript | WhisperXTranscript | None = None
     transcript_duration_s: int | None = None
     transcript_ts: datetime | None = None
-    transcript_withtimecode: str | None = None
-    upload_ts: datetime | None = None
+
+
+class DBOutputInterview(BaseModel):
+    """
+    Properties of DB
+    """
+
+    audio_filename: str
+    audio_location: FilePath
+    creator_id: UserId
+    id: InterviewId
+    name: str
+    status: InterviewStatus
+    transcript_source: TranscriptorSource | None = None
+    transcript_raw: WhisperTranscript | WhisperXTranscript | None = None
+    transcript_duration_s: int | None = None
+    transcript_ts: datetime | None = None
+    update_ts: datetime
+    upload_ts: datetime
+
+    @validator("transcript_raw", pre=True)
+    def load_transcript_raw(cls, v, values):
+        if not v:
+            return None
+        elif isinstance(v, WhisperTranscript) or isinstance(v, WhisperXTranscript):
+            return v
+        elif isinstance(v, str):
+            transcript_source = values["transcript_source"]
+            if transcript_source == TranscriptorSource.whisper:
+                return WhisperTranscript.parse_obj(json.loads(v))
+            elif transcript_source == TranscriptorSource.whisperx:
+                return WhisperXTranscript.parse_obj(json.loads(v))
+
+    class Config:
+        orm_mode = True

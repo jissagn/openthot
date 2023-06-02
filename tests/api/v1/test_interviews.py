@@ -20,8 +20,8 @@ def bearer_header(token):
 # API data fillings fixture
 #
 @pytest_asyncio.fixture(scope="function")
-async def api_interviews(mocker, client, access_token, upload_file_mp3):
-    """Creates several Interviews through API"""
+async def api_interviews_uploaded(mocker, client, access_token, upload_file_mp3):
+    """Creates several Interviews through API. Don't bother processing them."""
     mocker.patch("stt.tasks.tasks.process_audio_task.delay")
     file = {"audio_file": upload_file_mp3}
     interviews = []
@@ -36,6 +36,43 @@ async def api_interviews(mocker, client, access_token, upload_file_mp3):
         assert response.status_code == 200
         interviews.append(APIOutputInterview(**response.json()))
     return interviews
+
+
+# @pytest.mark.celery(task_always_eager=True)
+# @pytest_asyncio.fixture(scope="function")
+# async def api_interviews_processed(
+#     mocker, client, async_test_session, access_token, upload_file_mp3
+# ):
+#     """Creates several Interviews through API"""
+#     import time
+#     mocker.patch("stt.tasks.tasks.async_session", return_value=async_test_session)
+
+#     async def wait_for_status_transcripted(itw_id):
+#         status = InterviewStatus.uploaded
+#         time.sleep(2)
+#         while status != InterviewStatus.transcripted:
+#             response = await client.get(
+#                 INTERVIEWS_ENDPOINT + f"/{itw_id}", headers=bearer_header(access_token)
+#             )
+
+#             assert response.status_code == 200
+#             returned_itw = APIOutputInterview(**response.json())
+#             status = returned_itw.status
+#             time.sleep(0.1)
+
+#     file = {"audio_file": upload_file_mp3}
+#     interviews = []
+#     for i in range(3):
+#         itw = APIInputInterviewCreate(name=f"Test api itw #{i}")
+#         response = await client.post(
+#             INTERVIEWS_ENDPOINT,
+#             headers=bearer_header(access_token),
+#             params=dict(itw),
+#             files=file,
+#         )
+#         assert response.status_code == 200
+#         interviews.append(APIOutputInterview(**response.json()))
+#     return interviews
 
 
 #
@@ -60,12 +97,12 @@ async def test_list_interviews_empty(client, access_token):
 
 @pytest.mark.asyncio
 @pytest.mark.endpoint
-async def test_list_interviews_not_empty(client, access_token, api_interviews):
+async def test_list_interviews_not_empty(client, access_token, api_interviews_uploaded):
     response = await client.get(
         INTERVIEWS_ENDPOINT, headers=bearer_header(access_token)
     )
     assert response.status_code == 200
-    assert len(response.json()) == len(api_interviews)
+    assert len(response.json()) == len(api_interviews_uploaded)
 
 
 #
@@ -117,8 +154,8 @@ async def test_delete_interview_unauthorized(client):
 
 @pytest.mark.asyncio
 @pytest.mark.endpoint
-async def test_delete_interview_valid(client, access_token, api_interviews):
-    for api_itw in api_interviews:
+async def test_delete_interview_valid(client, access_token, api_interviews_uploaded):
+    for api_itw in api_interviews_uploaded:
         response = await client.delete(
             INTERVIEWS_ENDPOINT + f"/{api_itw.id}",
             headers=bearer_header(access_token),
@@ -150,8 +187,8 @@ async def test_get_interview_unauthorized(client):
 
 @pytest.mark.asyncio
 @pytest.mark.endpoint
-async def test_get_interview_valid(client, access_token, api_interviews):
-    for itw in api_interviews:
+async def test_get_interview_uploaded(client, access_token, api_interviews_uploaded):
+    for itw in api_interviews_uploaded:
         response = await client.get(
             INTERVIEWS_ENDPOINT + f"/{itw.id}", headers=bearer_header(access_token)
         )
@@ -186,8 +223,8 @@ async def test_update_interview_unauthorized(client):
 
 @pytest.mark.asyncio
 @pytest.mark.endpoint
-async def test_update_interview_valid(client, access_token, api_interviews):
-    for itw in api_interviews:
+async def test_update_interview_valid(client, access_token, api_interviews_uploaded):
+    for itw in api_interviews_uploaded:
         upd_itw = APIInputInterviewUpdate(name="upd_ " + itw.name)
         response = await client.patch(
             INTERVIEWS_ENDPOINT + f"/{itw.id}",

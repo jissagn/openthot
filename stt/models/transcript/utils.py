@@ -1,5 +1,6 @@
 from stt.models.transcript.stt import SttSegment, SttTranscript, SttWord
 from stt.models.transcript.whisper import WhisperTranscript
+from stt.models.transcript.whisperx import WhisperXTranscript
 
 
 def wt2stt(wt: WhisperTranscript) -> SttTranscript:
@@ -12,11 +13,16 @@ def wt2stt(wt: WhisperTranscript) -> SttTranscript:
         stt.segments.append(stts)
     return stt
 
+
+def wtx2stt(wxt: WhisperXTranscript) -> SttTranscript:
+    stt = SttTranscript(language=None, text="", segments=[])
+    for i, wxs in enumerate(wxt.segments):
+        stts = SttSegment(
+            id=i, start=wxs.start, end=wxs.end, words=[], speaker=wxs.speaker
         )
-        # avg_prob = math.exp(wt_segment.avg_logprob)
-        for wt_word in wt_segment.words:
-            st_word = SttSimpleWord(**wt_word.dict())
-            # st_word.probability
-            st_segment.words.append(st_word)
-        stt_simple.segments.append(st_segment)
-    return stt_simple
+        for wxw in wxs.words:
+            sttw = SttWord(**wxw.dict())
+            sttw.probability = wxw.score
+            stts.words.append(sttw)
+        stt.segments.append(stts)
+    return stt

@@ -1,6 +1,5 @@
 import asyncio
 import json
-import uuid
 from io import BytesIO
 from pathlib import Path
 from typing import BinaryIO
@@ -9,17 +8,26 @@ import aiofiles
 import pytest
 import pytest_asyncio
 from httpx import AsyncClient
-from pydantic import EmailStr, FilePath, Json
+
+# from polyfactory import Require
+from polyfactory.factories.pydantic_factory import ModelFactory
+from polyfactory.pytest_plugin import register_fixture
+from pydantic import EmailStr, Json
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 
 from stt.api.main import app
-from stt.db import schemas
 from stt.db.database import DBBase, get_db
-from stt.db.rw import create_interview
-from stt.models.interview import APIInputInterviewCreate
+from stt.models.interview import DBInputInterviewUpdate
 from stt.models.users import UserCreate, UserRead
 
 V1_PREFIX = "http://test.api/api/v1"
+
+
+@pytest.fixture(scope="session")
+def celery_config():
+    return {
+        "task_always_eager": True,
+    }
 
 
 @pytest.fixture(scope="session")
@@ -120,18 +128,33 @@ async def logged_user(client: AsyncClient, access_token) -> UserRead:
 #
 # DB fillings
 #
-@pytest_asyncio.fixture(scope="function")
-async def db_interviews(async_test_session):
-    user = schemas.DBUserBase(id=uuid.UUID("ffffffff-ffff-ffff-ffff-ffffffffffff"))
-    for i in range(10):
-        interview = APIInputInterviewCreate(name=f"Test db itw {i}")
-        audio_location: FilePath = Path(f"/fake/path/audio_{i}.wav")
-        await create_interview(
-            async_test_session,
-            user,
-            interview,
-            audio_location,
-        )
+@register_fixture
+class InterviewUpdateFactory(ModelFactory[DBInputInterviewUpdate]):
+    __model__ = DBInputInterviewUpdate
+    __random_seed__ = 0
+
+    audio_location = Path("./tests/bonjour.mp3")
+
+
+# @pytest_asyncio.fixture(scope="function")
+# async def db_interviews(
+#     async_test_session, interview_update_factory: InterviewUpdateFactory
+# ):
+#     db_interviews = []
+#     for i in range(1):
+#         itw_upd = interview_update_factory.build(name="whatever")
+#         user = schemas.DBUserBase(id=uuid.UUID("ffffffff-ffff-ffff-ffff-ffffffffffff"))
+#         interview = APIInputInterviewCreate(name=itw_upd.name)
+#         db_itw = await create_interview(
+#             async_test_session,
+#             user,
+#             interview,
+#             itw_upd.audio_location, # type: ignore
+#         )
+#         itw_upd.id = db_itw.id
+#         await update_interview(async_test_session, db_itw, itw_upd)
+#         db_interviews.append(itw_upd)
+#     return db_interviews
 
 
 #
