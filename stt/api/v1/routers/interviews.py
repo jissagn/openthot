@@ -179,7 +179,7 @@ async def update_interview(
     current_user: DBUserBase = Depends(auth.current_active_user),
 ):
     """Update a specific interview."""
-    interview_upd = DBInputInterviewUpdate(**interview.dict())
+    interview_upd = DBInputInterviewUpdate(**interview.dict(exclude_unset=True))
     interview_db = await rw.get_interview(db, current_user, interview_id)
     if not interview_db:
         raise APIInterviewNotFound

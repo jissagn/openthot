@@ -6,7 +6,9 @@ from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from stt.db.database import DBBase, DBUserBase
-from stt.models.interview import InterviewStatus
+from stt.models.interview import InterviewSpeakers, InterviewStatus
+from stt.models.transcript.whisper import WhisperTranscript
+from stt.models.transcript.whisperx import WhisperXTranscript
 
 
 class DBInterview(DBBase):
@@ -23,7 +25,9 @@ class DBInterview(DBBase):
     status: Mapped[InterviewStatus] = mapped_column(
         String, nullable=False, default=InterviewStatus.uploaded
     )  # TODO : only valid interview status
-    transcript_source: Mapped[str] = mapped_column(String, nullable=True)
+    transcript_source: Mapped[WhisperTranscript | WhisperXTranscript] = mapped_column(
+        String, nullable=True
+    )
     transcript_raw: Mapped[str] = mapped_column(Text, nullable=True)
     transcript_duration_s: Mapped[int] = mapped_column(Integer, nullable=True)
     transcript_ts: Mapped[datetime.datetime] = mapped_column(
@@ -38,6 +42,9 @@ class DBInterview(DBBase):
     )
     upload_ts: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    speakers: Mapped[InterviewSpeakers] = mapped_column(
+        String, nullable=True, default=None
     )
 
 

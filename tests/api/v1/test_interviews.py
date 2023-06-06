@@ -3,9 +3,9 @@ import pytest_asyncio
 
 from stt.models.interview import (
     APIInputInterviewCreate,
+    APIInputInterviewUpdate,
     APIOutputInterview,
     InterviewStatus,
-    APIInputInterviewUpdate,
 )
 from tests.conftest import V1_PREFIX
 
@@ -30,7 +30,7 @@ async def api_interviews_uploaded(mocker, client, access_token, upload_file_mp3)
         response = await client.post(
             INTERVIEWS_ENDPOINT,
             headers=bearer_header(access_token),
-            params=dict(itw),
+            params=itw.dict(exclude_unset=True),
             files=file,
         )
         assert response.status_code == 200
@@ -129,7 +129,7 @@ async def test_create_interview_valid(
     response = await client.post(
         INTERVIEWS_ENDPOINT,
         headers=bearer_header(access_token),
-        params=dict(itw),
+        params=itw.dict(exclude_unset=True),
         files=file,
     )
     assert response.status_code == 200
@@ -229,9 +229,64 @@ async def test_update_interview_valid(client, access_token, api_interviews_uploa
         response = await client.patch(
             INTERVIEWS_ENDPOINT + f"/{itw.id}",
             headers=bearer_header(access_token),
-            json=dict(upd_itw),
+            json=upd_itw.dict(exclude_unset=True),
         )
         assert response.status_code == 200
         returned_itw = APIOutputInterview(**response.json())
         assert returned_itw.name == upd_itw.name
         assert returned_itw.update_ts > itw.update_ts
+
+
+@pytest.mark.asyncio
+@pytest.mark.endpoint
+async def test_update_interview_speakers_valid(
+    client, access_token, api_interviews_uploaded
+):
+    itw = api_interviews_uploaded[0]
+
+    # First init
+    update_1 = {"pouetk": "pouetv"}
+    upd_itw = APIInputInterviewUpdate(speakers=update_1)
+    response_2 = await client.patch(
+        INTERVIEWS_ENDPOINT + f"/{itw.id}",
+        headers=bearer_header(access_token),
+        json=upd_itw.dict(exclude_unset=True),
+    )
+    assert response_2.status_code == 200
+    returned_itw_2 = APIOutputInterview(**response_2.json())
+    assert returned_itw_2.speakers == update_1
+
+    # Set new
+    update_2 = {"another_key": "lkj"}
+    upd_itw_2 = APIInputInterviewUpdate(speakers=update_2)
+    response_2 = await client.patch(
+        INTERVIEWS_ENDPOINT + f"/{itw.id}",
+        headers=bearer_header(access_token),
+        json=upd_itw_2.dict(exclude_unset=True),
+    )
+    assert response_2.status_code == 200
+    returned_itw_2 = APIOutputInterview(**response_2.json())
+    assert returned_itw_2.speakers == update_1 | update_2
+
+    # Override
+    update_3 = {k: "another_value" for k, v in update_1.items()}
+    upd_itw_3 = APIInputInterviewUpdate(speakers=update_3)
+    response_3 = await client.patch(
+        INTERVIEWS_ENDPOINT + f"/{itw.id}",
+        headers=bearer_header(access_token),
+        json=upd_itw_3.dict(exclude_unset=True),
+    )
+    assert response_3.status_code == 200
+    returned_itw_3 = APIOutputInterview(**response_3.json())
+    assert returned_itw_3.speakers == update_1 | update_2 | update_3
+
+    # Null back
+    upd_itw_4 = APIInputInterviewUpdate(speakers=None)
+    response_4 = await client.patch(
+        INTERVIEWS_ENDPOINT + f"/{itw.id}",
+        headers=bearer_header(access_token),
+        json=upd_itw_4.dict(exclude_unset=True),
+    )
+    assert response_4.status_code == 200
+    returned_itw_4 = APIOutputInterview(**response_4.json())
+    assert returned_itw_4.speakers is None

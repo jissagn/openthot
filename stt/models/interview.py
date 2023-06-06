@@ -12,6 +12,7 @@ from stt.models.transcript.whisperx import WhisperXTranscript
 from stt.models.users import UserId
 
 InterviewId = int
+InterviewSpeakers = dict[str, str]
 
 
 class InterviewStatus(str, Enum):
@@ -56,10 +57,17 @@ class APIInputInterviewCreate(BaseModel):
 
 class APIInputInterviewUpdate(BaseModel):
     """
-    Properties to receive on Interview update
+    Properties to receive on Interview update.
     """
 
     name: str | None = None
+    speakers: InterviewSpeakers | None = None
+
+    @validator("name")
+    def load_name(cls, v):
+        if v is None:
+            raise ValueError("cannot be updated to a null value")
+        return v
 
 
 class APIOutputInterview(BaseModel):
@@ -72,6 +80,7 @@ class APIOutputInterview(BaseModel):
     creator_id: UserId
     id: InterviewId
     name: str
+    speakers: InterviewSpeakers | None = None
     status: InterviewStatus
     transcript: SttTranscript | None = None
     transcript_source: TranscriptorSource | None = None
@@ -79,6 +88,11 @@ class APIOutputInterview(BaseModel):
     transcript_ts: datetime | None = None
     update_ts: datetime
     upload_ts: datetime
+
+    @validator("speakers")
+    def load_speakers(cls, v):
+        # Enforce {} to None
+        return v if v else None
 
     @classmethod
     def from_orm(cls, obj):  # obj is a db schema object
@@ -116,16 +130,13 @@ class DBInputInterviewUpdate(BaseModel):
     Basically a class where all fields are options
     to their corresponding DB field.
     `update_ts` is absent and left to be set by the db itself
-
-    Here, the `None` value is set to express a field that should not be updated.
-    ***Therefore, an object property cannot be set to null***
-
     """
 
     audio_filename: str | None = None
     audio_location: FilePath | None = None
     id: InterviewId | None = None
     name: str | None = None
+    speakers: InterviewSpeakers | None = None
     status: InterviewStatus | None = None
     transcript_source: TranscriptorSource | None = None
     transcript_raw: WhisperTranscript | WhisperXTranscript | None = None
@@ -143,6 +154,7 @@ class DBOutputInterview(BaseModel):
     creator_id: UserId
     id: InterviewId
     name: str
+    speakers: InterviewSpeakers | None = None
     status: InterviewStatus
     transcript_source: TranscriptorSource | None = None
     transcript_raw: WhisperTranscript | WhisperXTranscript | None = None
@@ -150,6 +162,13 @@ class DBOutputInterview(BaseModel):
     transcript_ts: datetime | None = None
     update_ts: datetime
     upload_ts: datetime
+
+    @validator("speakers", pre=True)
+    def load_speakers(cls, v):
+        if not v:
+            return None
+        else:
+            return json.loads(v)
 
     @validator("transcript_raw", pre=True)
     def load_transcript_raw(cls, v, values):

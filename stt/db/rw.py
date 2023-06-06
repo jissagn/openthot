@@ -12,6 +12,7 @@ from stt.models.interview import (
     DBInputInterviewCreate,
     DBInputInterviewUpdate,
     InterviewId,
+    InterviewSpeakers,
 )
 from stt.models.users import UserId
 
@@ -66,13 +67,10 @@ async def get_interviews(
 async def update_interview(
     session: AsyncSession,
     interview_db: DBInterview,
-    interview_upd: DBInputInterviewUpdate | dict,
+    interview_upd: DBInputInterviewUpdate,
 ):
     target_data = jsonable_encoder(interview_db)
-    if isinstance(interview_upd, DBInputInterviewUpdate):
-        update_data = interview_upd.dict(exclude_unset=True)
-    else:
-        update_data = interview_upd
+    update_data = interview_upd.dict(exclude_unset=True)
     for field in target_data:
         if field in update_data:
             if field == "update_ts":
@@ -84,7 +82,22 @@ async def update_interview(
                 )
             elif field == "audio_location":
                 setattr(interview_db, field, str(update_data[field]))
-            elif field == "transcript_raw":
+            elif field == "speakers":
+                if raw_current_value := getattr(interview_db, field):
+                    current_value: InterviewSpeakers = (
+                        json.loads(raw_current_value) or {}
+                    )
+                else:
+                    current_value: InterviewSpeakers = {}
+                set_value: InterviewSpeakers = update_data[field] or {}
+                future_value = current_value | set_value if set_value else None
+                setattr(
+                    interview_db,
+                    field,
+                    json.dumps(future_value),
+                )
+
+            elif field in "transcript_raw":
                 setattr(interview_db, field, json.dumps(update_data[field]))
             else:
                 setattr(interview_db, field, update_data[field])
