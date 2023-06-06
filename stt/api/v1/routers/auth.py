@@ -10,8 +10,8 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
-from stt.api import V1_PREFIX
 
+from stt.api import V1_PREFIX
 from stt.config import get_settings
 from stt.db.database import DBUserBase, get_user_db
 from stt.models.users import UserCreate, UserRead

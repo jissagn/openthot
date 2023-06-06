@@ -1,14 +1,12 @@
-from pathlib import Path
 import uuid
+from pathlib import Path
+
 import pytest
 from pydantic import FilePath
-from stt.db.database import DBUserBase
 
+from stt.db.database import DBUserBase
 from stt.db.rw import create_interview
-from stt.models.interview import (
-    DBInputInterviewCreate,
-    InterviewStatus,
-)
+from stt.models.interview import DBInputInterviewCreate, InterviewStatus
 
 
 @pytest.mark.asyncio

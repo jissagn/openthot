@@ -1,14 +1,13 @@
 import os
-from pathlib import Path
 import secrets
+from pathlib import Path
+
 import aiofiles
+import structlog
 from fastapi import UploadFile
 from pydantic import FilePath
 
-import structlog
-
 from stt.config import get_settings
-
 
 logger = structlog.get_logger(__file__)
 

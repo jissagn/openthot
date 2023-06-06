@@ -1,4 +1,5 @@
 from abc import abstractclassmethod
+
 from pydantic import FilePath
 
 from stt.models.transcript.whisper import WhisperTranscript

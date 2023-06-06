@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 
 import structlog
+
 from stt.asr import Transcriptor
 from stt.asr.utils import AsyncProcRunner
-
 from stt.config import get_settings
 from stt.models.transcript.whisperx import WhisperXTranscript
 

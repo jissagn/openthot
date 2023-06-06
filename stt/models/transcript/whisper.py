@@ -1,5 +1,6 @@
 from pydantic import BaseModel, confloat
-from . import ProbabilityType, LanguageType
+
+from . import LanguageType, ProbabilityType
 
 
 #

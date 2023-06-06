@@ -1,5 +1,6 @@
-from fastapi import APIRouter
 import structlog
+from fastapi import APIRouter
+
 from stt.api.v1.routers import auth
 from stt.models.users import UserRead, UserUpdate
 

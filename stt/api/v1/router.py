@@ -1,8 +1,7 @@
 import structlog
 from fastapi import APIRouter
 
-from stt.api.v1.routers import interviews, auth, users
-
+from stt.api.v1.routers import auth, interviews, users
 
 logger = structlog.get_logger(__file__)
 v_router = APIRouter()
