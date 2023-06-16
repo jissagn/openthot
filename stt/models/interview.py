@@ -1,8 +1,9 @@
 import json
 from datetime import datetime
 from enum import Enum
+from typing import TypeAlias
 
-from pydantic import BaseModel, FilePath, confloat, validator
+from pydantic import BaseModel, FilePath, confloat, conint, validator
 
 from stt.models.transcript import TranscriptorSource
 from stt.models.transcript.stt import SttTranscript
@@ -11,7 +12,10 @@ from stt.models.transcript.whisper import WhisperTranscript
 from stt.models.transcript.whisperx import WhisperXTranscript
 from stt.models.users import UserId
 
-InterviewId = int
+# PEP 613 TypeAlias and type-ignore are here just to keep PyLance quiet (although PyLance is right)
+# cf. https://github.com/microsoft/pylance-release/issues/4262
+# PEP 695 to be released in python 3.12
+InterviewId: TypeAlias = conint(gt=0, lt=pow(2, 31))  # type: ignore
 InterviewSpeakers = dict[str, str]
 
 

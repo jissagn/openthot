@@ -86,10 +86,10 @@ async def update_interview(
                 if raw_current_value := getattr(interview_db, field):
                     current_value: InterviewSpeakers = (
                         json.loads(raw_current_value) or {}
-                    )
+                    )  # type: ignore
                 else:
                     current_value: InterviewSpeakers = {}
-                set_value: InterviewSpeakers = update_data[field] or {}
+                set_value: InterviewSpeakers = update_data[field] or {}  # type: ignore
                 future_value = current_value | set_value if set_value else None
                 setattr(
                     interview_db,

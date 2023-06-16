@@ -129,6 +129,21 @@ async def access_token(client: AsyncClient, registered_user) -> str:
             "password": registered_user.password,
         },
     )
+    token = response.json()["access_token"]
+    # print(token)
+    return token
+
+
+@pytest_asyncio.fixture(scope="session")
+async def schemathesis_access_token(client: AsyncClient, registered_user) -> str:
+    response = await client.post(
+        "/auth/jwt/login",
+        data={
+            "grant_type": "password",
+            "username": registered_user.email,
+            "password": registered_user.password,
+        },
+    )
     return response.json()["access_token"]
 
 
