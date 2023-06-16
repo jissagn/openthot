@@ -29,7 +29,7 @@ class WhisperX(Transcriptor):
             .resolve()
             .parent,  # os.path.dirname(os.path.abspath(audio_file_path)),
             "--compute_type",
-            "int8",
+            "int8",  # TODO: adapt according to the running platform
             "--diarize",
             "--hf_token",
             hf_token,

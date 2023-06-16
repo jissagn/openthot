@@ -43,12 +43,13 @@ async def process_audio_task(
     audio_location: FilePath,
     transcriptor_source: TranscriptorSource,
 ):
-    try:
-        user_id = UserId(user_id)  # type: ignore
-    except Exception as e:
-        raise Exception(
-            f"Provided user_id ({user_id}, type: {type(user_id)}) not a valid UserId."
-        ) from e
+    if not isinstance(user_id, UserId):
+        try:
+            user_id = UserId(user_id)
+        except Exception as e:
+            raise Exception(
+                f"Provided user_id ({user_id}, type: {type(user_id)}) not a valid UserId."
+            ) from e
     async with async_session() as session:
         interview = await rw.get_interview(
             session=session, user=user_id, interview_id=interview_id

@@ -1,10 +1,16 @@
+from enum import Enum
 from functools import lru_cache
 
 from pydantic import BaseSettings
 
+class AsrEngine(str, Enum):
+    whisper = "whisper"
+    whisperx = "whisperx"
+
 
 class Settings(BaseSettings):
     app_name: str = "Sous-Titreur"
+    asr_engine: AsrEngine
     celery_broker_url: str
     celery_result_backend: str
     celery_task_acks_late: bool = True

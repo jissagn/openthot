@@ -18,6 +18,9 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engin
 from stt.api.main import app
 from stt.db.database import SqlaBase, get_db
 from stt.models.interview import DBInputInterviewUpdate
+from stt.models.transcript.stt import SttTranscript
+from stt.models.transcript.whisper import WhisperTranscript
+from stt.models.transcript.whisperx import WhisperXTranscript
 from stt.models.users import UserCreate, UserRead
 
 V1_PREFIX = "http://test.api/api/v1"
@@ -167,14 +170,28 @@ async def upload_file_mp3() -> BinaryIO:
 
 
 @pytest_asyncio.fixture(scope="session")
-async def whisper_output_example1() -> Json:
+async def whisper_output_example1() -> WhisperTranscript:
     async with aiofiles.open("./tests/whisper.output.example1.json", "r") as json_file:
         j = await json_file.read()
-        return json.loads(j)
+        return WhisperTranscript.parse_obj(json.loads(j))
 
 
 @pytest_asyncio.fixture(scope="session")
-async def stt_simple_example1() -> Json:
+async def whisperx_output_example2() -> WhisperXTranscript:
+    async with aiofiles.open("./tests/whisperx.output.example2.json", "r") as json_file:
+        j = await json_file.read()
+        return WhisperXTranscript.parse_obj(json.loads(j))
+
+
+@pytest_asyncio.fixture(scope="session")
+async def stt_simple_example1() -> SttTranscript:
     async with aiofiles.open("./tests/stt_simple.example1.json", "r") as json_file:
         j = await json_file.read()
-        return json.loads(j)
+        return SttTranscript.parse_obj(json.loads(j))
+
+
+@pytest_asyncio.fixture(scope="session")
+async def stt_simple_example2() -> SttTranscript:
+    async with aiofiles.open("./tests/stt_simple.example2.json", "r") as json_file:
+        j = await json_file.read()
+        return SttTranscript.parse_obj(json.loads(j))

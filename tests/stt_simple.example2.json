@@ -1,0 +1,1044 @@
+{
+    "language": null,
+    "text": "",
+    "segments": [
+        {
+            "id": 0,
+            "start": 0.076,
+            "end": 2.337,
+            "words": [
+                {
+                    "word": "Je",
+                    "start": 0.076,
+                    "probability": 0.29,
+                    "end": 0.156
+                },
+                {
+                    "word": "vais",
+                    "start": 0.176,
+                    "probability": 0.096,
+                    "end": 0.276
+                },
+                {
+                    "word": "mettre",
+                    "start": 0.296,
+                    "probability": 0.658,
+                    "end": 0.476
+                },
+                {
+                    "word": "en",
+                    "start": 0.496,
+                    "probability": 0.608,
+                    "end": 0.576
+                },
+                {
+                    "word": "off,",
+                    "start": 0.616,
+                    "probability": 0.397,
+                    "end": 0.776
+                },
+                {
+                    "word": "et",
+                    "start": 0.836,
+                    "probability": 0.618,
+                    "end": 0.956
+                },
+                {
+                    "word": "voil\u00e0,",
+                    "start": 0.976,
+                    "probability": 0.592,
+                    "end": 1.196
+                },
+                {
+                    "word": "je",
+                    "start": 1.216,
+                    "probability": 0.58,
+                    "end": 1.296
+                },
+                {
+                    "word": "vais",
+                    "start": 1.316,
+                    "probability": 0.38,
+                    "end": 1.777
+                },
+                {
+                    "word": "juste",
+                    "start": 1.797,
+                    "probability": 0.28,
+                    "end": 1.997
+                },
+                {
+                    "word": "d'accord.",
+                    "start": 2.017,
+                    "probability": 0.812,
+                    "end": 2.297
+                }
+            ],
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "id": 1,
+            "start": 2.337,
+            "end": 5.838,
+            "words": [
+                {
+                    "word": "J'ai",
+                    "start": 2.337,
+                    "probability": 0.379,
+                    "end": 2.497
+                },
+                {
+                    "word": "d'accord",
+                    "start": 2.517,
+                    "probability": 0.642,
+                    "end": 3.197
+                },
+                {
+                    "word": "avec",
+                    "start": 3.237,
+                    "probability": 0.979,
+                    "end": 4.517
+                },
+                {
+                    "word": "Laurent",
+                    "start": 4.557,
+                    "probability": 0.597,
+                    "end": 4.838
+                },
+                {
+                    "word": "Kiddier.",
+                    "start": 4.858,
+                    "probability": 0.598,
+                    "end": 5.758
+                }
+            ],
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "id": 2,
+            "start": 5.838,
+            "end": 16.561,
+            "words": [
+                {
+                    "word": "Et",
+                    "start": 5.838,
+                    "probability": 0.853,
+                    "end": 6.918
+                },
+                {
+                    "word": "du",
+                    "start": 6.938,
+                    "probability": 0.885,
+                    "end": 7.038
+                },
+                {
+                    "word": "coup,",
+                    "start": 7.078,
+                    "probability": 0.651,
+                    "end": 7.238
+                },
+                {
+                    "word": "on",
+                    "start": 7.298,
+                    "probability": 0.698,
+                    "end": 7.578
+                },
+                {
+                    "word": "le",
+                    "start": 7.618,
+                    "probability": 0.471,
+                    "end": 7.738
+                },
+                {
+                    "word": "joue",
+                    "start": 7.758,
+                    "probability": 0.365,
+                    "end": 7.859
+                },
+                {
+                    "word": "pour,",
+                    "start": 7.879,
+                    "probability": 0.392,
+                    "end": 8.099
+                },
+                {
+                    "word": "on",
+                    "start": 8.159,
+                    "probability": 0.982,
+                    "end": 8.219
+                },
+                {
+                    "word": "s'en",
+                    "start": 8.239,
+                    "probability": 0.412,
+                    "end": 8.459
+                },
+                {
+                    "word": "a",
+                    "start": 8.479,
+                    "probability": 0.0,
+                    "end": 8.499
+                },
+                {
+                    "word": "la",
+                    "start": 8.519,
+                    "probability": 0.948,
+                    "end": 8.579
+                },
+                {
+                    "word": "relection,",
+                    "start": 8.599,
+                    "probability": 0.707,
+                    "end": 8.899
+                },
+                {
+                    "word": "je",
+                    "start": 8.919,
+                    "probability": 0.095,
+                    "end": 8.959
+                },
+                {
+                    "word": "m'apprends",
+                    "start": 8.999,
+                    "probability": 0.275,
+                    "end": 9.319
+                },
+                {
+                    "word": "et",
+                    "start": 9.359,
+                    "probability": 0.31,
+                    "end": 9.399
+                },
+                {
+                    "word": "qu'il",
+                    "start": 9.419,
+                    "probability": 0.733,
+                    "end": 9.519
+                },
+                {
+                    "word": "faudrait",
+                    "start": 9.559,
+                    "probability": 0.768,
+                    "end": 9.759
+                },
+                {
+                    "word": "que",
+                    "start": 9.779,
+                    "probability": 0.79,
+                    "end": 9.859
+                },
+                {
+                    "word": "ce",
+                    "start": 9.879,
+                    "probability": 0.837,
+                    "end": 9.939
+                },
+                {
+                    "word": "soit",
+                    "start": 9.979,
+                    "probability": 0.701,
+                    "end": 10.139
+                },
+                {
+                    "word": "effectivement...",
+                    "start": 10.179,
+                    "probability": 0.834,
+                    "end": 12.28
+                },
+                {
+                    "word": "Vous",
+                    "start": 12.3,
+                    "probability": 0.816,
+                    "end": 12.42
+                },
+                {
+                    "word": "avez",
+                    "start": 12.46,
+                    "probability": 0.785,
+                    "end": 12.62
+                },
+                {
+                    "word": "un",
+                    "start": 12.68,
+                    "probability": 0.418,
+                    "end": 12.76
+                },
+                {
+                    "word": "d\u00e9bitr\u00e9,",
+                    "start": 12.8,
+                    "probability": 0.742,
+                    "end": 13.28
+                },
+                {
+                    "word": "c'est-\u00e0-dire...",
+                    "start": 13.32,
+                    "probability": 0.48,
+                    "end": 13.86
+                },
+                {
+                    "word": "Oui,",
+                    "start": 13.9,
+                    "probability": 0.661,
+                    "end": 14.221
+                },
+                {
+                    "word": "malheureusement,",
+                    "start": 14.261,
+                    "probability": 0.844,
+                    "end": 15.061
+                },
+                {
+                    "word": "oui,",
+                    "start": 15.121,
+                    "probability": 0.504,
+                    "end": 15.321
+                },
+                {
+                    "word": "on",
+                    "start": 15.381,
+                    "probability": 0.374,
+                    "end": 15.461
+                },
+                {
+                    "word": "est",
+                    "start": 15.501,
+                    "probability": 0.244,
+                    "end": 15.561
+                },
+                {
+                    "word": "faits.",
+                    "start": 15.601,
+                    "probability": 0.446,
+                    "end": 16.521
+                }
+            ],
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "id": 3,
+            "start": 16.561,
+            "end": 17.202,
+            "words": [
+                {
+                    "word": "C'est",
+                    "start": 16.561,
+                    "probability": 0.688,
+                    "end": 16.681
+                },
+                {
+                    "word": "un",
+                    "start": 16.721,
+                    "probability": 0.008,
+                    "end": 16.761
+                },
+                {
+                    "word": "peu",
+                    "start": 16.781,
+                    "probability": 0.416,
+                    "end": 16.981
+                },
+                {
+                    "word": "compliqu\u00e9.",
+                    "start": 17.001,
+                    "probability": 0.033,
+                    "end": 17.182
+                }
+            ],
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "id": 4,
+            "start": 17.202,
+            "end": 18.542,
+            "words": [
+                {
+                    "word": "C'est",
+                    "start": 17.202,
+                    "probability": 0.01,
+                    "end": 17.282
+                },
+                {
+                    "word": "un",
+                    "start": 17.302,
+                    "probability": 0.393,
+                    "end": 17.382
+                },
+                {
+                    "word": "peu",
+                    "start": 17.402,
+                    "probability": 0.735,
+                    "end": 17.522
+                },
+                {
+                    "word": "compliqu\u00e9.",
+                    "start": 17.542,
+                    "probability": 0.583,
+                    "end": 18.502
+                }
+            ],
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "id": 5,
+            "start": 18.542,
+            "end": 19.862,
+            "words": [
+                {
+                    "word": "En",
+                    "start": 18.542,
+                    "probability": 0.71,
+                    "end": 18.622
+                },
+                {
+                    "word": "off,",
+                    "start": 18.682,
+                    "probability": 0.524,
+                    "end": 18.822
+                },
+                {
+                    "word": "et",
+                    "start": 18.862,
+                    "probability": 0.8,
+                    "end": 18.922
+                },
+                {
+                    "word": "je",
+                    "start": 18.962,
+                    "probability": 0.841,
+                    "end": 19.022
+                },
+                {
+                    "word": "reviens",
+                    "start": 19.062,
+                    "probability": 0.724,
+                    "end": 19.262
+                },
+                {
+                    "word": "\u00e0",
+                    "start": 19.282,
+                    "probability": 0.0,
+                    "end": 19.302
+                },
+                {
+                    "word": "la",
+                    "start": 19.322,
+                    "probability": 0.399,
+                    "end": 19.422
+                },
+                {
+                    "word": "fin",
+                    "start": 19.442,
+                    "probability": 0.332,
+                    "end": 19.542
+                },
+                {
+                    "word": "d'accord.",
+                    "start": 19.562,
+                    "probability": 0.56,
+                    "end": 19.862
+                }
+            ],
+            "speaker": "SPEAKER_00"
+        },
+        {
+            "id": 6,
+            "start": 22.337,
+            "end": 22.917,
+            "words": [
+                {
+                    "word": "d'accord,",
+                    "start": 22.337,
+                    "probability": 0.239,
+                    "end": 22.477
+                },
+                {
+                    "word": "merci.",
+                    "start": 22.537,
+                    "probability": 0.279,
+                    "end": 22.877
+                }
+            ],
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "id": 7,
+            "start": 22.917,
+            "end": 44.726,
+            "words": [
+                {
+                    "word": "Alors",
+                    "start": 22.917,
+                    "probability": 0.463,
+                    "end": 23.097
+                },
+                {
+                    "word": "en",
+                    "start": 23.157,
+                    "probability": 0.676,
+                    "end": 25.038
+                },
+                {
+                    "word": "fait,",
+                    "start": 25.078,
+                    "probability": 0.981,
+                    "end": 25.618
+                },
+                {
+                    "word": "on",
+                    "start": 25.718,
+                    "probability": 0.7,
+                    "end": 25.978
+                },
+                {
+                    "word": "est",
+                    "start": 26.038,
+                    "probability": 0.585,
+                    "end": 26.519
+                },
+                {
+                    "word": "3",
+                    "start": 26.038,
+                    "probability": 0.585,
+                    "end": 26.519
+                },
+                {
+                    "word": "journalistes",
+                    "start": 26.559,
+                    "probability": 0.896,
+                    "end": 27.199
+                },
+                {
+                    "word": "sur",
+                    "start": 27.259,
+                    "probability": 0.986,
+                    "end": 27.799
+                },
+                {
+                    "word": "un",
+                    "start": 27.919,
+                    "probability": 0.687,
+                    "end": 28.039
+                },
+                {
+                    "word": "papi,",
+                    "start": 28.059,
+                    "probability": 0.813,
+                    "end": 28.599
+                },
+                {
+                    "word": "une",
+                    "start": 28.659,
+                    "probability": 0.754,
+                    "end": 28.74
+                },
+                {
+                    "word": "enqu\u00eate",
+                    "start": 28.78,
+                    "probability": 0.777,
+                    "end": 29.18
+                },
+                {
+                    "word": "sur",
+                    "start": 29.24,
+                    "probability": 0.962,
+                    "end": 31.241
+                },
+                {
+                    "word": "l'Etat",
+                    "start": 31.281,
+                    "probability": 0.938,
+                    "end": 31.721
+                },
+                {
+                    "word": "actuelle",
+                    "start": 31.781,
+                    "probability": 0.81,
+                    "end": 32.541
+                },
+                {
+                    "word": "du",
+                    "start": 32.581,
+                    "probability": 0.998,
+                    "end": 32.661
+                },
+                {
+                    "word": "monde",
+                    "start": 32.701,
+                    "probability": 0.875,
+                    "end": 32.861
+                },
+                {
+                    "word": "de",
+                    "start": 32.901,
+                    "probability": 0.994,
+                    "end": 32.961
+                },
+                {
+                    "word": "la",
+                    "start": 33.001,
+                    "probability": 0.999,
+                    "end": 33.061
+                },
+                {
+                    "word": "charcuterie,",
+                    "start": 33.101,
+                    "probability": 0.805,
+                    "end": 34.382
+                },
+                {
+                    "word": "suite",
+                    "start": 34.422,
+                    "probability": 0.66,
+                    "end": 34.882
+                },
+                {
+                    "word": "la",
+                    "start": 34.942,
+                    "probability": 0.995,
+                    "end": 35.002
+                },
+                {
+                    "word": "publication",
+                    "start": 35.062,
+                    "probability": 0.9,
+                    "end": 35.762
+                },
+                {
+                    "word": "de",
+                    "start": 35.802,
+                    "probability": 0.969,
+                    "end": 35.882
+                },
+                {
+                    "word": "votre",
+                    "start": 35.922,
+                    "probability": 0.814,
+                    "end": 36.082
+                },
+                {
+                    "word": "avis",
+                    "start": 36.122,
+                    "probability": 0.804,
+                    "end": 36.323
+                },
+                {
+                    "word": "s'\u00e9tait,",
+                    "start": 36.363,
+                    "probability": 0.631,
+                    "end": 37.323
+                },
+                {
+                    "word": "l'id\u00e9e",
+                    "start": 37.363,
+                    "probability": 0.854,
+                    "end": 37.623
+                },
+                {
+                    "word": "c'est",
+                    "start": 37.683,
+                    "probability": 0.844,
+                    "end": 37.943
+                },
+                {
+                    "word": "de",
+                    "start": 37.963,
+                    "probability": 0.874,
+                    "end": 38.423
+                },
+                {
+                    "word": "voir",
+                    "start": 38.483,
+                    "probability": 0.846,
+                    "end": 38.844
+                },
+                {
+                    "word": "qu'il",
+                    "start": 38.864,
+                    "probability": 0.69,
+                    "end": 39.044
+                },
+                {
+                    "word": "y",
+                    "start": 39.064,
+                    "probability": 0.942,
+                    "end": 39.084
+                },
+                {
+                    "word": "a",
+                    "start": 39.104,
+                    "probability": 0.366,
+                    "end": 39.144
+                },
+                {
+                    "word": "quand",
+                    "start": 39.184,
+                    "probability": 0.525,
+                    "end": 39.324
+                },
+                {
+                    "word": "m\u00eame",
+                    "start": 39.344,
+                    "probability": 0.556,
+                    "end": 39.504
+                },
+                {
+                    "word": "des",
+                    "start": 39.524,
+                    "probability": 0.946,
+                    "end": 40.244
+                },
+                {
+                    "word": "choses",
+                    "start": 40.284,
+                    "probability": 0.794,
+                    "end": 40.524
+                },
+                {
+                    "word": "qui",
+                    "start": 40.584,
+                    "probability": 0.811,
+                    "end": 40.864
+                },
+                {
+                    "word": "bougent",
+                    "start": 40.904,
+                    "probability": 0.746,
+                    "end": 41.685
+                },
+                {
+                    "word": "au",
+                    "start": 41.725,
+                    "probability": 0.996,
+                    "end": 41.785
+                },
+                {
+                    "word": "niveau",
+                    "start": 41.825,
+                    "probability": 0.886,
+                    "end": 42.025
+                },
+                {
+                    "word": "des",
+                    "start": 42.045,
+                    "probability": 0.991,
+                    "end": 42.145
+                },
+                {
+                    "word": "industriels,",
+                    "start": 42.185,
+                    "probability": 0.768,
+                    "end": 42.745
+                },
+                {
+                    "word": "au",
+                    "start": 42.805,
+                    "probability": 0.982,
+                    "end": 42.865
+                },
+                {
+                    "word": "niveau",
+                    "start": 42.885,
+                    "probability": 0.898,
+                    "end": 43.105
+                },
+                {
+                    "word": "des",
+                    "start": 43.145,
+                    "probability": 0.949,
+                    "end": 43.225
+                },
+                {
+                    "word": "charcutis,",
+                    "start": 43.245,
+                    "probability": 0.775,
+                    "end": 44.246
+                },
+                {
+                    "word": "on",
+                    "start": 44.286,
+                    "probability": 0.622,
+                    "end": 44.386
+                },
+                {
+                    "word": "va",
+                    "start": 44.406,
+                    "probability": 0.745,
+                    "end": 44.566
+                },
+                {
+                    "word": "dire",
+                    "start": 44.606,
+                    "probability": 0.509,
+                    "end": 44.726
+                }
+            ],
+            "speaker": "SPEAKER_01"
+        },
+        {
+            "id": 8,
+            "start": 45.566,
+            "end": 60.696,
+            "words": [
+                {
+                    "word": "plus",
+                    "start": 45.566,
+                    "probability": 0.821,
+                    "end": 45.726
+                },
+                {
+                    "word": "artiste",
+                    "start": 45.766,
+                    "probability": 0.827,
+                    "end": 46.087
+                },
+                {
+                    "word": "\u00e0",
+                    "start": 46.107,
+                    "probability": 0.0,
+                    "end": 46.127
+                },
+                {
+                    "word": "l'eau,",
+                    "start": 46.147,
+                    "probability": 0.255,
+                    "end": 47.988
+                },
+                {
+                    "word": "moi",
+                    "start": 48.008,
+                    "probability": 0.468,
+                    "end": 48.148
+                },
+                {
+                    "word": "j'ai",
+                    "start": 48.188,
+                    "probability": 0.911,
+                    "end": 48.548
+                },
+                {
+                    "word": "des",
+                    "start": 48.588,
+                    "probability": 0.941,
+                    "end": 48.708
+                },
+                {
+                    "word": "petites",
+                    "start": 48.768,
+                    "probability": 0.605,
+                    "end": 49.169
+                },
+                {
+                    "word": "probl\u00e8mes",
+                    "start": 49.229,
+                    "probability": 0.839,
+                    "end": 49.689
+                },
+                {
+                    "word": "de...",
+                    "start": 49.729,
+                    "probability": 0.837,
+                    "end": 51.01
+                },
+                {
+                    "word": "pas",
+                    "start": 51.05,
+                    "probability": 0.6,
+                    "end": 51.15
+                },
+                {
+                    "word": "de",
+                    "start": 51.17,
+                    "probability": 0.72,
+                    "end": 51.23
+                },
+                {
+                    "word": "compren\u00e7ons,",
+                    "start": 51.27,
+                    "probability": 0.684,
+                    "end": 51.63
+                },
+                {
+                    "word": "mais",
+                    "start": 51.65,
+                    "probability": 0.692,
+                    "end": 51.73
+                },
+                {
+                    "word": "je",
+                    "start": 51.75,
+                    "probability": 0.998,
+                    "end": 51.79
+                },
+                {
+                    "word": "voudrais",
+                    "start": 51.81,
+                    "probability": 0.819,
+                    "end": 52.111
+                },
+                {
+                    "word": "vraiment",
+                    "start": 52.151,
+                    "probability": 0.889,
+                    "end": 52.451
+                },
+                {
+                    "word": "v\u00e9rifier",
+                    "start": 52.491,
+                    "probability": 0.888,
+                    "end": 52.891
+                },
+                {
+                    "word": "parce",
+                    "start": 52.911,
+                    "probability": 0.935,
+                    "end": 53.071
+                },
+                {
+                    "word": "que",
+                    "start": 53.091,
+                    "probability": 0.77,
+                    "end": 53.191
+                },
+                {
+                    "word": "j'ai",
+                    "start": 53.231,
+                    "probability": 0.691,
+                    "end": 53.351
+                },
+                {
+                    "word": "l'impression",
+                    "start": 53.411,
+                    "probability": 0.874,
+                    "end": 53.892
+                },
+                {
+                    "word": "que",
+                    "start": 53.932,
+                    "probability": 0.843,
+                    "end": 54.072
+                },
+                {
+                    "word": "dans",
+                    "start": 54.112,
+                    "probability": 0.92,
+                    "end": 54.212
+                },
+                {
+                    "word": "les",
+                    "start": 54.252,
+                    "probability": 0.896,
+                    "end": 54.332
+                },
+                {
+                    "word": "nitrits",
+                    "start": 54.372,
+                    "probability": 0.751,
+                    "end": 54.652
+                },
+                {
+                    "word": "et",
+                    "start": 54.692,
+                    "probability": 0.138,
+                    "end": 54.732
+                },
+                {
+                    "word": "les",
+                    "start": 54.772,
+                    "probability": 0.568,
+                    "end": 54.892
+                },
+                {
+                    "word": "nitrats,",
+                    "start": 54.912,
+                    "probability": 0.9,
+                    "end": 55.813
+                },
+                {
+                    "word": "quand",
+                    "start": 55.833,
+                    "probability": 0.883,
+                    "end": 55.993
+                },
+                {
+                    "word": "on",
+                    "start": 56.053,
+                    "probability": 0.856,
+                    "end": 56.193
+                },
+                {
+                    "word": "parle",
+                    "start": 56.233,
+                    "probability": 0.988,
+                    "end": 56.474
+                },
+                {
+                    "word": "de",
+                    "start": 56.494,
+                    "probability": 0.932,
+                    "end": 56.614
+                },
+                {
+                    "word": "charcuterie",
+                    "start": 56.654,
+                    "probability": 0.844,
+                    "end": 58.175
+                },
+                {
+                    "word": "s\u00e8che",
+                    "start": 58.215,
+                    "probability": 0.833,
+                    "end": 58.695
+                },
+                {
+                    "word": "au",
+                    "start": 58.715,
+                    "probability": 0.832,
+                    "end": 58.815
+                },
+                {
+                    "word": "cuite,",
+                    "start": 58.875,
+                    "probability": 0.777,
+                    "end": 59.616
+                },
+                {
+                    "word": "les",
+                    "start": 59.636,
+                    "probability": 0.967,
+                    "end": 59.736
+                },
+                {
+                    "word": "envelopules",
+                    "start": 59.776,
+                    "probability": 0.306,
+                    "end": 60.116
+                },
+                {
+                    "word": "sont",
+                    "start": 60.136,
+                    "probability": 0.86,
+                    "end": 60.296
+                },
+                {
+                    "word": "pas",
+                    "start": 60.336,
+                    "probability": 0.865,
+                    "end": 60.416
+                },
+                {
+                    "word": "les",
+                    "start": 60.436,
+                    "probability": 0.895,
+                    "end": 60.516
+                },
+                {
+                    "word": "m\u00eames.",
+                    "start": 60.556,
+                    "probability": 0.938,
+                    "end": 60.696
+                }
+            ],
+            "speaker": "SPEAKER_01"
+        }
+    ]
+}
