@@ -16,7 +16,7 @@ from pydantic import EmailStr, Json
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 
 from stt.api.main import app
-from stt.db.database import DBBase, get_db
+from stt.db.database import SqlaBase, get_db
 from stt.models.interview import DBInputInterviewUpdate
 from stt.models.users import UserCreate, UserRead
 
@@ -48,7 +48,7 @@ async def db_test_engine():
     #     create_database(async_test_engine.url)
 
     async with async_test_engine.begin() as conn:
-        await conn.run_sync(DBBase.metadata.create_all)
+        await conn.run_sync(SqlaBase.metadata.create_all)
     yield async_test_engine
 
 

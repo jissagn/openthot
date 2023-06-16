@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 
 from stt.api.v1.routers import auth
 from stt.db import rw
-from stt.db.database import DBUserBase, get_db
+from stt.db.database import SqlaUserBase, get_db
 from stt.exceptions import APIInternalError, APIInterviewNotFound
 from stt.models.interview import (
     APIInputInterviewCreate,
@@ -36,7 +36,7 @@ router = APIRouter(
 )
 async def list_interviews(
     db=Depends(get_db),
-    current_user: DBUserBase = Depends(auth.current_active_user),
+    current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
     """List all existing interviews."""
     return list(await rw.get_interviews(db, current_user))
@@ -53,7 +53,7 @@ async def create_interview(
     interview: APIInputInterviewCreate = Depends(),
     audio_file: UploadFile = File(description="The audio file of the interview."),
     db=Depends(get_db),
-    current_user: DBUserBase = Depends(auth.current_active_user),
+    current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
     """Create a new interview to be transcripted."""
     audio_file_name: str = audio_file.filename or "interview"
@@ -96,7 +96,7 @@ async def create_interview(
 async def delete_interview(
     interview_id: int,
     db=Depends(get_db),
-    current_user: DBUserBase = Depends(auth.current_active_user),
+    current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
     """Delete a specific interview."""
     if not await rw.delete_interview(db, current_user, interview_id):
@@ -113,7 +113,7 @@ async def delete_interview(
 async def get_interview(
     interview_id: int,
     db=Depends(get_db),
-    current_user: DBUserBase = Depends(auth.current_active_user),
+    current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
     """Get a specific interview."""
     interview = await rw.get_interview(db, current_user, interview_id)
@@ -131,7 +131,7 @@ async def get_interview(
 async def get_interview_audio(
     interview_id: int,
     db=Depends(get_db),
-    current_user: DBUserBase = Depends(auth.current_active_user),
+    current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
     """Stream audio file of a given interview."""
     interview = await rw.get_interview(db, current_user, interview_id)
@@ -176,7 +176,7 @@ async def update_interview(
     interview_id: int,
     interview: APIInputInterviewUpdate,
     db=Depends(get_db),
-    current_user: DBUserBase = Depends(auth.current_active_user),
+    current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
     """Update a specific interview."""
     interview_upd = DBInputInterviewUpdate(**interview.dict(exclude_unset=True))

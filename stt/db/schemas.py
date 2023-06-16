@@ -5,13 +5,13 @@ from fastapi_users_db_sqlalchemy.generics import GUID
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from stt.db.database import DBBase, DBUserBase
+from stt.db.database import SqlaBase, SqlaUserBase
 from stt.models.interview import InterviewSpeakers, InterviewStatus
 from stt.models.transcript.whisper import WhisperTranscript
 from stt.models.transcript.whisperx import WhisperXTranscript
 
 
-class DBInterview(DBBase):
+class SqlaInterview(SqlaBase):
     __tablename__ = "interviews"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -20,7 +20,7 @@ class DBInterview(DBBase):
     creator_id: Mapped[uuid.UUID] = mapped_column(
         GUID, ForeignKey("user.id", ondelete="cascade"), nullable=False
     )  # creator_id = Column(uuid.UUID, ForeignKey("users.id"))
-    creator: Mapped["DBUser"] = relationship("DBUser", back_populates="interviews")
+    creator: Mapped["SqlaUser"] = relationship("SqlaUser", back_populates="interviews")
     name: Mapped[str] = mapped_column(String, nullable=False, unique=False)
     status: Mapped[InterviewStatus] = mapped_column(
         String, nullable=False, default=InterviewStatus.uploaded
@@ -48,7 +48,7 @@ class DBInterview(DBBase):
     )
 
 
-class DBUser(DBUserBase):
-    interviews: Mapped[list["DBInterview"]] = relationship(
-        "DBInterview", lazy="joined", back_populates="creator"
+class SqlaUser(SqlaUserBase):
+    interviews: Mapped[list["SqlaInterview"]] = relationship(
+        "SqlaInterview", lazy="joined", back_populates="creator"
     )

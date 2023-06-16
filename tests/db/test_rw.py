@@ -4,14 +4,14 @@ from pathlib import Path
 import pytest
 from pydantic import FilePath
 
-from stt.db.database import DBUserBase
+from stt.db.database import SqlaUserBase
 from stt.db.rw import create_interview
 from stt.models.interview import DBInputInterviewCreate, InterviewStatus
 
 
 @pytest.mark.asyncio
 async def test_create_interview_valid_input(async_test_session):
-    user = DBUserBase(id=uuid.UUID("ffffffff-ffff-ffff-ffff-ffffffffffff"))
+    user = SqlaUserBase(id=uuid.UUID("ffffffff-ffff-ffff-ffff-ffffffffffff"))
 
     audio_location: FilePath = Path("./tests/bonjour.mp3")
     interview_create = DBInputInterviewCreate(

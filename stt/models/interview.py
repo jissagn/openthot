@@ -23,12 +23,12 @@ class InterviewStatus(str, Enum):
 
 # Generic input/output Pydantic models here :
 # - 'API*' are related to API data exchanges
-# - 'DB*'  are for objects interfacing the DB schema
+# - 'DB*'  are for objects interfacing the SqlAlchemy schemas
 #
 #  Usage:
-#  APIInputCreate --> DBInputCreate --> Db schema
-#  APIInputUpdate --> DBInputUpdate --> Db schema
-#  APIOuput       <-- DBOutput      <-- Db schema
+#  APIInputCreate --> DBInputCreate --> Sqla schema
+#  APIInputUpdate --> DBInputUpdate --> Sqla schema
+#  APIOuput       <-- DBOutput      <-- Sqla schema
 #
 # - Why do we need a DBInputCreate ?
 #   Because the DB might require non-nullable fields that the
@@ -51,8 +51,8 @@ class APIInputInterviewCreate(BaseModel):
     Actual binary audio file in not handled in body but in
     form data, therefore it is not present in this class.
     """
-
     name: str | None = None
+
 
 
 class APIInputInterviewUpdate(BaseModel):
