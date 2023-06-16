@@ -10,7 +10,7 @@ _R = TypeVar("_R")
 
 def async_task(app: Celery, *args: Any, **kwargs: Any):
     """Decorator that allow to declare async functions as tasks,
-    hence allowing usage of async interfaces for DB.
+    hence allowing usage of async functions, e.g. async interface for DB.
     Thanks to : https://stackoverflow.com/a/75437648
     Another interesting approach : https://stackoverflow.com/a/66318397"""
 

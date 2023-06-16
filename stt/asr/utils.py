@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime
+import time
 
 import structlog
 
@@ -21,7 +21,7 @@ class AsyncProcRunner:
             f"Calling `{self._proc_call[0]}`",
             proc_call=" ".join(self._proc_call),
         )
-        start_time = datetime.now()
+        start_time = time.perf_counter()
         proc = await asyncio.create_subprocess_exec(
             *self._proc_call, stdout=asyncio.subprocess.PIPE
         )
@@ -30,7 +30,7 @@ class AsyncProcRunner:
         # Parse outputs
         self.stdout = str(proc_out, "utf8") if proc_out else None
         self.stderr = str(proc_err, "utf8") if proc_err else None
-        self.duration = (datetime.now() - start_time).total_seconds()
+        self.duration = time.perf_counter() - start_time
         self.return_code = proc.returncode
         if proc.returncode != 0:
             logger.error(

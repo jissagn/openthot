@@ -16,7 +16,6 @@ from stt.models.interview import (
     APIOutputInterview,
     DBInputInterviewCreate,
     DBInputInterviewUpdate,
-    TranscriptorSource,
 )
 from stt.object_storage import save_audio_file
 from stt.tasks.tasks import process_audio_task
@@ -75,7 +74,6 @@ async def create_interview(
             user_id=current_user.id,
             interview_id=new_interview.id,
             audio_location=new_interview.audio_location,
-            transcriptor_source=TranscriptorSource.whisper,
         )
     except Exception as e:
         logger.exception("Could not launch task")

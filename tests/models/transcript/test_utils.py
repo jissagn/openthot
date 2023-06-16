@@ -1,5 +1,3 @@
-from pydantic import Json
-
 from stt.models.transcript.stt import SttTranscript
 from stt.models.transcript.utils import wt2stt, wtx2stt
 from stt.models.transcript.whisper import WhisperTranscript
