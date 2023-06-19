@@ -51,8 +51,8 @@ class APIInputInterviewCreate(BaseModel):
     Actual binary audio file in not handled in body but in
     form data, therefore it is not present in this class.
     """
-    name: str | None = None
 
+    name: str | None = None
 
 
 class APIInputInterviewUpdate(BaseModel):
@@ -95,7 +95,7 @@ class APIOutputInterview(BaseModel):
         return v if v else None
 
     @classmethod
-    def from_orm(cls, obj):  # obj is a db schema object
+    def from_orm(cls, obj):  # obj is an sqla schema object
         """
         We first need to parse the db schema object through
         a `DBOutputInterview`, then we can parse it to read

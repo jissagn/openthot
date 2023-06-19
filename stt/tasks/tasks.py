@@ -1,22 +1,17 @@
-from datetime import datetime
+import contextlib
 from typing import Type
 
 import structlog
 from celery import Celery
 from pydantic import FilePath
 
-from stt.asr import Transcriptor
-from stt.asr.whisper import Whisper
-from stt.asr.whisperx import WhisperX
+from stt.asr.process import process_audio
+from stt.asr.transcriptors import Transcriptor
+from stt.asr.transcriptors.whisper import Whisper
+from stt.asr.transcriptors.whisperx import WhisperX
 from stt.config import get_settings
-from stt.db import rw
-from stt.db.database import async_session
-from stt.models.interview import (
-    DBInputInterviewUpdate,
-    InterviewId,
-    InterviewStatus,
-    TranscriptorSource,
-)
+from stt.db.database import get_db
+from stt.models.interview import InterviewId, TranscriptorSource
 from stt.models.users import UserId
 from stt.tasks import async_task
 
@@ -34,6 +29,11 @@ transcriptors: dict[TranscriptorSource, Type[Transcriptor]] = {
     TranscriptorSource.whisperx: WhisperX,
 }
 
+transcriptor_source = get_settings().asr_engine
+transcriptor_class = transcriptors[transcriptor_source]
+
+get_db_context = contextlib.asynccontextmanager(get_db)
+
 
 @async_task(celery, bind=True)
 async def process_audio_task(
@@ -41,45 +41,25 @@ async def process_audio_task(
     user_id: UserId,
     interview_id: InterviewId,
     audio_location: FilePath,
-    transcriptor_source: TranscriptorSource,
 ):
-    try:
-        user_id = UserId(user_id)  # type: ignore
-    except Exception as e:
-        raise Exception(
-            f"Provided user_id ({user_id}, type: {type(user_id)}) not a valid UserId."
-        ) from e
-    async with async_session() as session:
-        interview = await rw.get_interview(
-            session=session, user=user_id, interview_id=interview_id
-        )
-        if interview is None:
+    if not isinstance(user_id, UserId):
+        try:
+            user_id = UserId(user_id)
+        except Exception as e:
             await logger.aexception(
-                f"No interview {interview_id} (type: {type(interview_id)}) "
-                + f"for user {user_id}(type: {type(user_id)})"
+                f"Provided user_id ({user_id}, type: {type(user_id)}) not a valid UserId.",
+                user_id=user_id,
+                interview_id=interview_id,
+                audio_file_path=audio_location,
             )
-            raise Exception  # TODO : raise appropriate exception
-        await rw.update_interview(
-            session=session,
-            interview_db=interview,
-            interview_upd=DBInputInterviewUpdate(status=InterviewStatus.processing),
-        )
-        await logger.ainfo(
-            "Calling transcriptor",
-            interview_id=interview_id,
-            audio_file_path=audio_location,
-        )
-        tscr_class = transcriptors[transcriptor_source]
-        tscr = tscr_class(audio_file_path=audio_location)
-        await tscr.run_transcription()
-        await rw.update_interview(
-            session=session,
-            interview_db=interview,
-            interview_upd=DBInputInterviewUpdate(
-                status=InterviewStatus.transcripted,
-                transcript_duration_s=int(tscr.transcript_duration) + 1,  # ⇔ ceil
-                transcript_ts=datetime.utcnow(),
-                transcript_raw=tscr.transcript,
-                transcript_source=transcriptor_source,
-            ),
-        )
+            raise Exception from e
+    try:
+        async with get_db_context() as async_session:
+            await process_audio(
+                session=async_session,
+                user_id=user_id,
+                interview_id=interview_id,
+                audio_location=audio_location,
+            )
+    except Exception:
+        self.retry(countdown=1)

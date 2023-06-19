@@ -97,7 +97,7 @@ async def update_interview(
                     json.dumps(future_value),
                 )
 
-            elif field in "transcript_raw":
+            elif field == "transcript_raw":
                 setattr(interview_db, field, json.dumps(update_data[field]))
             else:
                 setattr(interview_db, field, update_data[field])
