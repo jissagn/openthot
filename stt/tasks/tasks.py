@@ -1,3 +1,4 @@
+import contextlib
 from typing import Type
 
 import structlog
@@ -9,6 +10,7 @@ from stt.asr.transcriptors import Transcriptor
 from stt.asr.transcriptors.whisper import Whisper
 from stt.asr.transcriptors.whisperx import WhisperX
 from stt.config import get_settings
+from stt.db.database import get_db
 from stt.models.interview import InterviewId, TranscriptorSource
 from stt.models.users import UserId
 from stt.tasks import async_task
@@ -30,6 +32,8 @@ transcriptors: dict[TranscriptorSource, Type[Transcriptor]] = {
 transcriptor_source = get_settings().asr_engine
 transcriptor_class = transcriptors[transcriptor_source]
 
+get_db_context = contextlib.asynccontextmanager(get_db)
+
 
 @async_task(celery, bind=True)
 async def process_audio_task(
@@ -50,8 +54,12 @@ async def process_audio_task(
             )
             raise Exception from e
     try:
-        await process_audio(
-            user_id=user_id, interview_id=interview_id, audio_location=audio_location
-        )
+        async with get_db_context() as async_session:
+            await process_audio(
+                session=async_session,
+                user_id=user_id,
+                interview_id=interview_id,
+                audio_location=audio_location,
+            )
     except Exception:
         self.retry(countdown=1)
