@@ -56,8 +56,8 @@ jobs:
           poetry run pytest
         env:
           ASR_ENGINE: whisperx
-          CELERY_BROKER_URL: sqla:///./data/celery_broker.sqlite
-          CELERY_RESULT_BACKEND: sqla:///./data/celery_backend.sqlite
+          CELERY_BROKER_URL: sqla+sqlite:///./data/celery_broker.sqlite
+          CELERY_RESULT_BACKEND: db+sqlite:///./data/celery_backend.sqlite
           DATABASE_URL: sqlite+aiosqlite:///./data/sql_app.db
           OBJECT_STORAGE_PATH: ./data/object_storage
           WHISPER_MODEL_SIZE: tiny
