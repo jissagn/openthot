@@ -90,25 +90,32 @@ class APIOutputInterview(BaseModel):
     update_ts: datetime
     upload_ts: datetime
 
-    @validator("speakers")
-    def load_speakers(cls, v):
-        # Enforce {} to None
-        return v if v else None
-
     @classmethod
     def from_orm(cls, obj):  # obj is an sqla schema object
         """
         We first need to parse the db schema object through
         a `DBOutputInterview`, then we can parse it to read
         `transcript_raw` et set `transcript`.
+        As `speakers` depends in `transcript`, its value
+        is also set in this function afterwards.
         """
         db = DBOutputInterview.from_orm(obj)
         r = super().from_orm(db)
         if tr := db.transcript_raw:
+            # Set transcript
             if isinstance(tr, WhisperTranscript):
                 r.transcript = wt2stt(tr)
             elif isinstance(tr, WhisperXTranscript):
                 r.transcript = wtx2stt(tr)
+
+            # Set speakers
+            speakers = set()
+            if r.transcript:
+                speakers = r.transcript.speakers
+            assigned_speakers = r.speakers if r.speakers else {}
+            speakers_default = {s: s for s in speakers}
+            returned_speakers = speakers_default | assigned_speakers
+            r.speakers = returned_speakers if returned_speakers else None
         return r
 
     class Config:

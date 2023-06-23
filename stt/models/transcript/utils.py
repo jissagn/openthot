@@ -4,7 +4,7 @@ from stt.models.transcript.whisperx import WhisperXTranscript, WhisperXWord
 
 
 def wt2stt(wt: WhisperTranscript) -> SttTranscript:
-    stt = SttTranscript(language=wt.language, text=wt.text, segments=[])
+    stt = SttTranscript(language=wt.language, text=wt.text, segments=[], speakers=set())
     for wt_seg in wt.segments:
         stts = SttSegment(id=wt_seg.id, start=wt_seg.start, end=wt_seg.end, words=[])
         for wt_word in wt_seg.words:
@@ -15,11 +15,13 @@ def wt2stt(wt: WhisperTranscript) -> SttTranscript:
 
 
 def wtx2stt(wxt: WhisperXTranscript) -> SttTranscript:
-    stt = SttTranscript(language=None, text="", segments=[])
+    stt = SttTranscript(language=None, text="", segments=[], speakers=set())
     prev_word = WhisperXWord(
         word="", start=0.0, end=0.0, score=1.0, speaker=None
     ).dict()
     for i, wxt_seg in enumerate(wxt.segments):
+        if wxt_seg.speaker:
+            stt.speakers.add(wxt_seg.speaker)
         stts = SttSegment(
             id=i,
             start=wxt_seg.start,
