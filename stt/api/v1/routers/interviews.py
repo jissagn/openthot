@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+import librosa
 import structlog
 from fastapi import APIRouter, Depends, File, UploadFile
 from fastapi.encoders import jsonable_encoder
@@ -59,10 +60,12 @@ async def create_interview(
 
     persistent_location = await save_audio_file(audio_file)
     await logger.adebug("Just wrote audio file.")
+    audio_duration = librosa.get_duration(path=persistent_location)
     interview_create = DBInputInterviewCreate(
         name=interview.name or str(Path(audio_file_name).with_suffix("")),
         audio_filename=audio_file_name,
         audio_location=persistent_location,
+        audio_duration=audio_duration,
     )
     new_interview = await rw.create_interview(
         db,

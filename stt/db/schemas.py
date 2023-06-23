@@ -2,7 +2,7 @@ import datetime
 import uuid
 
 from fastapi_users_db_sqlalchemy.generics import GUID
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text, func
+from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from stt.db.database import SqlaBase, SqlaUserBase
@@ -17,6 +17,9 @@ class SqlaInterview(SqlaBase):
     id = Column(Integer, primary_key=True, index=True)
     audio_location: Mapped[str] = mapped_column(String, nullable=False)
     audio_filename: Mapped[str] = mapped_column(String, nullable=False)
+    audio_duration: Mapped[float] = mapped_column(
+        Float, nullable=False, server_default="0.0"
+    )
     creator_id: Mapped[uuid.UUID] = mapped_column(
         GUID, ForeignKey("user.id", ondelete="cascade"), nullable=False
     )  # creator_id = Column(uuid.UUID, ForeignKey("users.id"))
