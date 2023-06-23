@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel, FilePath, validator
+from pydantic import BaseModel, FilePath, confloat, validator
 
 from stt.models.transcript import TranscriptorSource
 from stt.models.transcript.stt import SttTranscript
@@ -77,6 +77,7 @@ class APIOutputInterview(BaseModel):
     """
 
     audio_filename: str
+    audio_duration: confloat(gt=0.0)  # type: ignore
     creator_id: UserId
     id: InterviewId
     name: str
@@ -123,6 +124,7 @@ class DBInputInterviewCreate(BaseModel):
     name: str
     audio_filename: str
     audio_location: FilePath
+    audio_duration: confloat(gt=0.0)  # type: ignore
 
 
 class DBInputInterviewUpdate(BaseModel):
@@ -151,6 +153,7 @@ class DBOutputInterview(BaseModel):
 
     audio_filename: str
     audio_location: FilePath
+    audio_duration: confloat(gt=0.0)  # type: ignore
     creator_id: UserId
     id: InterviewId
     name: str

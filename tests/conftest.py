@@ -187,7 +187,10 @@ async def sqla_user(async_user_test_session):
 @pytest_asyncio.fixture(scope="function")
 async def sqla_interview(async_test_session, sqla_user):
     interview = DBInputInterviewCreate(
-        name="test interview", audio_filename="test.mp3", audio_location=MP3_FILE_PATH
+        name="test interview",
+        audio_filename="test.mp3",
+        audio_location=MP3_FILE_PATH,
+        audio_duration=0.1,
     )
     return await create_interview(
         async_test_session,

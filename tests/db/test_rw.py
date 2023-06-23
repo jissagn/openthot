@@ -18,6 +18,7 @@ async def test_create_interview_valid_input(async_test_session):
         name="Test Interview",
         audio_filename="Some filename",
         audio_location=audio_location,
+        audio_duration=0.1,
     )
     result = await create_interview(async_test_session, user, interview_create)
     assert result.name == interview_create.name
