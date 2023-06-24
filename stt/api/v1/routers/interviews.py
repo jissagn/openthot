@@ -10,13 +10,14 @@ from fastapi.responses import FileResponse
 from stt.api.v1.routers import auth
 from stt.db import rw
 from stt.db.database import SqlaUserBase, get_db
-from stt.exceptions import APIInternalError, APIInterviewNotFound
+from stt.exceptions import APIAudiofileMalformed, APIInternalError, APIInterviewNotFound
 from stt.models.interview import (
     APIInputInterviewCreate,
     APIInputInterviewUpdate,
     APIOutputInterview,
     DBInputInterviewCreate,
     DBInputInterviewUpdate,
+    InterviewId,
 )
 from stt.object_storage import save_audio_file
 from stt.tasks.tasks import process_audio_task
@@ -47,7 +48,11 @@ async def list_interviews(
     response_model=APIOutputInterview,
     responses={
         APIInternalError.status_code: {"description": APIInternalError.detail},
+        APIAudiofileMalformed.status_code: {
+            "description": APIAudiofileMalformed.detail
+        },
     },
+    response_model_exclude_none=True,
 )
 async def create_interview(
     interview: APIInputInterviewCreate = Depends(),
@@ -60,7 +65,14 @@ async def create_interview(
 
     persistent_location = await save_audio_file(audio_file)
     await logger.adebug("Just wrote audio file.")
-    audio_duration = librosa.get_duration(path=persistent_location)
+    try:
+        audio_duration = librosa.get_duration(path=persistent_location)
+    except Exception as e:
+        logger.aexception(
+            "Could not load audio file", persistent_location=persistent_location
+        )
+        os.remove(persistent_location)
+        raise APIAudiofileMalformed from e
     interview_create = DBInputInterviewCreate(
         name=interview.name or str(Path(audio_file_name).with_suffix("")),
         audio_filename=audio_file_name,
@@ -95,7 +107,7 @@ async def create_interview(
     },
 )
 async def delete_interview(
-    interview_id: int,
+    interview_id: InterviewId,
     db=Depends(get_db),
     current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
@@ -112,7 +124,7 @@ async def delete_interview(
     },
 )
 async def get_interview(
-    interview_id: int,
+    interview_id: InterviewId,
     db=Depends(get_db),
     current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
@@ -130,7 +142,7 @@ async def get_interview(
     },
 )
 async def get_interview_audio(
-    interview_id: int,
+    interview_id: InterviewId,
     db=Depends(get_db),
     current_user: SqlaUserBase = Depends(auth.current_active_user),
 ):
@@ -155,7 +167,7 @@ async def get_interview_audio(
 
 # @router.websocket("/{interview_id}/status")
 # async def websocket_endpoint(websocket: WebSocket,
-#     interview_id: int,
+#     interview_id: InterviewId,
 #     db=Depends(get_db),
 #     current_user: DBUserBase = Depends(auth.current_active_user)):
 #     await websocket.accept()
@@ -174,7 +186,7 @@ async def get_interview_audio(
     },
 )
 async def update_interview(
-    interview_id: int,
+    interview_id: InterviewId,
     interview: APIInputInterviewUpdate,
     db=Depends(get_db),
     current_user: SqlaUserBase = Depends(auth.current_active_user),
