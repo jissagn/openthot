@@ -27,7 +27,7 @@ class SqlaInterview(SqlaBase):
     name: Mapped[str] = mapped_column(String, nullable=False, unique=False)
     status: Mapped[InterviewStatus] = mapped_column(
         String, nullable=False, default=InterviewStatus.uploaded
-    )  # TODO : only valid interview status
+    )
     transcript_source: Mapped[WhisperTranscript | WhisperXTranscript] = mapped_column(
         String, nullable=True
     )
