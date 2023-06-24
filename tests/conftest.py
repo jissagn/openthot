@@ -1,6 +1,7 @@
 import asyncio
 import contextlib
 import json
+import os
 from io import BytesIO
 from pathlib import Path
 from typing import BinaryIO
@@ -28,6 +29,7 @@ from stt.models.users import UserCreate, UserRead
 
 V1_PREFIX = "http://test.api/api/v1"
 MP3_FILE_PATH = Path("./tests/bonjour.mp3")
+TEST_DB = "./data/test.db"
 
 
 @pytest.fixture(scope="session")
@@ -48,7 +50,7 @@ def event_loop():
 @pytest_asyncio.fixture(scope="session")
 async def db_test_engine():
     async_test_engine = create_async_engine(
-        "sqlite+aiosqlite:///./data/test.db",
+        f"sqlite+aiosqlite:///{TEST_DB}",
         connect_args={"check_same_thread": False},
     )
     # if not database_exists:
@@ -57,6 +59,7 @@ async def db_test_engine():
     async with async_test_engine.begin() as conn:
         await conn.run_sync(SqlaBase.metadata.create_all)
     yield async_test_engine
+    os.unlink(TEST_DB)
 
 
 @pytest_asyncio.fixture(scope="function")

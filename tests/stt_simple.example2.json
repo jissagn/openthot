@@ -1040,5 +1040,6 @@
             ],
             "speaker": "SPEAKER_01"
         }
-    ]
+    ],
+    "speakers": ["SPEAKER_00", "SPEAKER_01"]
 }
