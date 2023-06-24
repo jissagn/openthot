@@ -1,6 +1,6 @@
 
 
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 
 ENV DOCKER_USER sous-titreur
@@ -17,6 +17,9 @@ WORKDIR /usr/src/sous-titreur
 RUN set -ex \
     && apt-get update && apt-get install -y --no-install-recommends \
     curl \
+    ffmpeg \
+    htop \
+    sudo \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sSL https://install.python-poetry.org | python -
@@ -24,11 +27,13 @@ RUN poetry config virtualenvs.create false
 
 # Deal with python requirements
 COPY pyproject.toml /usr/src/sous-titreur/
-COPY poetry.lock /usr/src/sous-titreur/
-# RUN poetry lock
+# COPY poetry.lock /usr/src/sous-titreur/
+RUN poetry lock
 RUN poetry install --only main --no-root
 
 # Copy the remaining sources
 COPY . /usr/src/sous-titreur/
 
 EXPOSE 8000
+
+CMD ["uvicorn", "--host=0.0.0.0", "--port=8000", "stt.api.main:app"]
