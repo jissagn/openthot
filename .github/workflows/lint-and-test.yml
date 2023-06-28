@@ -60,6 +60,7 @@ jobs:
           CELERY_RESULT_BACKEND: db+sqlite:///./data/celery_backend.sqlite
           DATABASE_URL: sqlite+aiosqlite:///./data/sql_app.db
           OBJECT_STORAGE_PATH: ./data/object_storage
+          WORDCAB_URL: http://localhost/some/endpoint/
           WHISPER_MODEL_SIZE: tiny
           WHISPERX_COMPUTE_TYPE: int8
           HF_TOKEN: hf_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
