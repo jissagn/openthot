@@ -6,7 +6,7 @@ from stt.config import get_settings
 from stt.models.transcript.wordcab import WordcabTranscript
 
 logger = structlog.get_logger(__file__)
-model_size = get_settings().whisper_model_size.value
+wordcab_url = get_settings().wordcab_url
 
 
 class Wordcab(Transcriptor):
@@ -15,9 +15,7 @@ class Wordcab(Transcriptor):
     ) -> None:
         with open(self._audio_file_path, "rb") as f:
             files = {"file": (self._audio_file_path, f.read())}
-        async with httpx.AsyncClient(
-            base_url="http://localhost:5001/api/v1"  # TODO: conf settings
-        ) as client:
+        async with httpx.AsyncClient(base_url=wordcab_url) as client:
             r = await client.post(
                 "/audio",
                 files=files,  # type: ignore
