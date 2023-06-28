@@ -1,6 +1,6 @@
 import json
+from collections.abc import Sequence
 from datetime import datetime
-from typing import Iterable
 
 import structlog
 from fastapi.encoders import jsonable_encoder
@@ -45,23 +45,44 @@ async def delete_interview(
 
 
 async def get_interview(
-    session: AsyncSession, user: SqlaUserBase | UserId, interview_id: InterviewId
+    session: AsyncSession,
+    user: SqlaUserBase | UserId,
+    interview_id: InterviewId,
 ) -> SqlaInterview | None:
-    interview = await session.get(SqlaInterview, interview_id)
-    if interview:
-        if isinstance(user, UserId) and interview.creator_id == user:
-            return interview
-        elif isinstance(user, SqlaUserBase) and interview.creator_id == user.id:
-            return interview
-    return None
+    creator_id = None
+    if isinstance(user, UserId):
+        creator_id = user
+    elif isinstance(user, SqlaUserBase):
+        creator_id = user.id
+    else:
+        raise TypeError(f"`user` is type {type(user)}")
+    interview = await session.scalar(
+        select(SqlaInterview)
+        .where(SqlaInterview.id == interview_id)
+        .where(SqlaInterview.creator_id == creator_id)
+    )
+    return interview
 
 
 async def get_interviews(
-    session: AsyncSession, user: SqlaUserBase
-) -> Iterable[SqlaInterview]:
-    statement = select(SqlaInterview).where(SqlaInterview.creator == user)
-    interviews = (await session.scalars(statement)).all()
-    return interviews or []
+    session: AsyncSession,
+    user: SqlaUserBase,
+    with_transcript: bool = False,
+) -> Sequence[SqlaInterview]:
+    if with_transcript:
+        statement = select(SqlaInterview).where(SqlaInterview.creator == user)
+        interviews = (await session.scalars(statement)).all()
+        return interviews
+    else:
+        select_stm = [
+            getattr(SqlaInterview, col.key)
+            for col in SqlaInterview.__table__.columns
+            if col.key != "transcript_raw"
+        ]
+
+        statement = select(*select_stm).where(SqlaInterview.creator == user)
+        interviews = (await session.execute(statement)).yield_per(1)
+        return [SqlaInterview(**i._asdict()) for i in interviews]
 
 
 async def update_interview(
