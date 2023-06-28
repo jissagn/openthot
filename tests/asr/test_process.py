@@ -4,6 +4,7 @@ from stt.asr.process import process_audio
 from stt.db import rw
 from stt.db.schemas import SqlaInterview
 from stt.models.interview import DBOutputInterview, InterviewStatus
+from stt.models.transcript import TranscriptorSource
 from stt.models.transcript.whisperx import (
     WhisperXSegment,
     WhisperXTranscript,
@@ -13,6 +14,7 @@ from stt.models.transcript.whisperx import (
 
 class TestProcessAudio:
     # Tests that transcription succeeds and interview is updated accordingly
+    # TODO: parametrize for each king a transcriptor_source and _class
     @pytest.mark.asyncio
     async def test_transcription_success(
         self,
@@ -39,6 +41,7 @@ class TestProcessAudio:
         mock_transcriptor.success = True
         mock_transcriptor.transcript_duration = 10.5
         mock_transcriptor.transcript = mock_transcript
+        mocker.patch("stt.asr.process.transcriptor_source", TranscriptorSource.whisperx)
         mocker.patch(
             "stt.asr.process.transcriptor_class", return_value=mock_transcriptor
         )

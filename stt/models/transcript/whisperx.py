@@ -1,12 +1,14 @@
 from pydantic import BaseModel
 
+from . import ProbabilityType
+
 
 #
 # WhisperX-related
 #
 class WhisperXWord(BaseModel):
     end: float | None
-    score: float | None
+    score: ProbabilityType | None  # type: ignore
     start: float | None
     word: str
     speaker: str | None

@@ -4,13 +4,14 @@ from pydantic import FilePath
 
 from stt.models.transcript.whisper import WhisperTranscript
 from stt.models.transcript.whisperx import WhisperXTranscript
+from stt.models.transcript.wordcab import WordcabTranscript
 
 
 class Transcriptor:
     _audio_file_path: FilePath
     _success: bool
     _transcript_duration: float
-    _transcript: WhisperTranscript | WhisperXTranscript
+    _transcript: WhisperTranscript | WhisperXTranscript | WordcabTranscript
 
     def __init__(self, audio_file_path: FilePath) -> None:
         self._audio_file_path = audio_file_path

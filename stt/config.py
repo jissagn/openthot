@@ -1,7 +1,7 @@
 from enum import Enum
 from functools import lru_cache
 
-from pydantic import BaseSettings
+from pydantic import AnyHttpUrl, BaseSettings
 
 from stt.models.transcript import TranscriptorSource
 
@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     object_storage_path: str
     whisper_model_size: WhisperModelSize
     whisperx_compute_type: WhisperXComputeType
+    wordcab_url: AnyHttpUrl
     hf_token: str
 
     class Config:

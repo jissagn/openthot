@@ -9,6 +9,7 @@ from stt.db.database import SqlaBase, SqlaUserBase
 from stt.models.interview import InterviewSpeakers, InterviewStatus
 from stt.models.transcript.whisper import WhisperTranscript
 from stt.models.transcript.whisperx import WhisperXTranscript
+from stt.models.transcript.wordcab import WordcabTranscript
 
 
 class SqlaInterview(SqlaBase):
@@ -28,9 +29,9 @@ class SqlaInterview(SqlaBase):
     status: Mapped[InterviewStatus] = mapped_column(
         String, nullable=False, default=InterviewStatus.uploaded
     )
-    transcript_source: Mapped[WhisperTranscript | WhisperXTranscript] = mapped_column(
-        String, nullable=True
-    )
+    transcript_source: Mapped[
+        WhisperTranscript | WhisperXTranscript | WordcabTranscript
+    ] = mapped_column(String, nullable=True)
     transcript_raw: Mapped[str] = mapped_column(Text, nullable=True)
     transcript_duration_s: Mapped[int] = mapped_column(Integer, nullable=True)
     transcript_ts: Mapped[datetime.datetime] = mapped_column(
