@@ -1,6 +1,7 @@
 from stt.models.transcript.stt import SttSegment, SttTranscript, SttWord
 from stt.models.transcript.whisper import WhisperTranscript
 from stt.models.transcript.whisperx import WhisperXTranscript, WhisperXWord
+from stt.models.transcript.wordcab import WordcabTranscript, WordcabWord
 
 
 def wt2stt(wt: WhisperTranscript) -> SttTranscript:
@@ -32,6 +33,34 @@ def wtx2stt(wxt: WhisperXTranscript) -> SttTranscript:
         for wxt_word in wxt_seg.words:
             # fill none fields with previous word fields
             w_dict = prev_word | wxt_word.dict(exclude_none=True)
+            sttw = SttWord(**w_dict, probability=w_dict["score"])
+            prev_word = w_dict
+            stts.words.append(sttw)
+        stt.segments.append(stts)
+    return stt
+
+
+def wc2stt(wc: WordcabTranscript) -> SttTranscript:
+    stt = SttTranscript(language=wc.source_lang, text="", segments=[], speakers=set())
+    prev_word = WordcabWord(
+        word="",
+        start=0.0,
+        end=0.0,
+        score=1.0,
+    ).dict()
+    for i, wc_utt in enumerate(wc.utterances):
+        if wc_utt.speaker is not None:
+            stt.speakers.add(f"SPEAKER_{wc_utt.speaker}")
+        stts = SttSegment(
+            id=i,
+            start=wc_utt.start,
+            end=wc_utt.end,
+            words=[],
+            speaker=f"SPEAKER_{wc_utt.speaker}" if wc_utt.speaker is not None else None,
+        )
+        for wc_word in wc_utt.words:
+            # fill none fields with previous word fields
+            w_dict = prev_word | wc_word.dict(exclude_none=True)
             sttw = SttWord(**w_dict, probability=w_dict["score"])
             prev_word = w_dict
             stts.words.append(sttw)

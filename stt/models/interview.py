@@ -7,9 +7,10 @@ from pydantic import BaseModel, FilePath, confloat, conint, validator
 
 from stt.models.transcript import TranscriptorSource
 from stt.models.transcript.stt import SttTranscript
-from stt.models.transcript.utils import wt2stt, wtx2stt
+from stt.models.transcript.utils import wc2stt, wt2stt, wtx2stt
 from stt.models.transcript.whisper import WhisperTranscript
 from stt.models.transcript.whisperx import WhisperXTranscript
+from stt.models.transcript.wordcab import WordcabTranscript
 from stt.models.users import UserId
 
 # PEP 613 TypeAlias and type-ignore are here just to keep PyLance quiet (although PyLance is right)
@@ -111,6 +112,8 @@ class APIOutputInterview(BaseModel):
                 r.transcript = wt2stt(tr)
             elif isinstance(tr, WhisperXTranscript):
                 r.transcript = wtx2stt(tr)
+            elif isinstance(tr, WordcabTranscript):
+                r.transcript = wc2stt(tr)
 
             # Set speakers
             speakers = set()
@@ -152,7 +155,9 @@ class DBInputInterviewUpdate(BaseModel):
     speakers: InterviewSpeakers | None = None
     status: InterviewStatus | None = None
     transcript_source: TranscriptorSource | None = None
-    transcript_raw: WhisperTranscript | WhisperXTranscript | None = None
+    transcript_raw: WhisperTranscript | WhisperXTranscript | WordcabTranscript | None = (
+        None
+    )
     transcript_duration_s: int | None = None
     transcript_ts: datetime | None = None
 
@@ -171,7 +176,9 @@ class DBOutputInterview(BaseModel):
     speakers: InterviewSpeakers | None = None
     status: InterviewStatus
     transcript_source: TranscriptorSource | None = None
-    transcript_raw: WhisperTranscript | WhisperXTranscript | None = None
+    transcript_raw: WhisperTranscript | WhisperXTranscript | WordcabTranscript | None = (
+        None
+    )
     transcript_duration_s: int | None = None
     transcript_ts: datetime | None = None
     update_ts: datetime
@@ -188,7 +195,11 @@ class DBOutputInterview(BaseModel):
     def load_transcript_raw(cls, v, values):
         if not v:
             return None
-        elif isinstance(v, WhisperTranscript) or isinstance(v, WhisperXTranscript):
+        elif (
+            isinstance(v, WhisperTranscript)
+            or isinstance(v, WhisperXTranscript)
+            or isinstance(v, WordcabTranscript)
+        ):
             return v
         elif isinstance(v, str):
             transcript_source = values["transcript_source"]
@@ -196,6 +207,8 @@ class DBOutputInterview(BaseModel):
                 return WhisperTranscript.parse_obj(json.loads(v))
             elif transcript_source == TranscriptorSource.whisperx:
                 return WhisperXTranscript.parse_obj(json.loads(v))
+            elif transcript_source == TranscriptorSource.wordcab:
+                return WordcabTranscript.parse_obj(json.loads(v))
 
     class Config:
         orm_mode = True

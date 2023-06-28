@@ -9,6 +9,7 @@ LanguageType = constr(regex=r"^(fr|en)$")
 class TranscriptorSource(str, Enum):
     whisper = "whisper"
     whisperx = "whisperx"
+    wordcab = "wordcab"
 
 
 class TimecodedLine(BaseModel):

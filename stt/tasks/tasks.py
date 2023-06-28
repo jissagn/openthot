@@ -9,6 +9,7 @@ from stt.asr.process import process_audio
 from stt.asr.transcriptors import Transcriptor
 from stt.asr.transcriptors.whisper import Whisper
 from stt.asr.transcriptors.whisperx import WhisperX
+from stt.asr.transcriptors.wordcab import Wordcab
 from stt.config import get_settings
 from stt.db.database import get_db
 from stt.models.interview import InterviewId, TranscriptorSource
@@ -27,6 +28,7 @@ celery.conf.update(
 transcriptors: dict[TranscriptorSource, Type[Transcriptor]] = {
     TranscriptorSource.whisper: Whisper,
     TranscriptorSource.whisperx: WhisperX,
+    TranscriptorSource.wordcab: Wordcab,
 }
 
 transcriptor_source = get_settings().asr_engine
@@ -61,5 +63,6 @@ async def process_audio_task(
                 interview_id=interview_id,
                 audio_location=audio_location,
             )
-    except Exception:
+    except Exception as e:
+        await logger.aexception("Task encountered exception", exception=str(e))
         self.retry(countdown=1)

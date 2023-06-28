@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from stt.asr.transcriptors import Transcriptor
 from stt.asr.transcriptors.whisper import Whisper
 from stt.asr.transcriptors.whisperx import WhisperX
+from stt.asr.transcriptors.wordcab import Wordcab
 from stt.config import get_settings
 from stt.db import rw
 from stt.models.interview import (
@@ -31,6 +32,7 @@ celery.conf.update(
 transcriptors: dict[TranscriptorSource, Type[Transcriptor]] = {
     TranscriptorSource.whisper: Whisper,
     TranscriptorSource.whisperx: WhisperX,
+    TranscriptorSource.wordcab: Wordcab,
 }
 
 transcriptor_source = get_settings().asr_engine
