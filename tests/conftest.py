@@ -217,6 +217,26 @@ async def sqla_interview(async_test_session, sqla_user):
     )
 
 
+@pytest_asyncio.fixture(scope="function")
+async def sqla_interviews(async_test_session, sqla_user):
+    r = []
+    for i in range(10):
+        interview = DBInputInterviewCreate(
+            name=f"{i} test interview",
+            audio_filename=f"{i} test.mp3",
+            audio_location=MP3_FILE_PATH,
+            audio_duration=0.1,
+        )
+        r.append(
+            await create_interview(
+                async_test_session,
+                sqla_user,
+                interview,
+            )
+        )
+    return r
+
+
 #
 # Files
 #

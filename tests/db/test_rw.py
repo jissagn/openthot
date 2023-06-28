@@ -2,11 +2,37 @@ import uuid
 
 import pytest
 from pydantic import FilePath
+from pyrate_limiter import Iterable
 
 from stt.db.database import SqlaUserBase
-from stt.db.rw import create_interview
-from stt.models.interview import DBInputInterviewCreate, InterviewStatus
+from stt.db.rw import create_interview, get_interviews
+from stt.db.schemas import SqlaInterview
+from stt.models.interview import (
+    DBInputInterviewCreate,
+    DBOutputInterview,
+    InterviewStatus,
+)
 from tests.conftest import MP3_FILE_PATH
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("with_transcript", (True, False))
+async def test_get_interviews(
+    async_test_session, sqla_user, sqla_interviews, with_transcript
+):
+    result: Iterable[SqlaInterview] = await get_interviews(
+        async_test_session, sqla_user, with_transcript=with_transcript
+    )
+    assert result is not None
+    result = list(result)
+    assert len(result) == len(sqla_interviews)
+    for r in result:
+        if not with_transcript:
+            assert r.transcript_raw is None
+        try:
+            DBOutputInterview.from_orm(r)
+        except Exception as e:
+            pytest.fail(f"Cannot be parsed into DBOutputInterview pydantic model : {e}")
 
 
 @pytest.mark.asyncio
