@@ -23,6 +23,7 @@ celery.conf.update(
     broker_url=get_settings().celery_broker_url,
     result_backend=get_settings().celery_result_backend,
     task_acks_late=get_settings().celery_task_acks_late,
+    task_always_eager=get_settings().celery_task_always_eager,
 )
 
 transcriptors: dict[TranscriptorSource, Type[Transcriptor]] = {
