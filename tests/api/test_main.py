@@ -11,6 +11,7 @@ schemathesis.fixups.install()
 
 @pytest.mark.asyncio
 @pytest.mark.endpoint
+@pytest.mark.slow
 @schema.parametrize(endpoint="^/api/v1/interviews/((?!audio).)*$")
 @settings(suppress_health_check=[HealthCheck.function_scoped_fixture])
 async def test_api(case, access_token):
