@@ -1,10 +1,12 @@
 import structlog
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exception_handlers import http_exception_handler
 from fastapi.middleware.cors import CORSMiddleware
 
 from stt.api import V1_PREFIX
 from stt.api.v1.router import v_router as v1_router
 from stt.db.database import close_clean_up_pooled_connections, create_db_and_tables
+from stt.exceptions import BaseInternalError, ExceptionModel, RichHTTPException
 
 logger = structlog.get_logger(__file__)
 app = FastAPI()
@@ -23,6 +25,21 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.exception_handler(Exception)
+async def base_internal_error_handler(request: Request, exc: Exception):
+    """Handler for BaseInternalError exceptions"""
+    return_exc = RichHTTPException(
+        status_code=500,
+        model=ExceptionModel(
+            description="Could not process request. Please try again later.",
+            hint=exc.message
+            if isinstance(exc, BaseInternalError)
+            else f"{str(type(exc))}, {exc.args}",
+        ),
+    )
+    return await http_exception_handler(request, return_exc)
 
 
 @app.get("/status")

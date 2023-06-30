@@ -22,6 +22,7 @@ class WhisperModelSize(str, Enum):
 class Settings(BaseSettings):
     app_name: str = "Sous-Titreur"
     asr_engine: TranscriptorSource
+    celery_task_always_eager: bool = False
     celery_broker_url: str
     celery_result_backend: str
     celery_task_acks_late: bool = True

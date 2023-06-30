@@ -7,10 +7,13 @@ from fastapi import APIRouter, Depends, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 
+from stt.api.utils import error_responses_for_openapi
 from stt.api.v1.routers import auth
+from stt.asr.process import process_audio
+from stt.config import get_settings
 from stt.db import rw
 from stt.db.database import SqlaUserBase, get_db
-from stt.exceptions import APIAudiofileMalformed, APIInternalError, APIInterviewNotFound
+from stt.exceptions import APIAudiofileMalformed, APIInterviewNotFound
 from stt.models.interview import (
     APIInputInterviewCreate,
     APIInputInterviewUpdate,
@@ -32,6 +35,7 @@ router = APIRouter(
 @router.get(
     "/",
     response_model=list[APIOutputInterview] | None,
+    responses=error_responses_for_openapi(),
     response_model_exclude={"transcript"},
     response_model_exclude_none=True,
 )
@@ -46,12 +50,7 @@ async def list_interviews(
 @router.post(
     "/",
     response_model=APIOutputInterview,
-    responses={
-        APIInternalError.status_code: {"description": APIInternalError.detail},
-        APIAudiofileMalformed.status_code: {
-            "description": APIAudiofileMalformed.detail
-        },
-    },
+    responses=error_responses_for_openapi((APIAudiofileMalformed,)),
     response_model_exclude_none=True,
 )
 async def create_interview(
@@ -68,7 +67,7 @@ async def create_interview(
     try:
         audio_duration = librosa.get_duration(path=persistent_location)
     except Exception as e:
-        logger.aexception(
+        await logger.aexception(
             "Could not load audio file", persistent_location=persistent_location
         )
         os.remove(persistent_location)
@@ -85,26 +84,32 @@ async def create_interview(
         interview=interview_create,
     )
     try:
-        process_audio_task.delay(
-            user_id=current_user.id,
-            interview_id=new_interview.id,
-            audio_location=new_interview.audio_location,
-        )
-    except Exception as e:
-        logger.exception("Could not launch task")
+        if get_settings().celery_task_always_eager:
+            await process_audio(
+                session=db,
+                user_id=current_user.id,
+                interview_id=new_interview.id,
+                audio_location=new_interview.audio_location,  # type: ignore
+            )
+        else:
+            process_audio_task.delay(
+                user_id=current_user.id,
+                interview_id=new_interview.id,
+                audio_location=new_interview.audio_location,
+            )
+    except Exception:
+        await logger.aexception("Could not launch task of processing audio.")
         await rw.delete_interview(
             db, user=current_user, interview_id=jsonable_encoder(new_interview)["id"]
         )
         os.remove(persistent_location)
-        raise APIInternalError from e
+        raise
     return new_interview
 
 
 @router.delete(
     "/{interview_id}",
-    responses={
-        APIInterviewNotFound.status_code: {"description": APIInterviewNotFound.detail},
-    },
+    responses=error_responses_for_openapi((APIInterviewNotFound,)),
 )
 async def delete_interview(
     interview_id: InterviewId,
@@ -119,9 +124,7 @@ async def delete_interview(
 @router.get(
     "/{interview_id}",
     response_model=APIOutputInterview,
-    responses={
-        APIInterviewNotFound.status_code: {"description": APIInterviewNotFound.detail},
-    },
+    responses=error_responses_for_openapi((APIInterviewNotFound,)),
 )
 async def get_interview(
     interview_id: InterviewId,
@@ -137,9 +140,7 @@ async def get_interview(
 
 @router.get(
     "/{interview_id}/audio",
-    responses={
-        APIInterviewNotFound.status_code: {"description": APIInterviewNotFound.detail},
-    },
+    responses=error_responses_for_openapi((APIInterviewNotFound,)),
 )
 async def get_interview_audio(
     interview_id: InterviewId,
@@ -181,9 +182,7 @@ async def get_interview_audio(
 @router.patch(
     "/{interview_id}",
     response_model=APIOutputInterview,
-    responses={
-        APIInterviewNotFound.status_code: {"description": APIInterviewNotFound.detail},
-    },
+    responses=error_responses_for_openapi((APIInterviewNotFound,)),
 )
 async def update_interview(
     interview_id: InterviewId,

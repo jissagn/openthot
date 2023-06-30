@@ -3,6 +3,8 @@ import time
 
 import structlog
 
+from stt.exceptions import MissingASR
+
 logger = structlog.get_logger(__file__)
 
 
@@ -22,9 +24,12 @@ class AsyncProcRunner:
             proc_call=" ".join(self._proc_call),
         )
         start_time = time.perf_counter()
-        proc = await asyncio.create_subprocess_exec(
-            *self._proc_call, stdout=asyncio.subprocess.PIPE
-        )
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                *self._proc_call, stdout=asyncio.subprocess.PIPE
+            )
+        except FileNotFoundError:
+            raise MissingASR(asr_bin_name=self._proc_call[0])
         proc_out, proc_err = await proc.communicate()
 
         # Parse outputs
