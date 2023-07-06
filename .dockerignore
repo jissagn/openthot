@@ -1,3 +1,9 @@
 data/**
 .venv/**
 .venv
+.env
+secrets.env
+.git/**
+.git
+.*
+./.**

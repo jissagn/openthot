@@ -3054,6 +3054,31 @@ url = "https://download.pytorch.org/whl/cpu"
 reference = "pytorch"
 
 [[package]]
+name = "torchaudio"
+version = "2.0.2+cpu"
+description = "An audio package for PyTorch"
+optional = false
+python-versions = "*"
+files = [
+    {file = "torchaudio-2.0.2+cpu-cp310-cp310-linux_x86_64.whl", hash = "sha256:80eccef075f9e356f7a4ad27c57614c726906a30617424e2d86a08de179feeff"},
+    {file = "torchaudio-2.0.2+cpu-cp310-cp310-win_amd64.whl", hash = "sha256:514995f6418d193caf1a2e06c912f603959ec6d8557b48ef52a9ceb8e5d180d1"},
+    {file = "torchaudio-2.0.2+cpu-cp311-cp311-linux_x86_64.whl", hash = "sha256:eb589737c30139c946b4c4f3a73307a6286c5402b6e5273dd5cb8768d0e73b3f"},
+    {file = "torchaudio-2.0.2+cpu-cp311-cp311-win_amd64.whl", hash = "sha256:a93c8e9ff28959b2e8b9a1347b34c5f94f33f617bc96fe17011b0d8cb5fb377f"},
+    {file = "torchaudio-2.0.2+cpu-cp38-cp38-linux_x86_64.whl", hash = "sha256:5196d7ed34863deaa28434ad02a043b01cfbd0c42b58d61ca56825577aeca74e"},
+    {file = "torchaudio-2.0.2+cpu-cp38-cp38-win_amd64.whl", hash = "sha256:b29d34bb39b8e613c562d8c04bd4108be6ae20221ee043e29b81bbef95f3f5bf"},
+    {file = "torchaudio-2.0.2+cpu-cp39-cp39-linux_x86_64.whl", hash = "sha256:30fc6926b51892cda933e98616fcdbc1f53084680210809cbc03c301d585ed9c"},
+    {file = "torchaudio-2.0.2+cpu-cp39-cp39-win_amd64.whl", hash = "sha256:aa7425184157a0356fe08deb74a517f5a0e1f27722f362a5ac3089904bf17001"},
+]
+
+[package.dependencies]
+torch = "2.0.1"
+
+[package.source]
+type = "legacy"
+url = "https://download.pytorch.org/whl/cpu"
+reference = "pytorch"
+
+[[package]]
 name = "tqdm"
 version = "4.65.0"
 description = "Fast, Extensible Progress Meter"
@@ -3480,4 +3505,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "764750a74e5ff3256e5613ae14ecdd0ec4ad7ac8ee8845b649930366630b351c"
+content-hash = "aea739d166691966b5156f34d60d3033a496476d23d3de58de3121a118e66685"

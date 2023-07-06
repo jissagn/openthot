@@ -26,6 +26,7 @@ structlog = "^23.1.0"
 uvicorn = {extras = ["standard"], version = "^0.22.0"}
 torch = {version = "^2.0.1+cpu", source = "pytorch"}
 librosa = "^0.10.0.post2"
+torchaudio = {version = "^2.0.2+cpu", source = "pytorch"}
 
 
 [tool.poetry.group.dev.dependencies]

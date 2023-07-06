@@ -31,6 +31,8 @@ COPY pyproject.toml /usr/src/sous-titreur/
 RUN poetry lock
 RUN poetry install --only main --no-root
 
+RUN pip install git+https://github.com/m-bain/whisperx.git 
+
 # Copy the remaining sources
 COPY . /usr/src/sous-titreur/
 
