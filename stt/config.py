@@ -56,7 +56,7 @@ class WordcabSettings(BaseSettings):
 
 
 class Settings(BaseSettings):
-    app_name: str = "Sous-Titreur"
+    app_name: str = "OpenThot"
     asr: WhisperSettings | WhisperXSettings | WordcabSettings = Field(
         ..., discriminator="engine"
     )
