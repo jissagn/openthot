@@ -23,11 +23,7 @@ from stt.models.users import UserId
 logger = structlog.get_logger(__file__)
 
 celery = Celery()
-celery.conf.update(
-    broker_url=get_settings().celery_broker_url,
-    result_backend=get_settings().celery_result_backend,
-    task_acks_late=get_settings().celery_task_acks_late,
-)
+celery.conf.update(**get_settings().celery.dict())
 
 transcriptors: dict[TranscriptorSource, Type[Transcriptor]] = {
     TranscriptorSource.whisper: Whisper,
@@ -35,7 +31,7 @@ transcriptors: dict[TranscriptorSource, Type[Transcriptor]] = {
     TranscriptorSource.wordcab: Wordcab,
 }
 
-transcriptor_source = get_settings().asr_engine
+transcriptor_source = get_settings().asr.engine
 transcriptor_class = transcriptors[transcriptor_source]
 
 

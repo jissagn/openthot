@@ -5,17 +5,18 @@ import structlog
 
 from stt.asr.transcriptors import Transcriptor
 from stt.asr.utils import AsyncProcRunner
-from stt.config import get_settings
+from stt.config import WhisperSettings, get_settings
 from stt.models.transcript.whisper import WhisperTranscript
 
 logger = structlog.get_logger(__file__)
-model_size = get_settings().whisper_model_size.value
+asr_settings = get_settings().asr
 
 
 class Whisper(Transcriptor):
     async def run_transcription(
         self,
     ) -> None:
+        assert isinstance(asr_settings, WhisperSettings)
         output_dir = str(
             Path(self._audio_file_path).resolve().parent
         )  # os.path.dirname(os.path.abspath(audio_file_path)),
@@ -25,7 +26,7 @@ class Whisper(Transcriptor):
             "--language",
             "fr",
             "--model",
-            model_size,
+            asr_settings.model_size,
             "--output_dir",
             output_dir,
             "--word_timestamps",

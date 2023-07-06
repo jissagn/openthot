@@ -84,7 +84,7 @@ async def create_interview(
         interview=interview_create,
     )
     try:
-        if get_settings().celery_task_always_eager:
+        if get_settings().celery.task_always_eager:
             await process_audio(
                 session=db,
                 user_id=current_user.id,

@@ -2,20 +2,21 @@ import httpx
 import structlog
 
 from stt.asr.transcriptors import Transcriptor
-from stt.config import get_settings
+from stt.config import WordcabSettings, get_settings
 from stt.models.transcript.wordcab import WordcabTranscript
 
 logger = structlog.get_logger(__file__)
-wordcab_url = get_settings().wordcab_url
+asr_settings = get_settings().asr
 
 
 class Wordcab(Transcriptor):
     async def run_transcription(
         self,
     ) -> None:
+        assert isinstance(asr_settings, WordcabSettings)
         with open(self._audio_file_path, "rb") as f:
             files = {"file": (self._audio_file_path, f.read())}
-        async with httpx.AsyncClient(base_url=wordcab_url) as client:
+        async with httpx.AsyncClient(base_url=asr_settings.url) as client:
             r = await client.post(
                 "/audio",
                 files=files,  # type: ignore
