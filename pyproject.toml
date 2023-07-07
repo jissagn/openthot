@@ -3,6 +3,7 @@ name = "Sous-titreur"
 version = "0.0.1"
 description = "Sous-titrer des interviews grâce à Whisper d'OpenAI"
 authors = ["jissagn <7462969+jissagn@users.noreply.github.com>"]
+readme = "README.md"
 
 
 [tool.poetry.dependencies]
@@ -10,24 +11,29 @@ python = "^3.11"
 aiofiles = "^23.1.0"
 aiosqlite = "^0.19.0"
 asgiref = "^3.6.0"
-celery = {extras = ["pytest"], version = "^5.2.7"}
+celery = { extras = ["pytest"], version = "^5.2.7" }
 fastapi = "^0.97.0"
-fastapi-users = {extras = ["sqlalchemy"], version = "^11.0.0"}
-llvmlite = "0.40.0rc1"
-numba = "0.57.0rc1"
-openai-whisper = "^20230314"
+fastapi-users = { extras = ["sqlalchemy"], version = "^11.0.0" }
 psycopg2-binary = "^2.9.6"
 python-multipart = "^0.0.6"
 redis = "^4.5.4"
 httpx = "^0.24.0"
 simplejson = "^3.19.1"
-sqlalchemy = {extras = ["asyncio"], version = "^2.0.12"}
+sqlalchemy = { extras = ["asyncio"], version = "^2.0.12" }
 structlog = "^23.1.0"
-uvicorn = {extras = ["standard"], version = "^0.22.0"}
-torch = {version = "^2.0.1+cpu", source = "pytorch"}
+uvicorn = { extras = ["standard"], version = "^0.22.0" }
 librosa = "^0.10.0.post2"
-torchaudio = {version = "^2.0.2+cpu", source = "pytorch"}
 
+
+[tool.poetry.group.whisper.dependencies]
+openai-whisper = "^20230314"
+
+[tool.poetry.group.whisperx.dependencies]
+whisperx = { git = "https://github.com/m-bain/whisperx.git", tag = "v3.1.1" }
+
+# wordcab direct installation could be an option <if supporting python>3.10
+# [tool.poetry.group.wordcab.dependencies]
+# wordcab-transcribe = { git = "https://github.com/Wordcab/wordcab-transcribe.git", tag = "v0.3.1" }
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
