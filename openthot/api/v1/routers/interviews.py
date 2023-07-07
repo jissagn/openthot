@@ -7,14 +7,14 @@ from fastapi import APIRouter, Depends, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 
-from stt.api.utils import error_responses_for_openapi
-from stt.api.v1.routers import auth
-from stt.asr.process import process_audio
-from stt.config import get_settings
-from stt.db import rw
-from stt.db.database import SqlaUserBase, get_db
-from stt.exceptions import APIAudiofileMalformed, APIInterviewNotFound
-from stt.models.interview import (
+from openthot.api.utils import error_responses_for_openapi
+from openthot.api.v1.routers import auth
+from openthot.asr.process import process_audio
+from openthot.config import get_settings
+from openthot.db import rw
+from openthot.db.database import SqlaUserBase, get_db
+from openthot.exceptions import APIAudiofileMalformed, APIInterviewNotFound
+from openthot.models.interview import (
     APIInputInterviewCreate,
     APIInputInterviewUpdate,
     APIOutputInterview,
@@ -22,8 +22,8 @@ from stt.models.interview import (
     DBInputInterviewUpdate,
     InterviewId,
 )
-from stt.object_storage import save_audio_file
-from stt.tasks.tasks import process_audio_task
+from openthot.object_storage import save_audio_file
+from openthot.tasks.tasks import process_audio_task
 
 logger = structlog.get_logger(__file__)
 router = APIRouter(

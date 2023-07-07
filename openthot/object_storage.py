@@ -7,7 +7,7 @@ import structlog
 from fastapi import UploadFile
 from pydantic import FilePath
 
-from stt.config import get_settings
+from openthot.config import get_settings
 
 logger = structlog.get_logger(__file__)
 

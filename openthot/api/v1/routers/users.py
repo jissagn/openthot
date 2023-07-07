@@ -1,8 +1,8 @@
 import structlog
 from fastapi import APIRouter
 
-from stt.api.v1.routers import auth
-from stt.models.users import UserRead, UserUpdate
+from openthot.api.v1.routers import auth
+from openthot.models.users import UserRead, UserUpdate
 
 logger = structlog.get_logger(__file__)
 router = APIRouter(prefix="/users", tags=["users"])

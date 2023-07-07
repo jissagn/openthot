@@ -1,7 +1,7 @@
 import pytest
 import pytest_asyncio
 
-from stt.models.interview import (
+from openthot.models.interview import (
     APIInputInterviewCreate,
     APIInputInterviewUpdate,
     APIOutputInterview,
@@ -22,7 +22,7 @@ def bearer_header(token):
 @pytest_asyncio.fixture(scope="function")
 async def api_interviews_uploaded(mocker, client, access_token, upload_file_mp3):
     """Creates several Interviews through API. Don't bother processing them."""
-    mocker.patch("stt.tasks.tasks.process_audio_task.delay")
+    mocker.patch("openthot.tasks.tasks.process_audio_task.delay")
     file = {"audio_file": upload_file_mp3}
     interviews = []
     for i in range(3):
@@ -45,7 +45,7 @@ async def api_interviews_uploaded(mocker, client, access_token, upload_file_mp3)
 # ):
 #     """Creates several Interviews through API"""
 #     import time
-#     mocker.patch("stt.tasks.tasks.async_session", return_value=async_test_session)
+#     mocker.patch("openthot.tasks.tasks.async_session", return_value=async_test_session)
 
 #     async def wait_for_status_transcripted(itw_id):
 #         status = InterviewStatus.uploaded
@@ -122,7 +122,7 @@ async def test_create_interview_unauthorized(client):
 async def test_create_interview_valid(
     mocker, client, access_token, logged_user, upload_file_mp3
 ):
-    mocker.patch("stt.tasks.tasks.process_audio_task.delay")
+    mocker.patch("openthot.tasks.tasks.process_audio_task.delay")
 
     file = {"audio_file": upload_file_mp3}
     itw = APIInputInterviewCreate(name="Test api itw")

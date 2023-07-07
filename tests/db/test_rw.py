@@ -4,10 +4,10 @@ import pytest
 from pydantic import FilePath
 from pyrate_limiter import Iterable
 
-from stt.db.database import SqlaUserBase
-from stt.db.rw import create_interview, get_interviews
-from stt.db.schemas import SqlaInterview
-from stt.models.interview import (
+from openthot.db.database import SqlaUserBase
+from openthot.db.rw import create_interview, get_interviews
+from openthot.db.schemas import SqlaInterview
+from openthot.models.interview import (
     DBInputInterviewCreate,
     DBOutputInterview,
     InterviewStatus,

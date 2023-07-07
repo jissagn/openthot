@@ -3,10 +3,10 @@ from fastapi import FastAPI, Request
 from fastapi.exception_handlers import http_exception_handler
 from fastapi.middleware.cors import CORSMiddleware
 
-from stt.api import V1_PREFIX
-from stt.api.v1.router import v_router as v1_router
-from stt.db.database import close_clean_up_pooled_connections, create_db_and_tables
-from stt.exceptions import BaseInternalError, ExceptionModel, RichHTTPException
+from openthot.api import V1_PREFIX
+from openthot.api.v1.router import v_router as v1_router
+from openthot.db.database import close_clean_up_pooled_connections, create_db_and_tables
+from openthot.exceptions import BaseInternalError, ExceptionModel, RichHTTPException
 
 logger = structlog.get_logger(__file__)
 app = FastAPI()

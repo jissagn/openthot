@@ -1,9 +1,9 @@
 import httpx
 import structlog
 
-from stt.asr.transcriptors import Transcriptor
-from stt.config import WordcabSettings, get_settings
-from stt.models.transcript.wordcab import WordcabTranscript
+from openthot.asr.transcriptors import Transcriptor
+from openthot.config import WordcabSettings, get_settings
+from openthot.models.transcript.wordcab import WordcabTranscript
 
 logger = structlog.get_logger(__file__)
 asr_settings = get_settings().asr

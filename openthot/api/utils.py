@@ -2,7 +2,7 @@ from typing import Any, Sequence
 
 from pydantic import BaseModel
 
-from stt.exceptions import ExceptionModel, RichHTTPException
+from openthot.exceptions import ExceptionModel, RichHTTPException
 
 
 class ReturnedExceptionModel(BaseModel):

@@ -6,7 +6,7 @@ from . import LanguageType, ProbabilityType
 #
 # Home-made transcript
 #
-class SttWord(BaseModel):
+class OpenthotWord(BaseModel):
     word: str
     start: float
     probability: ProbabilityType  # type: ignore
@@ -16,16 +16,16 @@ class SttWord(BaseModel):
         validate_assignment = True
 
 
-class SttSegment(BaseModel):
+class OpenthotSegment(BaseModel):
     id: int
     start: float
     end: float
-    words: list[SttWord]
+    words: list[OpenthotWord]
     speaker: str | None = None
 
 
-class SttTranscript(BaseModel):
+class OpenthotTranscript(BaseModel):
     language: LanguageType | None = None  # type: ignore
     text: str
-    segments: list[SttSegment]
+    segments: list[OpenthotSegment]
     speakers: set[str]

@@ -2,7 +2,7 @@ import pytest
 import schemathesis
 from hypothesis import HealthCheck, settings
 
-from stt.api.main import app
+from openthot.api.main import app
 
 schema = schemathesis.from_asgi("/openapi.json", app)
 

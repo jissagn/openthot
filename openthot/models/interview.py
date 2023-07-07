@@ -5,13 +5,13 @@ from typing import TypeAlias
 
 from pydantic import BaseModel, FilePath, confloat, conint, validator
 
-from stt.models.transcript import TranscriptorSource
-from stt.models.transcript.stt import SttTranscript
-from stt.models.transcript.utils import wc2stt, wt2stt, wtx2stt
-from stt.models.transcript.whisper import WhisperTranscript
-from stt.models.transcript.whisperx import WhisperXTranscript
-from stt.models.transcript.wordcab import WordcabTranscript
-from stt.models.users import UserId
+from openthot.models.transcript import TranscriptorSource
+from openthot.models.transcript.openthot import OpenthotTranscript
+from openthot.models.transcript.utils import wc2ott, wt2ott, wtx2ott
+from openthot.models.transcript.whisper import WhisperTranscript
+from openthot.models.transcript.whisperx import WhisperXTranscript
+from openthot.models.transcript.wordcab import WordcabTranscript
+from openthot.models.users import UserId
 
 # PEP 613 TypeAlias and type-ignore are here just to keep PyLance quiet (although PyLance is right)
 # cf. https://github.com/microsoft/pylance-release/issues/4262
@@ -88,7 +88,7 @@ class APIOutputInterview(BaseModel):
     name: str
     speakers: InterviewSpeakers | None = None
     status: InterviewStatus
-    transcript: SttTranscript | None = None
+    transcript: OpenthotTranscript | None = None
     transcript_source: TranscriptorSource | None = None
     transcript_duration_s: int | None = None
     transcript_ts: datetime | None = None
@@ -109,11 +109,11 @@ class APIOutputInterview(BaseModel):
         if tr := db.transcript_raw:
             # Set transcript
             if isinstance(tr, WhisperTranscript):
-                r.transcript = wt2stt(tr)
+                r.transcript = wt2ott(tr)
             elif isinstance(tr, WhisperXTranscript):
-                r.transcript = wtx2stt(tr)
+                r.transcript = wtx2ott(tr)
             elif isinstance(tr, WordcabTranscript):
-                r.transcript = wc2stt(tr)
+                r.transcript = wc2ott(tr)
 
             # Set speakers
             speakers = set()
