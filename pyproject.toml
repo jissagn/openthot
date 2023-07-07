@@ -31,8 +31,9 @@ openai-whisper = "^20230314"
 [tool.poetry.group.whisperx.dependencies]
 whisperx = { git = "https://github.com/m-bain/whisperx.git", tag = "v3.1.1" }
 
-# wordcab direct installation could be an option <if supporting python>3.10
-# [tool.poetry.group.wordcab.dependencies]
+# wordcab direct installation could be an option if it supported python>=3.10
+# still keeping this section to remain consistent with other ASR deps
+[tool.poetry.group.wordcab.dependencies]
 # wordcab-transcribe = { git = "https://github.com/Wordcab/wordcab-transcribe.git", tag = "v0.3.1" }
 
 [tool.poetry.group.dev.dependencies]
