@@ -2,9 +2,9 @@ from abc import abstractclassmethod
 
 from pydantic import FilePath
 
-from stt.models.transcript.whisper import WhisperTranscript
-from stt.models.transcript.whisperx import WhisperXTranscript
-from stt.models.transcript.wordcab import WordcabTranscript
+from openthot.models.transcript.whisper import WhisperTranscript
+from openthot.models.transcript.whisperx import WhisperXTranscript
+from openthot.models.transcript.wordcab import WordcabTranscript
 
 
 class Transcriptor:

@@ -5,7 +5,7 @@ from typing import Literal
 import structlog
 from pydantic import AnyHttpUrl, BaseModel, BaseSettings, Extra, Field
 
-from stt.models.transcript import TranscriptorSource
+from openthot.models.transcript import TranscriptorSource
 
 logger = structlog.get_logger(__file__)
 

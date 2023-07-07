@@ -17,15 +17,15 @@ from polyfactory.pytest_plugin import register_fixture
 from pydantic import EmailStr
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 
-from stt.api.main import app
-from stt.api.v1.routers.auth import get_user_manager
-from stt.db.database import SqlaBase, SqlaUserBase, get_db
-from stt.db.rw import create_interview
-from stt.models.interview import DBInputInterviewCreate, DBInputInterviewUpdate
-from stt.models.transcript.stt import SttTranscript
-from stt.models.transcript.whisper import WhisperTranscript
-from stt.models.transcript.whisperx import WhisperXTranscript
-from stt.models.users import UserCreate, UserRead
+from openthot.api.main import app
+from openthot.api.v1.routers.auth import get_user_manager
+from openthot.db.database import SqlaBase, SqlaUserBase, get_db
+from openthot.db.rw import create_interview
+from openthot.models.interview import DBInputInterviewCreate, DBInputInterviewUpdate
+from openthot.models.transcript.openthot import OpenthotTranscript
+from openthot.models.transcript.whisper import WhisperTranscript
+from openthot.models.transcript.whisperx import WhisperXTranscript
+from openthot.models.users import UserCreate, UserRead
 
 V1_PREFIX = "http://test.api/api/v1"
 MP3_FILE_PATH = Path("./tests/bonjour.mp3")
@@ -261,14 +261,14 @@ async def whisperx_output_example2() -> WhisperXTranscript:
 
 
 @pytest_asyncio.fixture(scope="session")
-async def stt_simple_example1() -> SttTranscript:
-    async with aiofiles.open("./tests/stt_simple.example1.json", "r") as json_file:
+async def ott_simple_example1() -> OpenthotTranscript:
+    async with aiofiles.open("./tests/ott_simple.example1.json", "r") as json_file:
         j = await json_file.read()
-        return SttTranscript.parse_obj(json.loads(j))
+        return OpenthotTranscript.parse_obj(json.loads(j))
 
 
 @pytest_asyncio.fixture(scope="session")
-async def stt_simple_example2() -> SttTranscript:
-    async with aiofiles.open("./tests/stt_simple.example2.json", "r") as json_file:
+async def ott_simple_example2() -> OpenthotTranscript:
+    async with aiofiles.open("./tests/ott_simple.example2.json", "r") as json_file:
         j = await json_file.read()
-        return SttTranscript.parse_obj(json.loads(j))
+        return OpenthotTranscript.parse_obj(json.loads(j))

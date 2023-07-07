@@ -1,18 +1,19 @@
-from stt.models.transcript.stt import SttTranscript
-from stt.models.transcript.utils import wt2stt, wtx2stt
-from stt.models.transcript.whisper import WhisperTranscript
-from stt.models.transcript.whisperx import WhisperXTranscript
+from openthot.models.transcript.openthot import OpenthotTranscript
+from openthot.models.transcript.utils import wt2ott, wtx2ott
+from openthot.models.transcript.whisper import WhisperTranscript
+from openthot.models.transcript.whisperx import WhisperXTranscript
 
 
-def test_wt2stt(
-    whisper_output_example1: WhisperTranscript, stt_simple_example1: SttTranscript
+def test_wt2ott(
+    whisper_output_example1: WhisperTranscript, ott_simple_example1: OpenthotTranscript
 ):
-    s: SttTranscript = wt2stt(whisper_output_example1)
-    assert s == stt_simple_example1
+    s: OpenthotTranscript = wt2ott(whisper_output_example1)
+    assert s == ott_simple_example1
 
 
-def test_wtx2stt(
-    whisperx_output_example2: WhisperXTranscript, stt_simple_example2: SttTranscript
+def test_wtx2ott(
+    whisperx_output_example2: WhisperXTranscript,
+    ott_simple_example2: OpenthotTranscript,
 ):
-    s: SttTranscript = wtx2stt(whisperx_output_example2)
-    assert s == stt_simple_example2
+    s: OpenthotTranscript = wtx2ott(whisperx_output_example2)
+    assert s == ott_simple_example2

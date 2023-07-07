@@ -5,11 +5,11 @@ from fastapi_users_db_sqlalchemy.generics import GUID
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from stt.db.database import SqlaBase, SqlaUserBase
-from stt.models.interview import InterviewSpeakers, InterviewStatus
-from stt.models.transcript.whisper import WhisperTranscript
-from stt.models.transcript.whisperx import WhisperXTranscript
-from stt.models.transcript.wordcab import WordcabTranscript
+from openthot.db.database import SqlaBase, SqlaUserBase
+from openthot.models.interview import InterviewSpeakers, InterviewStatus
+from openthot.models.transcript.whisper import WhisperTranscript
+from openthot.models.transcript.whisperx import WhisperXTranscript
+from openthot.models.transcript.wordcab import WordcabTranscript
 
 
 class SqlaInterview(SqlaBase):

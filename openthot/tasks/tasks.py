@@ -5,16 +5,16 @@ import structlog
 from celery import Celery
 from pydantic import FilePath
 
-from stt.asr.process import process_audio
-from stt.asr.transcriptors import Transcriptor
-from stt.asr.transcriptors.whisper import Whisper
-from stt.asr.transcriptors.whisperx import WhisperX
-from stt.asr.transcriptors.wordcab import Wordcab
-from stt.config import get_settings
-from stt.db.database import get_db
-from stt.models.interview import InterviewId, TranscriptorSource
-from stt.models.users import UserId
-from stt.tasks import async_task
+from openthot.asr.process import process_audio
+from openthot.asr.transcriptors import Transcriptor
+from openthot.asr.transcriptors.whisper import Whisper
+from openthot.asr.transcriptors.whisperx import WhisperX
+from openthot.asr.transcriptors.wordcab import Wordcab
+from openthot.config import get_settings
+from openthot.db.database import get_db
+from openthot.models.interview import InterviewId, TranscriptorSource
+from openthot.models.users import UserId
+from openthot.tasks import async_task
 
 logger = structlog.get_logger(__file__)
 

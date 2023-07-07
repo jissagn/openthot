@@ -7,14 +7,14 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from stt.db.schemas import SqlaInterview, SqlaUserBase
-from stt.models.interview import (
+from openthot.db.schemas import SqlaInterview, SqlaUserBase
+from openthot.models.interview import (
     DBInputInterviewCreate,
     DBInputInterviewUpdate,
     InterviewId,
     InterviewSpeakers,
 )
-from stt.models.users import UserId
+from openthot.models.users import UserId
 
 logger = structlog.get_logger(__file__)
 

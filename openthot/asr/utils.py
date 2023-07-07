@@ -3,7 +3,7 @@ import time
 
 import structlog
 
-from stt.exceptions import MissingASR
+from openthot.exceptions import MissingASR
 
 logger = structlog.get_logger(__file__)
 

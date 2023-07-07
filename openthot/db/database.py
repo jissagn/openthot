@@ -8,7 +8,7 @@ from fastapi_users_db_sqlalchemy import (
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
-from stt.config import get_settings
+from openthot.config import get_settings
 
 DATABASE_URL = get_settings().database_url
 
