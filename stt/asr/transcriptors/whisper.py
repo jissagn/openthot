@@ -26,7 +26,7 @@ class Whisper(Transcriptor):
             "--language",
             "fr",
             "--model",
-            asr_settings.model_size,
+            asr_settings.model_size.value,
             "--output_dir",
             output_dir,
             "--word_timestamps",

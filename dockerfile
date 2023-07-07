@@ -2,6 +2,7 @@
 
 FROM python:3.11-slim
 
+ARG ASR__ENGINE
 
 ENV DOCKER_USER sous-titreur
 ENV PATH /usr/src/sous-titreur/bin:/root/.local/bin/:$PATH
@@ -29,7 +30,9 @@ RUN poetry config virtualenvs.create false
 COPY pyproject.toml /usr/src/sous-titreur/
 # COPY poetry.lock /usr/src/sous-titreur/
 RUN poetry lock
-RUN poetry install --only main --no-root
+
+RUN poetry install --only main --only ${ASR__ENGINE} --sync
+
 
 # Copy the remaining sources
 COPY . /usr/src/sous-titreur/
