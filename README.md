@@ -1,24 +1,24 @@
 
 # OpenThot API
 
-<a href="https://github.com/jissagn/sous-titreur/actions?query=workflow%3Alint-and-test+event%3Apush+branch%3Amaster" target="_blank">
-    <img src="https://github.com/jissagn/sous-titreur/workflows/Lint%20and%20test/badge.svgevent=push&branch=main" alt="Test">
+<!-- <a href="https://github.com/jissagn/openthot/actions?query=workflow%3Alint-and-test+event%3Apush+branch%3Amaster" target="_blank">
+    <img src="https://github.com/jissagn/openthot/workflows/Lint%20and%20test/badge.svgevent=push&branch=main" alt="Test">
 </a>
-  <a href="https://github.com/jissagn/sous-titreur/stargazers">
-    <img src="https://img.shields.io/github/stars/jissagn/sous-titreur.svg?colorA=orange&colorB=orange&logo=github"
+  <a href="https://github.com/jissagn/openthot/stargazers">
+    <img src="https://img.shields.io/github/stars/jissagn/openthot.svg?colorA=orange&colorB=orange&logo=github"
          alt="GitHub stars">
   </a>
-  <a href="https://github.com/jissagn/sous-titreur/issues">
-        <img src="https://img.shields.io/github/issues/jissagn/sous-titreur.svg"
+  <a href="https://github.com/jissagn/openthot/issues">
+        <img src="https://img.shields.io/github/issues/jissagn/openthot.svg"
              alt="GitHub issues">
   </a>
 
 
-</p>
+</p> -->
 
 ## Description
 
-**OpenThot** API is a **python FastAPI** that provides an interviews transcription tool, by standing on the shoulders of existing open-source ASR engines that also provide diarization (currently [whisperX](https://github.com/jissagn/sous-titreur) and [wordcab-transcribe](https://github.com/Wordcab/wordcab-transcribe), feel free to contribute and yours ;)).
+**OpenThot** API is a **python FastAPI** that provides an interviews transcription tool, by standing on the shoulders of existing open-source ASR engines that also provide diarization (currently [whisperX](https://github.com/jissagn/openthot) and [wordcab-transcribe](https://github.com/Wordcab/wordcab-transcribe), feel free to contribute and yours ;)).
 
 It basically adds a stateful layer so you can compute, store, view and modify the results in a unified way.
 
