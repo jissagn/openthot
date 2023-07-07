@@ -36,6 +36,7 @@ whisperx = { git = "https://github.com/m-bain/whisperx.git", tag = "v3.1.1" }
 [tool.poetry.group.wordcab.dependencies]
 # wordcab-transcribe = { git = "https://github.com/Wordcab/wordcab-transcribe.git", tag = "v0.3.1" }
 
+
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
 flake8 = "^6.0.0"
@@ -48,6 +49,12 @@ sqlalchemy-utils = "^0.41.1"
 alembic = "^1.11.1"
 polyfactory = "^2.2.0"
 schemathesis = "^3.19.5"
+
+
+
+[tool.poetry.group.cli.dependencies]
+typer = "^0.9.0"
+honcho = "^1.1.0"
 
 
 [[tool.poetry.source]]
@@ -74,6 +81,10 @@ profile = 'black'
 
 [tool.flake8]
 max-line-length = 130
+
+
+[tool.poetry.scripts]
+openthot = "openthot.commands:cli"
 
 [build-system]
 requires = ["poetry>=1.5.1", "pip>=22.3.1"]
