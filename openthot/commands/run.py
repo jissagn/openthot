@@ -97,7 +97,7 @@ def worker(
         "worker",
         f"--concurrency={concurrency}",
         f"--max-tasks-per-child={max_tasks_per_child}",
-        # f"--loglevel={log_level}",
+        f"--loglevel={log_level.value}",
     ]
 
     if gid is not None:
