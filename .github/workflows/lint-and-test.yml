@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: ["main"]
   push:
-      branches: ["main"]
+    branches: ["*"]
 
 permissions:
   contents: read
@@ -55,7 +55,7 @@ jobs:
           poetry install
       - name: Test with pytest
         run: |
-          poetry run pytest
+          poetry run coverage run -m pytest
         env:
           ASR__ENGINE: whisperx
           ASR__MODEL_SIZE: tiny
@@ -66,3 +66,11 @@ jobs:
           OBJECT_STORAGE_PATH: ./data/object_storage
           HF_TOKEN: hf_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
           USERS_TOKEN_ROOT_SECRET: secret
+      - name: Generate XML coverage
+        run: |
+          poetry run coverage xml
+      - name: Python coverage
+        uses: orgoro/coverage@v3.1
+        with:
+          coverageFile: coverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
