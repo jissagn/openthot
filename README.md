@@ -32,10 +32,10 @@ cp .env.example .env
 cp secrets.env.example secrets.env
 ```
 
-and modify them with your own credentials if needed (e.g. the HuggingFace token if you plan to use [whisperX]() as ASR.)
+and modify them with your own credentials if needed (e.g. the HuggingFace token if you plan to use [whisperX](https://github.com/m-bain/whisperX) as ASR.)
 
 
-#### Docker commands
+### Docker commands
 
 First, load the .env file (we need the ASR\_\_ENGINE variable) :
 
@@ -72,18 +72,18 @@ docker run -d --name openthot_worker \
 ```
 
 
-#### Run locally / contribute
+### Run locally / contribute
 
 
-##### 1. Requirements:
+#### 1. Requirements:
 
 - poetry
 - python 3.11 (you can use pyenv to handle python versions)
 - direnv (optionnal)
 
-##### 2. Setup
+#### 2. Setup
 
-###### Virtual environment
+##### Virtual environment
 
 Go to project folder, then :
 
@@ -96,13 +96,13 @@ Go to project folder, then :
 
 `direnv` takes care of loading/unloading the virtual env and the .env file whenever you enter/leave the project folder. If you don't use `direnv`, remember to run `poetry shell` and `source .env` each time you want to install/run the project.
 
-###### Installation
+##### Installation
 
 ```bash
 poetry install --only main,cli,${ASR__ENGINE} --no-cache --sync
 ```
 
-###### For contributors 🚀
+##### For contributors 🚀
 
 ```bash
 pre-commit install
@@ -114,7 +114,7 @@ pytest -m "not slow"  # discard the slowest tests
 pytest  # run all tests
 ```
 
-##### 3. Run
+#### 3. Run
 
 ```bash
 openthot --help
