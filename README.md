@@ -22,7 +22,7 @@
 
 It basically adds a stateful layer so you can compute, store, view and modify the results in a unified way.
 
-It can be combined with a frontend (such as [**OpenThot** frontend](http://)).
+It can be combined with a frontend (such as [**OpenThot** frontend](https://github.com/jissagn/openthot-front)).
 
 ## Setup
 
