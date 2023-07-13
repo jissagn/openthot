@@ -19,6 +19,7 @@ RUN set -ex \
     && apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ffmpeg \
+    llvm-dev \
     htop \
     sudo \
     git \
@@ -32,7 +33,7 @@ COPY pyproject.toml /usr/src/openthot/
 # COPY poetry.lock /usr/src/openthot/
 RUN poetry lock
 
-RUN poetry install --only main --only ${ASR__ENGINE} --sync
+RUN poetry install --only main --only $ASR__ENGINE --sync
 
 
 # Copy the remaining sources

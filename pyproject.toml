@@ -29,11 +29,42 @@ librosa = "^0.10.0.post2"
 openai-whisper = "^20230314"
 
 [tool.poetry.group.whisperx.dependencies]
-whisperx = { git = "https://github.com/m-bain/whisperx.git", tag = "v3.1.1" }
+llvmlite = "^0.40.1"
+faster-whisper = "^0.6.0"
+transformers = "^4.30.2"
+ffmpeg-python = "^0.2.0"
+pandas = "^2.0.3"
+setuptools  = "^65.0.0"
+torch = {version = "^2.0.0+cpu", source = "pytorch"}
+torchaudio = {version = "^2.0.1+cpu", source = "pytorch"}
+nltk = "^3.8.1"
 
+# pyannote-audio = "^2.1.1"  won't accept torch >= 2.0 ...
+pyannote-audio = { git ="https://github.com/pyannote/pyannote-audio", rev = "35be745d3d77058fca1eaf318a3a060a0841bcfe"}
+torchmetrics = {version = "^1.0.1"}
+torch-audiomentations = {version = "^0.11.0"}
+
+
+
+whisperx = { git = "https://github.com/m-bain/whisperx.git", tag = "v3.1.1" }
+asteroid-filterbanks = ">=0.4"
+einops = ">=0.6.0"
+huggingface-hub = ">=0.13.0"
+lightning = ">=2.0.1"
+omegaconf = ">=2.1,<3.0"
+pyannote-core = ">=5.0.0"
+pyannote-database = ">=5.0.1"
+pyannote-metrics = ">=3.2"
+pyannote-pipeline = ">=2.3"
+pytorch-metric-learning = ">=2.1.0"
+rich = ">=12.0.0"
+semver = ">=3.0.0"
+soundfile = ">=0.12.1"
+speechbrain = ">=0.5.14"
+tensorboardx = ">=2.6"
+[tool.poetry.group.wordcab.dependencies]
 # wordcab direct installation could be an option if it supported python>=3.10
 # still keeping this section to remain consistent with other ASR deps
-[tool.poetry.group.wordcab.dependencies]
 # wordcab-transcribe = { git = "https://github.com/Wordcab/wordcab-transcribe.git", tag = "v0.3.1" }
 
 
