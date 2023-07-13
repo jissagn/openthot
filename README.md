@@ -18,7 +18,7 @@
 
 ## Description
 
-**OpenThot** API is a **python FastAPI** that provides an interviews transcription tool, by standing on the shoulders of existing open-source ASR engines that also provide diarization (currently [whisperX](https://github.com/jissagn/openthot) and [wordcab-transcribe](https://github.com/Wordcab/wordcab-transcribe), feel free to contribute with yours 😉).
+**OpenThot** API is a **python FastAPI** that provides an interviews transcription tool, by standing on the shoulders of existing open-source ASR engines that also provide diarization (currently [whisperX](https://github.com/m-bain/whisperX) and [wordcab-transcribe](https://github.com/Wordcab/wordcab-transcribe), feel free to contribute with yours 😉).
 
 It basically adds a stateful layer so you can compute, store, view and modify the results in a unified way.
 
