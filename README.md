@@ -1,4 +1,3 @@
-
 # OpenThot API
 
 <!-- <a href="https://github.com/jissagn/openthot/actions?query=workflow%3Alint-and-test+event%3Apush+branch%3Amaster" target="_blank">
@@ -35,15 +34,22 @@ cp secrets.env.example secrets.env
 
 and modify them with your own credentials if needed (e.g. the HuggingFace token if you plan to use [whisperX]() as ASR.)
 
-## Docker commands
 
-Build the image.
+#### Docker commands
+
+First, load the .env file (we need the ASR\_\_ENGINE variable) :
 
 ```bash
-docker build -t openthot_api:latest .
+source .env
 ```
 
-Run the container.
+Then build the image :
+
+```bash
+docker build --build-arg ASR__ENGINE=${ASR__ENGINE} -t openthot_api:${ASR__ENGINE} .
+```
+
+Run the api container :
 
 ```bash
 docker run -d --name openthot_api \
@@ -51,5 +57,66 @@ docker run -d --name openthot_api \
     --env-file .env \
     --env-file secrets.env \
     -v ./data:/usr/src/openthot/data \
-    openthot_api:latest
+    openthot_api:${ASR__ENGINE}
+```
+
+Run the worker container :
+
+```bash
+docker run -d --name openthot_worker \
+    --env-file .env \
+    --env-file secrets.env \
+    -v ./data:/usr/src/openthot/data \
+    openthot_api:${ASR__ENGINE} \
+    celery --app openthot.tasks.tasks.celery worker
+```
+
+
+#### Run locally / contribute
+
+
+##### 1. Requirements:
+
+- poetry
+- python 3.11 (you can use pyenv to handle python versions)
+- direnv (optionnal)
+
+##### 2. Setup
+
+###### Virtual environment
+
+Go to project folder, then :
+
+- If `direnv` is installed : `direnv allow`.
+- If not :
+  ```bash
+  poetry shell
+  source .env
+  ```
+
+`direnv` takes care of loading/unloading the virtual env and the .env file whenever you enter/leave the project folder. If you don't use `direnv`, remember to run `poetry shell` and `source .env` each time you want to install/run the project.
+
+###### Installation
+
+```bash
+poetry install --only main,cli,${ASR__ENGINE} --no-cache --sync
+```
+
+###### For contributors 🚀
+
+```bash
+pre-commit install
+
+# note the additionnal `dev` group
+poetry install --only main,cli,dev,${ASR__ENGINE} --no-cache --sync
+
+pytest -m "not slow"  # discard the slowest tests
+pytest  # run all tests
+```
+
+##### 3. Run
+
+```bash
+openthot --help
+openthot standalone
 ```
