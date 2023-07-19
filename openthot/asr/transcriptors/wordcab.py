@@ -40,12 +40,12 @@ class Wordcab(Transcriptor):
             )
             return
 
-        await logger.debug(
+        await logger.adebug(
             "Transcription succeeded. Now gathering json output.",
         )
         self._transcript_duration = r.elapsed.seconds
         json_output = r.json()
-        await logger.debug(
+        await logger.adebug(
             "Parsing output json.",
         )
         self._transcript = WordcabTranscript.parse_obj(json_output)

@@ -4,7 +4,7 @@ from pathlib import Path
 import structlog
 
 from openthot.asr.transcriptors import Transcriptor
-from openthot.asr.utils import AsyncProcRunner
+from openthot.asr.utils import AsyncProcRunner, convert_file_to_wav, delete_file
 from openthot.config import WhisperXSettings, get_settings
 from openthot.models.transcript.whisperx import WhisperXTranscript
 
@@ -21,9 +21,13 @@ class WhisperX(Transcriptor):
             Path(self._audio_file_path).resolve().parent
         )  # os.path.dirname(os.path.abspath(audio_file_path)),
 
+        if not str(self._audio_file_path).endswith(".wav"):
+            wav_audio_file = await convert_file_to_wav(str(self._audio_file_path))
+        else:
+            wav_audio_file = str(self._audio_file_path.absolute())
         proc_call = [
             "whisperx",
-            self._audio_file_path,
+            wav_audio_file,
             "--language",
             "fr",
             "--model",
@@ -39,8 +43,16 @@ class WhisperX(Transcriptor):
 
         proc_runner = AsyncProcRunner(proc_call)
         await proc_runner.run()
+        delete_file(wav_audio_file)
         self._success = proc_runner.return_code == 0
         if not self.success:
+            await logger.aerror(
+                "Async call did not go well",
+                return_code=proc_runner.return_code,
+                proc_call=proc_call,
+                std_out=proc_runner.stdout,
+                std_err=proc_runner.stderr,
+            )
             return
 
         self._transcript_duration = proc_runner.duration
